@@ -1,54 +1,34 @@
-# React + TypeScript + Vite
+# RosterReady Frontend: Final Year Project
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## Project Overview
+**RosterReady** is an automated scheduling application designed to help teams and organizations generate optimal schedules based on various factors like employee availability, shift preferences, and other user-defined constraints. The goal of this project is to streamline and automate the scheduling process, making it more efficient and eliminating manual errors.
 
-Currently, two official plugins are available:
+This repository represents the **frontend** part of the RosterReady application. It provides an interactive and user-friendly interface where users can input their preferences, manage schedules, and view generated shift plans. The frontend communicates with a FastAPI-powered backend to handle data and provide the necessary functionality.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## In Development!!!
 
-## Expanding the ESLint configuration
+## Technologies Used
+- **Vite**: A modern, fast build tool that provides a fast development environment.
+- **React**: A JavaScript library for building the user interface.
+- **Tailwind CSS**: A utility-first CSS framework used to style the application.
+- **ShadCN**: A component library for UI components, integrated with Tailwind.
+- **Axios**: A promise-based HTTP client for making API requests to the backend.
+- **React Router**: A library for managing routing within the application.
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+## Features
+- **Authentication**: Users can log in and register to access their schedules securely.
+- **Interactive Forms**: Users can input their availability, shift preferences, and other constraints.
+- **Dynamic Schedule Generation**: After submitting data, the backend generates and displays optimized schedules.
+- **Responsive Design**: The application is fully responsive and works well on both desktop and mobile devices.
 
-```js
-export default tseslint.config({
-  extends: [
-    // Remove ...tseslint.configs.recommended and replace with this
-    ...tseslint.configs.recommendedTypeChecked,
-    // Alternatively, use this for stricter rules
-    ...tseslint.configs.strictTypeChecked,
-    // Optionally, add this for stylistic rules
-    ...tseslint.configs.stylisticTypeChecked,
-  ],
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
-```
+## Folder Structure
+- **`/components`**: Contains React components like the login form, buttons, and schedule display.
+- **`/pages`**: Contains pages like the login page, register page, and schedule page.
+- **`/lib`**: Contains utility functions such as the API client (`axios`).
+- **`/contexts`**: Manages global states, like user authentication.
+- **`/ui`**: Contains reusable UI components like buttons and input fields.
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+- **Backend Repository**: [Link to Backend Repository](https://github.com/KacperA02/RosterReadyBackend)
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
 
-export default tseslint.config({
-  plugins: {
-    // Add the react-x and react-dom plugins
-    'react-x': reactX,
-    'react-dom': reactDom,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended typescript rules
-    ...reactX.configs['recommended-typescript'].rules,
-    ...reactDom.configs.recommended.rules,
-  },
-})
-```
+
