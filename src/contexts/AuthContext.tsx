@@ -1,21 +1,6 @@
 import { createContext, useContext, useEffect, useState, ReactNode } from "react";
 import Cookies from "js-cookie";
-
-// Define User type (adjust based on your JWT payload structure)
-interface User {
-  id: string;
-  email: string;
-  role?: string; // Optional if roles exist in JWT
-}
-
-// Define AuthContext Type
-interface AuthContextType {
-  user: User | null;
-  isAuthenticated: boolean;
-  loading: boolean;
-  setUser: (user: User | null) => void;
-  setIsAuthenticated: (isAuth: boolean) => void;
-}
+import { AuthContextType, User } from "@/types/user";
 
 // Create AuthContext with default values
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -38,6 +23,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
         const decodedUser = JSON.parse(atob(token.split(".")[1])) as User; 
         setUser(decodedUser);
         setIsAuthenticated(true);
+        console.log(user)
       } catch (error) {
         console.error("Error decoding token:", error);
         setUser(null);
