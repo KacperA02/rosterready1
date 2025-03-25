@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom"; // Import useNavigate
-import axios from "../../config/Api";
+import instance from "@/config/Api";
 import { useAuth } from "@/contexts/AuthContext";
 import { useRoles } from "@/hooks/useRoles";
 
@@ -13,13 +13,19 @@ const TeamDetails = () => {
 
   useEffect(() => {
     if (user?.team_id) {
-      axios
-        .get(`/teams/${user.team_id}`)
+      instance
+        .get(`/teams/${user.team_id}`, {withCredentials: true}
+          
+        )
         .then((response) => {
           setTeam(response.data);
         })
         .catch((err) => {
-          setError("Error fetching team details");
+          if (err.response?.status === 401) {
+            setError("Login Token Expired");
+          } else {
+            setError("Error fetching team details");
+          }
           console.error(err);
         });
     } else {
