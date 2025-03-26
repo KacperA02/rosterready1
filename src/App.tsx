@@ -8,9 +8,10 @@ import RegisterForm from "./components/forms/RegisterForm";
 import NoTeam from "./pages/teams/NoTeam";
 import PageNotFound from "@/pages/main/PageNotFound";
 import CreateShift from "./pages/shifts/Create";
-import AttachDaysShift from "./pages/shifts/AttachDay";
 import CalendarsPage from "./pages/callender/calendarsPage";
 import CreateTeam from "./pages/teams/Create";
+import ShowShift from "./pages/shifts/Show";
+import ShowExpertise from "./pages/expertise/Show";
 
 export default function App() {
   const { isAuthenticated } = useAuth();
@@ -22,8 +23,10 @@ export default function App() {
         <Route path="/teams" element={<TeamDetails />} />
         <Route path="/teams/create" element={<CreateTeam />} />
         <Route path='/teams/shift/create' element={<CreateShift onClose={() => console.log('Close action triggered')} />}/>
-        <Route path='/attach-days/:shiftId' element={<AttachDaysShift/>}/>
+        <Route path='/teams/shifts' element={<ShowShift/>}/>
+        <Route path='/teams/expertise' element={<ShowExpertise/>}/>
         <Route path="/calendar" element={<CalendarsPage />} />
+
       </>
     );
   }

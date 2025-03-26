@@ -1,7 +1,7 @@
 import { FC, useState } from "react";
 import { Link } from "react-router-dom";
 import { useAuth } from "../../contexts/AuthContext";
-import { Calendar, Home, Inbox, Search, Settings, Users, ChevronDown, ChevronUp } from "lucide-react"; // Import icons
+import { Calendar, Home, Inbox, Users, ChevronDown, ChevronUp } from "lucide-react"; 
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import LogoutButton from "@/components/buttons/logoutBtn";
 import {
@@ -31,17 +31,7 @@ const items = [
     title: "Calendar",
     url: "/calendar",
     icon: Calendar,
-  },
-  {
-    title: "Search",
-    url: "/search",
-    icon: Search,
-  },
-  {
-    title: "Settings",
-    url: "/settings",
-    icon: Settings,
-  },
+  }
 ];
 
 const AppSidebar: FC = () => {
@@ -54,7 +44,7 @@ const AppSidebar: FC = () => {
     <Sidebar className="w-64"> {/* Set fixed width for Sidebar */}
       <SidebarContent>
         <SidebarGroup>
-          <SidebarGroupLabel>Application</SidebarGroupLabel>
+          <SidebarGroupLabel>RosterReady</SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu>
               {/* Static Menu Items */}
@@ -105,13 +95,6 @@ const AppSidebar: FC = () => {
                         <SidebarMenuButton asChild>
                           <Link to="/teams/shifts" className="flex items-center space-x-2">
                             <span>Shifts</span>
-                          </Link>
-                        </SidebarMenuButton>
-                      </SidebarMenuItem>
-                      <SidebarMenuItem>
-                        <SidebarMenuButton asChild>
-                          <Link to="/teams/users" className="flex items-center space-x-2">
-                            <span>Users</span>
                           </Link>
                         </SidebarMenuButton>
                       </SidebarMenuItem>
