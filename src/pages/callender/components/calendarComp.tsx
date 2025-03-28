@@ -40,7 +40,7 @@ interface Shift {
 interface CalendarComponentProps {
   events: ShiftEvent[]; // Events with additional color property
   selectable?: boolean;
-  setRefreshCalendar: React.Dispatch<React.SetStateAction<boolean>>; // Function to refresh the calendar
+  setRefreshCalendar: React.Dispatch<React.SetStateAction<boolean>>; 
 }
 
 const CalendarComponent: React.FC<CalendarComponentProps> = ({

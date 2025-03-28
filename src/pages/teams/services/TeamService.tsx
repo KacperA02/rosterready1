@@ -11,3 +11,12 @@ export const createTeam = async (teamData: TeamCreate): Promise<TeamResponse | n
     return null;
   }
 };
+export const fetchTeamDetails = async (teamId: number): Promise<TeamResponse | null> => {
+  try {
+    const response = await instance.get(`/teams/${teamId}`, { withCredentials: true });
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching team details:", error);
+    return null;
+  }
+};
