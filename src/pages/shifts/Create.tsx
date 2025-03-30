@@ -7,24 +7,27 @@ import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
 import { Input } from '@/components/ui/input';
 
-const CreateShift = ({ onClose }: { onClose: () => void }) => {
+interface CreateShiftProps {
+  selectedDate: Date | null;
+  onShiftCreated: (shiftId: number) => Promise<void>;
+  onClose: () => void;
+}
+
+const CreateShift: React.FC<CreateShiftProps> = ({ selectedDate, onShiftCreated, onClose }) => {
   const { isAuthenticated } = useAuth();
   const { isEmployer, isAdmin } = useRoles();
 
-  // Form state
   const [shift, setShift] = useState<ShiftCreate>({
     name: '',
     time_start: '',
     time_end: '',
     task: '',
-    no_of_users: 1
+    no_of_users: 1,
   });
 
-  // Error handling state
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
 
-  // Redirect unauthorized users
   useEffect(() => {
     if (!isEmployer() && !isAdmin()) {
       alert("Unauthorized access.");
@@ -32,7 +35,6 @@ const CreateShift = ({ onClose }: { onClose: () => void }) => {
     }
   }, [isEmployer, isAdmin, onClose]);
 
-  // Handle form change
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     setShift({
       ...shift,
@@ -40,16 +42,14 @@ const CreateShift = ({ onClose }: { onClose: () => void }) => {
     });
   };
 
-  // Handle Select change for no_of_users
   const handleNoOfUsersChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const value = e.target.value ? parseInt(e.target.value) : 1; 
+    const value = e.target.value ? parseInt(e.target.value) : 1;
     setShift({
       ...shift,
       no_of_users: value,
     });
   };
 
-  // Handle form submission
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
@@ -60,18 +60,19 @@ const CreateShift = ({ onClose }: { onClose: () => void }) => {
 
     try {
       setLoading(true);
-      setError(null); 
+      setError(null);
+
       console.log('Form Data (Shift):', shift);
 
       const response = await createShift(shift);
       
-      if (response) {
+      if (response && selectedDate) {
         alert("Shift created successfully!");
-        onClose(); // Close the sheet
+        await onShiftCreated(response.id);
+        onClose();
       } else {
         setError("Error creating shift. Please try again.");
       }
-
     } catch (err) {
       setError("Error creating shift. Please try again.");
       console.error(err);
@@ -84,6 +85,8 @@ const CreateShift = ({ onClose }: { onClose: () => void }) => {
     <div className="max-w-md mx-auto mt-8 p-6 bg-white rounded-md shadow-md">
       <h2 className="text-2xl font-semibold mb-4">Create New Shift</h2>
 
+      {selectedDate && <p className="mb-2 text-gray-600">Selected Date: {selectedDate.toDateString()}</p>}
+
       {error && <div className="text-red-500 mb-4">{error}</div>}
 
       <form onSubmit={handleSubmit}>
@@ -91,55 +94,28 @@ const CreateShift = ({ onClose }: { onClose: () => void }) => {
           <label htmlFor="name" className="block text-sm font-medium text-gray-700">
             Shift Name
           </label>
-          <Input
-            type="text"
-            id="name"
-            name="name"
-            value={shift.name}
-            onChange={handleChange}
-            required
-          />
+          <Input type="text" id="name" name="name" value={shift.name} onChange={handleChange} required />
         </div>
 
         <div className="mb-4">
           <label htmlFor="time_start" className="block text-sm font-medium text-gray-700">
             Start Time
           </label>
-          <Input
-            type="time"
-            id="time_start"
-            name="time_start"
-            value={shift.time_start}
-            onChange={handleChange}
-            required
-          />
+          <Input type="time" id="time_start" name="time_start" value={shift.time_start} onChange={handleChange} required />
         </div>
 
         <div className="mb-4">
           <label htmlFor="time_end" className="block text-sm font-medium text-gray-700">
             End Time
           </label>
-          <Input
-            type="time"
-            id="time_end"
-            name="time_end"
-            value={shift.time_end}
-            onChange={handleChange}
-            required
-          />
+          <Input type="time" id="time_end" name="time_end" value={shift.time_end} onChange={handleChange} required />
         </div>
 
         <div className="mb-4">
           <label htmlFor="task" className="block text-sm font-medium text-gray-700">
             Task (optional)
           </label>
-          <Textarea
-            id="task"
-            name="task"
-            value={shift.task}
-            onChange={handleChange}
-            placeholder="Optional task description"
-          />
+          <Textarea id="task" name="task" value={shift.task} onChange={handleChange} placeholder="Optional task description" />
         </div>
 
         <div className="mb-4">
@@ -152,8 +128,8 @@ const CreateShift = ({ onClose }: { onClose: () => void }) => {
             name="no_of_users"
             value={shift.no_of_users}
             onChange={handleNoOfUsersChange}
-            min={1} 
-            max={5} 
+            min={1}
+            max={5}
             required
           />
         </div>

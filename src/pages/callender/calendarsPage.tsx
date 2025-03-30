@@ -2,67 +2,40 @@ import React, { useState, useEffect } from "react";
 import CalendarComponent from "./components/calendarComp";
 import { fetchShifts } from "./services/ShiftService"; 
 import { ShiftResponse } from "@/types/shift"; 
-
-interface ShiftEvent {
-  start: Date;
-  end: Date;
-  title: string;
-  color:string;
-}
+import {CalendarEvent} from "@/types/callender";
 
 const CalendarsPage: React.FC = () => {
-  const [viewEvents, setViewEvents] = useState<ShiftEvent[]>([]);
-  // State to trigger refresh
+  const [viewEvents, setViewEvents] = useState<CalendarEvent[]>([]);
   const [refreshCalendar, setRefreshCalendar] = useState(false); 
 
-  // Function to get the date for a specific day name (e.g., "Monday", "Tuesday")
-const getDayOfWeek = (date: Date, dayName: string): Date | null => {
-  const daysOfWeek = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
-  const dayIndex = daysOfWeek.indexOf(dayName);
+  const getDayOfWeek = (date: Date, dayName: string): Date | null => {
+    const daysOfWeek = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+    const dayIndex = daysOfWeek.indexOf(dayName);
 
-  if (dayIndex === -1) return null;
+    if (dayIndex === -1) return null;
 
-  const diff = dayIndex - date.getDay();
+    const diff = dayIndex - date.getDay();
 
-  // Adjust if the diff is negative and it’s Sunday, to move to the next Sunday
-  if (diff < 0 && dayIndex === 0) {
-    return new Date(date.setDate(date.getDate() + (7 + diff)));
-  }
+    // Adjust if the diff is negative and it’s Sunday, to move to the next Sunday
+    if (diff < 0 && dayIndex === 0) {
+      return new Date(date.setDate(date.getDate() + (7 + diff)));
+    }
 
-  // any other day
-  const result = new Date(date);
-  result.setDate(date.getDate() + diff);
-  return result;
-};
+    const result = new Date(date);
+    result.setDate(date.getDate() + diff);
+    return result;
+  };
 
-
-  // Fetch shifts when the component mounts or when refreshCalendar changes
   useEffect(() => {
     const loadShifts = async () => {
       const fetchedShifts: ShiftResponse[] = await fetchShifts();
-      const mappedEvents: ShiftEvent[] = [];
+      const mappedEvents: CalendarEvent[] = [];
       const today = new Date();
-  
-      // Function to generate random colors
-      const getRandomColor = () => {
-        const letters = "0123456789ABCDEF";
-        let color = "#";
-        for (let i = 0; i < 6; i++) {
-          color += letters[Math.floor(Math.random() * 16)];
-        }
-        return color;
-      };
-  
-      // Store shift colors (so each shift type has a consistent color)
-      const shiftColorMap = new Map<string, string>();
+
   
       fetchedShifts.forEach((shift) => {
-        if (!shiftColorMap.has(shift.name)) {
-          shiftColorMap.set(shift.name, getRandomColor()); // Assign a random color
-        }
-        const shiftColor = shiftColorMap.get(shift.name) || "#9C27B0"; // Fallback color
-  
         shift.days.forEach((day) => {
+          // Get the first occurrence of the shift day (e.g., "Monday", "Tuesday")
           const shiftDate = getDayOfWeek(today, day.name);
   
           if (shiftDate) {
@@ -81,10 +54,10 @@ const getDayOfWeek = (date: Date, dayName: string): Date | null => {
               firstPartEnd.setHours(23, 59, 59);
   
               mappedEvents.push({
+                id: shift.id, 
                 start: startDate,
                 end: firstPartEnd,
-                title: shift.name,
-                color: shiftColor,
+                title: shift.name
               });
   
               const secondPartStart = new Date(shiftDate);
@@ -95,18 +68,34 @@ const getDayOfWeek = (date: Date, dayName: string): Date | null => {
               secondPartEnd.setHours(endHour, endMinute, 0);
   
               mappedEvents.push({
+                id: shift.id, 
                 start: secondPartStart,
                 end: secondPartEnd,
-                title: shift.name,
-                color: shiftColor,
+                title: shift.name
               });
             } else {
               // Normal shift
               mappedEvents.push({
+                id: shift.id, 
                 start: startDate,
                 end: endDate,
-                title: shift.name,
-                color: shiftColor,
+                title: shift.name
+              });
+            }
+
+            // Add shifts for the next 5 weeks (i.e., repeat the shift every week)
+            for (let i = 1; i < 5; i++) {
+              const repeatedStartDate = new Date(startDate);
+              repeatedStartDate.setDate(repeatedStartDate.getDate() + i * 7); // Add 7 days for each repetition
+  
+              const repeatedEndDate = new Date(endDate);
+              repeatedEndDate.setDate(repeatedEndDate.getDate() + i * 7); // Add 7 days for each repetition
+  
+              mappedEvents.push({
+                id: shift.id, 
+                start: repeatedStartDate,
+                end: repeatedEndDate,
+                title: shift.name
               });
             }
           }

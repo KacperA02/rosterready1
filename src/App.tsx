@@ -9,6 +9,7 @@ import NoTeam from "./pages/teams/NoTeam";
 import PageNotFound from "@/pages/main/PageNotFound";
 import CreateShift from "./pages/shifts/Create";
 import CalendarsPage from "./pages/callender/calendarsPage";
+import CalendarComponent from "./pages/callender/components/calendarComp";
 import CreateTeam from "./pages/teams/Create";
 import ShowShift from "./pages/shifts/Show";
 import ShowExpertise from "./pages/expertise/Show";
