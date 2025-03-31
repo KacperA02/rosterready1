@@ -28,4 +28,11 @@ export interface ShiftCreate {
  export interface ShiftDaysCreate {
    day_ids: number[];
  }
- 
+
+
+export interface ShiftEvent {
+  id: number; 
+  start: Date;
+  end: Date;
+  title: string;
+}

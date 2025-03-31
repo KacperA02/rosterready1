@@ -3,6 +3,7 @@ import { Calendar, dateFnsLocalizer, SlotInfo, View } from "react-big-calendar";
 import { format, getDay, startOfWeek, parse } from "date-fns";
 import { enUS } from "date-fns/locale/en-US";
 import "react-big-calendar/lib/css/react-big-calendar.css";
+import EditShift from "@/pages/shifts/Edit";
 import {
 	Sheet,
 	SheetContent,
@@ -29,6 +30,7 @@ const localizer = dateFnsLocalizer({
 });
 
 interface CalendarEvent {
+	id: number;
 	title: string;
 	start: Date;
 	end: Date;
@@ -77,6 +79,10 @@ const CalendarComponent: React.FC<CalendarProps> = ({
 	const [selectedEvent, setSelectedEvent] = useState<CalendarEvent | null>(
 		null
 	);
+	const [selectedShiftId, setSelectedShiftId] = useState<number | null>(
+		null
+	);
+	const [openEditSheet, setOpenEditSheet] = useState(false);
 	const [popoverOpen, setPopoverOpen] = useState(false);
 
 	const handleSelectSlot = (slotInfo: SlotInfo) => {
@@ -108,9 +114,9 @@ const CalendarComponent: React.FC<CalendarProps> = ({
 	};
 
 	const handleEditClick = () => {
-		if (selectedEvent) {
-			console.log("Editing event:", selectedEvent);
-			
+		if (selectedEvent?.id) {
+			setSelectedShiftId(selectedEvent.id); // Store only the shift ID
+			setOpenEditSheet(true);
 		}
 		setPopoverOpen(false);
 	};
@@ -174,6 +180,23 @@ const CalendarComponent: React.FC<CalendarProps> = ({
 					/>
 				</SheetContent>
 			</Sheet>
+			<Sheet open={openEditSheet} onOpenChange={setOpenEditSheet}>
+	<SheetContent side="bottom">
+		<SheetHeader>
+			<SheetTitle>Edit Shift</SheetTitle>
+		</SheetHeader>
+		{selectedShiftId && (
+			<EditShift
+				shiftId={selectedShiftId} // Pass only shiftId
+				onShiftUpdated={async () => {
+					setRefreshCalendar((prev) => !prev);
+					return Promise.resolve();
+				}}
+				onClose={() => setOpenEditSheet(false)}
+			/>
+		)}
+	</SheetContent>
+</Sheet>;
 		</div>
 	);
 };

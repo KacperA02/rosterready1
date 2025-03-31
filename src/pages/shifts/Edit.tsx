@@ -1,119 +1,120 @@
-import { useState } from "react";
-import { updateShift } from "@/pages/callender/services/ShiftService";
-import { ShiftCreate } from "@/types/shift";
+import { useState, useEffect } from "react";
+import { fetchShiftById, updateShift } from "@/pages/callender/services/ShiftService";
+import { ShiftResponse } from "@/types/shift";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { Input } from "@/components/ui/input";
 
 interface EditShiftProps {
-  shift: ShiftCreate & { id: number }; 
-  onShiftUpdated: () => Promise<void>;
-  onClose: () => void;
+	shiftId: number;
+	onShiftUpdated: () => void;
+	onClose: () => void;
 }
 
-const EditShift: React.FC<EditShiftProps> = ({ shift, onShiftUpdated, onClose }) => {
-  const [updatedShift, setUpdatedShift] = useState(shift);
-  const [error, setError] = useState<string | null>(null);
-  const [loading, setLoading] = useState(false);
+const EditShift: React.FC<EditShiftProps> = ({ shiftId, onShiftUpdated, onClose }) => {
+	const [shift, setShift] = useState<ShiftResponse | null>(null);
+	const [loading, setLoading] = useState(false);
+	const [error, setError] = useState<string | null>(null);
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    setUpdatedShift({
-      ...updatedShift,
-      [e.target.name]: e.target.value,
-    });
-  };
+	useEffect(() => {
+		const loadShift = async () => {
+			try {
+				setLoading(true);
+				const fetchedShift = await fetchShiftById(shiftId);
+				setShift(fetchedShift);
+			} catch (err) {
+				setError("Failed to load shift data.");
+				console.error(err);
+			} finally {
+				setLoading(false);
+			}
+		};
 
-  const handleNoOfUsersChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const value = e.target.value ? parseInt(e.target.value) : 1;
-    setUpdatedShift({
-      ...updatedShift,
-      no_of_users: value,
-    });
-  };
+		loadShift();
+	}, [shiftId]);
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    try {
-      setLoading(true);
-      setError(null);
+	const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+		if (shift) {
+			setShift({ ...shift, [e.target.name]: e.target.value });
+		}
+	};
 
-      console.log("Updating Shift:", updatedShift);
+	const handleSubmit = async (e: React.FormEvent) => {
+		e.preventDefault();
+		if (!shift) return;
 
-     
-      const response = await updateShift(updatedShift.id, updatedShift);
+		try {
+			setLoading(true);
+			await updateShift(shiftId, shift);
+			alert("Shift updated successfully!");
+			onShiftUpdated();
+			onClose();
+		} catch (err) {
+			setError("Error updating shift. Please try again.");
+			console.error(err);
+		} finally {
+			setLoading(false);
+		}
+	};
 
-      if (response) {
-        alert("Shift updated successfully!");
-        await onShiftUpdated();
-        onClose();
-      } else {
-        setError("Error updating shift. Please try again.");
-      }
-    } catch (err) {
-      setError("Error updating shift. Please try again.");
-      console.error(err);
-    } finally {
-      setLoading(false);
-    }
-  };
+	if (loading) return <p>Loading shift details...</p>;
+	if (error) return <p className="text-red-500">{error}</p>;
+	if (!shift) return <p>No shift found.</p>;
 
-  return (
-    <div className="max-w-md mx-auto mt-8 p-6 bg-white rounded-md shadow-md">
-      <h2 className="text-2xl font-semibold mb-4">Edit Shift</h2>
+	return (
+		<div className="max-w-md mx-auto mt-8 p-6 bg-white rounded-md shadow-md">
+			<h2 className="text-2xl font-semibold mb-4">Edit Shift</h2>
+			<form onSubmit={handleSubmit}>
+				<div className="mb-4">
+					<label htmlFor="name" className="block text-sm font-medium text-gray-700">
+						Shift Name
+					</label>
+					<Input type="text" id="name" name="name" value={shift.name} onChange={handleChange} required />
+				</div>
 
-      {error && <div className="text-red-500 mb-4">{error}</div>}
+				<div className="mb-4">
+					<label htmlFor="time_start" className="block text-sm font-medium text-gray-700">
+						Start Time
+					</label>
+					<Input type="time" id="time_start" name="time_start" value={shift.time_start} onChange={handleChange} required />
+				</div>
 
-      <form onSubmit={handleSubmit}>
-        <div className="mb-4">
-          <label htmlFor="name" className="block text-sm font-medium text-gray-700">
-            Shift Name
-          </label>
-          <Input type="text" id="name" name="name" value={updatedShift.name} onChange={handleChange} required />
-        </div>
+				<div className="mb-4">
+					<label htmlFor="time_end" className="block text-sm font-medium text-gray-700">
+						End Time
+					</label>
+					<Input type="time" id="time_end" name="time_end" value={shift.time_end} onChange={handleChange} required />
+				</div>
 
-        <div className="mb-4">
-          <label htmlFor="time_start" className="block text-sm font-medium text-gray-700">
-            Start Time
-          </label>
-          <Input type="time" id="time_start" name="time_start" value={updatedShift.time_start} onChange={handleChange} required />
-        </div>
+				<div className="mb-4">
+					<label htmlFor="task" className="block text-sm font-medium text-gray-700">
+						Task (optional)
+					</label>
+					<Textarea id="task" name="task" value={shift.task || ""} onChange={handleChange} placeholder="Optional task description" />
+				</div>
 
-        <div className="mb-4">
-          <label htmlFor="time_end" className="block text-sm font-medium text-gray-700">
-            End Time
-          </label>
-          <Input type="time" id="time_end" name="time_end" value={updatedShift.time_end} onChange={handleChange} required />
-        </div>
+				<div className="mb-4">
+					<label htmlFor="no_of_users" className="block text-sm font-medium text-gray-700">
+						Number of Users
+					</label>
+					<Input
+						type="number"
+						id="no_of_users"
+						name="no_of_users"
+						value={shift.no_of_users}
+						onChange={handleChange}
+						min={1}
+						max={5}
+						required
+					/>
+				</div>
 
-        <div className="mb-4">
-          <label htmlFor="task" className="block text-sm font-medium text-gray-700">
-            Task (optional)
-          </label>
-          <Textarea id="task" name="task" value={updatedShift.task} onChange={handleChange} placeholder="Optional task description" />
-        </div>
-
-        <div className="mb-4">
-          <label htmlFor="no_of_users" className="block text-sm font-medium text-gray-700">
-            Number of Users
-          </label>
-          <Input
-            type="number"
-            id="no_of_users"
-            name="no_of_users"
-            value={updatedShift.no_of_users}
-            onChange={handleNoOfUsersChange}
-            min={1}
-            max={5}
-            required
-          />
-        </div>
-
-        <Button type="submit" disabled={loading} className="w-full bg-blue-500 text-white py-2 rounded-md hover:bg-blue-600">
-          {loading ? "Updating..." : "Update Shift"}
-        </Button>
-      </form>
-    </div>
-  );
+				<Button type="submit" disabled={loading} className="w-full bg-blue-500 text-white py-2 rounded-md hover:bg-blue-600">
+					{loading ? "Updating..." : "Update Shift"}
+				</Button>
+			</form>
+		</div>
+	);
 };
 
 export default EditShift;

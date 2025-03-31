@@ -1,14 +1,8 @@
 import React, { useState, useEffect } from "react";
 import CalendarComponent from "./components/calendarComp";
 import { fetchShifts } from "./services/ShiftService"; 
-import { ShiftResponse } from "@/types/shift"; 
+import { ShiftResponse, ShiftEvent} from "@/types/shift"; 
 
-interface ShiftEvent {
-  id?: number; 
-  start: Date;
-  end: Date;
-  title: string;
-}
 
 const CalendarsPage: React.FC = () => {
   const [viewEvents, setViewEvents] = useState<ShiftEvent[]>([]);
@@ -55,11 +49,11 @@ const CalendarsPage: React.FC = () => {
               firstPartEnd.setHours(23, 59, 59);
               
               mappedEvents.push({
+                id: shift.id,
                 start: startDate,
                 end: firstPartEnd,
-                title: shift.name,
+                title: shift.name
               });
-
               const secondPartStart = new Date(currentDate);
               secondPartStart.setDate(secondPartStart.getDate() + 1); // Move to next day
               secondPartStart.setHours(0, 0, 0);
@@ -77,6 +71,7 @@ const CalendarsPage: React.FC = () => {
               // Normal shift
               // Check if the shift ends on the same day
               mappedEvents.push({
+                id: shift.id,
                 start: startDate,
                 end: endDate,
                 title: shift.name,
