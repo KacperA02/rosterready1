@@ -79,9 +79,7 @@ const CalendarComponent: React.FC<CalendarProps> = ({
 	const [selectedEvent, setSelectedEvent] = useState<CalendarEvent | null>(
 		null
 	);
-	const [selectedShiftId, setSelectedShiftId] = useState<number | null>(
-		null
-	);
+	const [selectedShiftId, setSelectedShiftId] = useState<number | null>(null);
 	const [openEditSheet, setOpenEditSheet] = useState(false);
 	const [popoverOpen, setPopoverOpen] = useState(false);
 
@@ -124,7 +122,6 @@ const CalendarComponent: React.FC<CalendarProps> = ({
 	const handleDeleteClick = () => {
 		if (selectedEvent) {
 			console.log("Deleting event:", selectedEvent);
-			
 		}
 		setPopoverOpen(false);
 	};
@@ -157,10 +154,12 @@ const CalendarComponent: React.FC<CalendarProps> = ({
 									? `Edit or Delete: ${selectedEvent.title}`
 									: "Please select an event to edit or delete."}
 							</h3>
-							<Button variant="secondary"  onClick={handleEditClick}>
+							<Button variant="secondary" onClick={handleEditClick}>
 								Edit
 							</Button>
-							<Button variant="destructive" onClick={handleDeleteClick}>Delete</Button>
+							<Button variant="destructive" onClick={handleDeleteClick}>
+								Delete
+							</Button>
 						</div>
 					</PopoverContent>
 				</Popover>
@@ -181,22 +180,22 @@ const CalendarComponent: React.FC<CalendarProps> = ({
 				</SheetContent>
 			</Sheet>
 			<Sheet open={openEditSheet} onOpenChange={setOpenEditSheet}>
-	<SheetContent side="bottom">
-		<SheetHeader>
-			<SheetTitle>Edit Shift</SheetTitle>
-		</SheetHeader>
-		{selectedShiftId && (
-			<EditShift
-				shiftId={selectedShiftId} // Pass only shiftId
-				onShiftUpdated={async () => {
-					setRefreshCalendar((prev) => !prev);
-					return Promise.resolve();
-				}}
-				onClose={() => setOpenEditSheet(false)}
-			/>
-		)}
-	</SheetContent>
-</Sheet>;
+				<SheetContent side="bottom">
+					<SheetHeader>
+						<SheetTitle>Edit Shift</SheetTitle>
+					</SheetHeader>
+					{selectedShiftId && (
+						<EditShift
+							shiftId={selectedShiftId} // Pass only shiftId
+							onShiftUpdated={async () => {
+								setRefreshCalendar((prev) => !prev);
+								return Promise.resolve();
+							}}
+							onClose={() => setOpenEditSheet(false)}
+						/>
+					)}
+				</SheetContent>
+			</Sheet>
 		</div>
 	);
 };
