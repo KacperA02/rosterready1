@@ -115,6 +115,7 @@ const CalendarsPage: React.FC = () => {
             no_of_users: assignmentsForKey.length,
             users,
             locked: firstAssignment.locked,
+            isGenerated: true
           });
         });
       }
@@ -171,6 +172,7 @@ const CalendarsPage: React.FC = () => {
               title: shift.name,
               no_of_users: shift.no_of_users,
               users: undefined,
+              isGenerated:false
             });
 
             // Move to the next week

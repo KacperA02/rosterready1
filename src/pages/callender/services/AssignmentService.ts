@@ -22,4 +22,24 @@ export const fetchSingleSolution = async (
     return null;
   }
 };
+export const createSchedule = async (teamId: number, weekId: number): Promise<boolean> => {
+  try {
+    const response = await instance.post(`/schedule/assign-shifts/${teamId}/${weekId}`);
+    return response.status === 200;
+  } catch (error) {
+    console.error("Error creating schedule:", error);
+    return false;
+  }
+};
 
+export const fetchWeekByStartDate = async (startDate: string) => {
+  try {
+    const response = await instance.get(`/weeks/search/`, {
+      params: { start_date: startDate }
+    });
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching week by date:", error);
+    return null;
+  }
+};
