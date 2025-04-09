@@ -7,9 +7,8 @@ import TeamDetails from "./pages/teams/Show";
 import RegisterForm from "./components/forms/RegisterForm";
 import NoTeam from "./pages/teams/NoTeam";
 import PageNotFound from "@/pages/main/PageNotFound";
-import CreateShift from "./pages/shifts/Create";
+// import CreateShift from "./pages/shifts/Create";
 import CalendarsPage from "./pages/callender/calendarsPage";
-import CalendarComponent from "./pages/callender/components/calendarComp";
 import CreateTeam from "./pages/teams/Create";
 import ShowShift from "./pages/shifts/Show";
 import ShowExpertise from "./pages/expertise/Show";
@@ -23,7 +22,7 @@ export default function App() {
       <>
         <Route path="/teams" element={<TeamDetails />} />
         <Route path="/teams/create" element={<CreateTeam />} />
-        <Route path='/teams/shift/create' element={<CreateShift onClose={() => console.log('Close action triggered')} />}/>
+        {/* <Route path='/teams/shift/create' element={<CreateShift onClose={() => console.log('Close action triggered')} />}/> */}
         <Route path='/teams/shifts' element={<ShowShift/>}/>
         <Route path='/teams/expertise' element={<ShowExpertise/>}/>
         <Route path="/calendar" element={<CalendarsPage />} />

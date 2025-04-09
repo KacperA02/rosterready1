@@ -85,8 +85,6 @@ const CreateShift: React.FC<CreateShiftProps> = ({ selectedDate, onShiftCreated,
     <div className="max-w-md mx-auto mt-8 p-6 bg-white rounded-md shadow-md">
       <h2 className="text-2xl font-semibold mb-4">Create New Shift</h2>
 
-      {selectedDate && <p className="mb-2 text-gray-600">Selected Date: {selectedDate.toDateString()}</p>}
-
       {error && <div className="text-red-500 mb-4">{error}</div>}
 
       <form onSubmit={handleSubmit}>

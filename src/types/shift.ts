@@ -30,9 +30,14 @@ export interface ShiftCreate {
  }
 
 
-export interface ShiftEvent {
-  id: number; 
+ export interface ShiftEvent {
+  id: number;
   start: Date;
   end: Date;
   title: string;
+  no_of_users: number;
+  trueEnd: Date;
+  locked?: boolean;
+  isGenerated?: boolean; 
+  users?: { first_name: string; last_name: string }[];
 }
