@@ -39,6 +39,7 @@ const LoginForm = () => {
       setIsAuthenticated(true);
 
       navigate("/");
+      window.location.reload();
     } catch (err: any) {
       console.error("Login Error:", err);
       setErrorMessage(err.response?.data?.message || "Login failed. Please try again.");
