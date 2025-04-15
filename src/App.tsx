@@ -12,7 +12,8 @@ import CalendarsPage from "./pages/callender/calendarsPage";
 import CreateTeam from "./pages/teams/Create";
 import ShowShift from "./pages/shifts/Show";
 import ShowExpertise from "./pages/expertise/Show";
-
+import NotificationListener from "@/components/NotificationListerner";
+import InboxPage from "./pages/Inbox/Inbox";
 export default function App() {
   const { isAuthenticated } = useAuth();
 
@@ -45,8 +46,10 @@ export default function App() {
 
       {/* Main Content - This will take the remaining space */}
       <div className="flex-1 p-6 overflow-auto">
+      <NotificationListener />
         <Routes>
           <Route path="/" element={<Home />} />
+          <Route path="/inbox" element={<InboxPage />} />
           <Route path="/login" element={<LoginPage />} />
           <Route path="/no-team" element={<NoTeam />} />
           <Route path="/register" element={<RegisterForm />} />
