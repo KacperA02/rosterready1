@@ -13,6 +13,7 @@ export interface User {
 export interface AuthContextType {
     user: User | null;
     isAuthenticated: boolean;
+    token: string | null;
     loading: boolean;
     setUser: (user: User | null) => void;
     setIsAuthenticated: (isAuth: boolean) => void;

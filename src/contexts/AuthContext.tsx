@@ -1,50 +1,70 @@
 import { createContext, useContext, useEffect, useState, ReactNode } from "react";
 import Cookies from "js-cookie";
 import { AuthContextType, User } from "@/types/user";
+import { useGlobalRefresh } from "./GlobalRefreshContext";
 
-// Create AuthContext with default values
+// Create AuthContext
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
-// AuthProvider Props
 interface AuthProviderProps {
   children: ReactNode;
 }
 
 export const AuthProvider = ({ children }: AuthProviderProps) => {
+  const { pageToRefresh, setPageToRefresh } = useGlobalRefresh();
   const [user, setUser] = useState<User | null>(null);
   const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(true);
+  const [token, setToken] = useState<string | null>(null);
 
-  useEffect(() => {
-    const token = Cookies.get("access_token");
 
-    if (token) {
+  const decodeAndSetUser = () => {
+    const tokenFromCookie = Cookies.get("access_token");
+
+    if (tokenFromCookie) {
       try {
-        const decodedUser = JSON.parse(atob(token.split(".")[1])) as User; 
+        const decodedUser = JSON.parse(atob(tokenFromCookie.split(".")[1])) as User;
         setUser(decodedUser);
         setIsAuthenticated(true);
-        console.log(user)
+        setToken(tokenFromCookie);
+        console.log("User decoded from token:", decodedUser);
       } catch (error) {
         console.error("Error decoding token:", error);
         setUser(null);
         setIsAuthenticated(false);
+        setToken(null);
       }
     } else {
       setUser(null);
       setIsAuthenticated(false);
+      setToken(null);
     }
+  };
 
+
+  useEffect(() => {
+    decodeAndSetUser();
     setLoading(false);
   }, []);
 
+
+  useEffect(() => {
+    if (pageToRefresh === "user") {
+      decodeAndSetUser();
+      setPageToRefresh(null); 
+    }
+  }, [pageToRefresh, setPageToRefresh]);
+
   return (
-    <AuthContext.Provider value={{ user, isAuthenticated, loading, setUser, setIsAuthenticated }}>
+    <AuthContext.Provider
+      value={{ user, token, isAuthenticated, loading, setUser, setIsAuthenticated }}
+    >
       {children}
     </AuthContext.Provider>
   );
 };
 
-// Custom Hook for using AuthContext
+
 export const useAuth = (): AuthContextType => {
   const context = useContext(AuthContext);
   if (!context) {

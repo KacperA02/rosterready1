@@ -24,4 +24,11 @@ export interface Team {
     updated_at: string;
     user_ids: IUsers[];
   }
+  export interface TeamInvitation {
+    id: number;
+    user_id: number;
+    team_id: number;
+    status: "PENDING" | "ACCEPTED" | "DECLINED";
+    created_at: string;
+  }
   
