@@ -15,7 +15,9 @@ export interface UserAvailability {
       id: number;
       name: string;
     };
-    start_time: string;
-    end_time: string;
+  }
+  export interface AvailabilityCreate {
+    day_ids: number[];
+    reason: string;
   }
   

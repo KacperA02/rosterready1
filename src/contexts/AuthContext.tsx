@@ -27,7 +27,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
         setUser(decodedUser);
         setIsAuthenticated(true);
         setToken(tokenFromCookie);
-        console.log("User decoded from token:", decodedUser);
+        // console.log("User decoded from token:", decodedUser);
       } catch (error) {
         console.error("Error decoding token:", error);
         setUser(null);

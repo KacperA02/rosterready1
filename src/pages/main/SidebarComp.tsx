@@ -1,10 +1,9 @@
 import { FC, useState } from "react";
 import { Link } from "react-router-dom";
 import { useAuth } from "../../contexts/AuthContext";
-import { Calendar, Home, Inbox, Users, ChevronDown, ChevronUp } from "lucide-react"; 
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Calendar, Home, Inbox, Users, ChevronDown, ChevronUp, UserCircle } from "lucide-react"; 
 import LogoutButton from "@/components/buttons/logoutBtn";
-import { useInboxCount } from "@/contexts/InboxCountContext";  // Import useInboxCount here
+import { useInboxCount } from "@/contexts/InboxCountContext";
 import {
   Sidebar,
   SidebarContent,
@@ -17,11 +16,13 @@ import {
 } from "@/components/ui/sidebar";
 
 const AppSidebar: FC = () => {
-  const { isAuthenticated, user } = useAuth();
-  const { totalInboxCount } = useInboxCount();  // Retrieve the unread count from the context
+  const { user } = useAuth();
+  const { totalInboxCount } = useInboxCount();
   const [teamsExpanded, setTeamsExpanded] = useState(false);
+  const [accountExpaned, setAccountExpaned] = useState(false);
 
   const toggleTeams = () => setTeamsExpanded((prev) => !prev);
+  const toggleAccount = () => setAccountExpaned((prev) => !prev);
 
   const items = [
     {
@@ -43,13 +44,12 @@ const AppSidebar: FC = () => {
   ];
 
   return (
-    <Sidebar className="w-64"> {/* Set fixed width for Sidebar */}
+    <Sidebar className="w-64">
       <SidebarContent>
         <SidebarGroup>
           <SidebarGroupLabel>RosterReady</SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu>
-              {/* Static Menu Items */}
               {items.map((item) => (
                 <SidebarMenuItem key={item.title}>
                   <SidebarMenuButton asChild>
@@ -66,7 +66,6 @@ const AppSidebar: FC = () => {
                 </SidebarMenuItem>
               ))}
 
-              {/* Teams Dropdown */}
               <SidebarMenuItem>
                 <SidebarMenuButton asChild onClick={toggleTeams}>
                   <div className="flex items-center space-x-2 cursor-pointer">
@@ -80,7 +79,6 @@ const AppSidebar: FC = () => {
                   </div>
                 </SidebarMenuButton>
 
-                {/* Render dropdown items when expanded */}
                 {teamsExpanded && (
                   <SidebarGroupContent>
                     <SidebarMenu>
@@ -105,28 +103,59 @@ const AppSidebar: FC = () => {
                           </Link>
                         </SidebarMenuButton>
                       </SidebarMenuItem>
+                      <SidebarMenuItem>
+                        <SidebarMenuButton asChild>
+                          <Link to="/teamAvailabilities" className="flex items-center space-x-2">
+                            <span>Team Availabilities</span>
+                          </Link>
+                        </SidebarMenuButton>
+                      </SidebarMenuItem>
                     </SidebarMenu>
                   </SidebarGroupContent>
                 )}
               </SidebarMenuItem>
+
+              <SidebarMenuItem>
+                <SidebarMenuButton asChild onClick={toggleAccount}>
+                  <div className="flex items-center space-x-2 cursor-pointer">
+                    <UserCircle />
+                    <span>Account</span>
+                    {accountExpaned ? (
+                      <ChevronUp className="ml-auto" />
+                    ) : (
+                      <ChevronDown className="ml-auto" />
+                    )}
+                  </div>
+                </SidebarMenuButton>
+
+                {accountExpaned && (
+                  <SidebarGroupContent>
+                    <div className="px-4 py-2 text-xs text-muted-foreground">
+                      {user?.sub || "email@example.com"}
+                    </div>
+                    <SidebarMenu>
+                      <SidebarMenuItem>
+                        <SidebarMenuButton asChild>
+                          <Link to="/myDetails" className="flex items-center space-x-2">
+                            <span>Details</span>
+                          </Link>
+                        </SidebarMenuButton>
+                      </SidebarMenuItem>
+                      <SidebarMenuItem>
+                        <SidebarMenuButton asChild>
+                          <Link to="/myAvailability" className="flex items-center space-x-2">
+                            <span>My Availability</span>
+                          </Link>
+                        </SidebarMenuButton>
+                      </SidebarMenuItem>
+                    </SidebarMenu>
+                    <div className="px-4 py-2">
+                      <LogoutButton />
+                    </div>
+                  </SidebarGroupContent>
+                )}
+              </SidebarMenuItem>
             </SidebarMenu>
-
-            {/* User Info */}
-            {isAuthenticated && (
-              <div className="mt-6">
-                <div className="flex items-center space-x-4">
-                  <Avatar>
-                    <AvatarImage src="https://github.com/shadcn.png" />
-                    <AvatarFallback>CN</AvatarFallback>
-                  </Avatar>
-                  <span className="text-sm text-gray-500">Welcome, {user?.sub || "User"}</span>
-                </div>
-
-                <div className="mt-4">
-                  <LogoutButton />
-                </div>
-              </div>
-            )}
           </SidebarGroupContent>
         </SidebarGroup>
       </SidebarContent>

@@ -14,6 +14,8 @@ import ShowShift from "./pages/shifts/Show";
 import ShowExpertise from "./pages/expertise/Show";
 import NotificationListener from "@/components/NotificationListerner";
 import InboxPage from "./pages/Inbox/Inbox";
+import ViewTeamAvailabilities from "./pages/availability/viewTeamAvailabilities";
+import ViewUserAvailabilities from "./pages/availability/viewUserAvailabilities";
 export default function App() {
   const { isAuthenticated } = useAuth();
 
@@ -27,6 +29,10 @@ export default function App() {
         <Route path='/teams/shifts' element={<ShowShift/>}/>
         <Route path='/teams/expertise' element={<ShowExpertise/>}/>
         <Route path="/calendar" element={<CalendarsPage />} />
+        <Route path="/calendar" element={<CalendarsPage />} />
+        <Route path="/teamAvailabilities" element={<ViewTeamAvailabilities />} />
+        <Route path="/myAvailability" element={<ViewUserAvailabilities />} />
+        
 
       </>
     );
