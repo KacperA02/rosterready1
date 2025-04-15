@@ -91,6 +91,13 @@ const AppSidebar: FC = () => {
                       </SidebarMenuItem>
                       <SidebarMenuItem>
                         <SidebarMenuButton asChild>
+                          <Link to="/employees" className="flex items-center space-x-2">
+                            <span>Employees</span>
+                          </Link>
+                        </SidebarMenuButton>
+                      </SidebarMenuItem>
+                      <SidebarMenuItem>
+                        <SidebarMenuButton asChild>
                           <Link to="/teams/expertise" className="flex items-center space-x-2">
                             <span>Expertise</span>
                           </Link>

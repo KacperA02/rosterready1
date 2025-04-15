@@ -3,6 +3,9 @@ export interface Team {
     name: string;
     created_at: string;
     updated_at: string;
+    expertise_count: number;
+    employee_count: number;
+    shift_count: number;
   }
   
   export interface TeamCreate {
@@ -22,6 +25,9 @@ export interface Team {
     creator_id:string;
     created_at: string;
     updated_at: string;
+    expertise_count: number;
+    employee_count: number;
+    shift_count: number;
     user_ids: IUsers[];
   }
   export interface TeamInvitation {
