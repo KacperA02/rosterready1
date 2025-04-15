@@ -4,6 +4,7 @@ import { useAuth } from "../../contexts/AuthContext";
 import { Calendar, Home, Inbox, Users, ChevronDown, ChevronUp } from "lucide-react"; 
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import LogoutButton from "@/components/buttons/logoutBtn";
+import { useInboxCount } from "@/contexts/InboxCountContext";  // Import useInboxCount here
 import {
   Sidebar,
   SidebarContent,
@@ -15,30 +16,31 @@ import {
   SidebarMenuItem,
 } from "@/components/ui/sidebar";
 
-
-const items = [
-  {
-    title: "Home",
-    url: "/",
-    icon: Home,
-  },
-  {
-    title: "Inbox",
-    url: "/inbox",
-    icon: Inbox,
-  },
-  {
-    title: "Calendar",
-    url: "/calendar",
-    icon: Calendar,
-  }
-];
-
 const AppSidebar: FC = () => {
   const { isAuthenticated, user } = useAuth();
+  const { totalInboxCount } = useInboxCount();  // Retrieve the unread count from the context
   const [teamsExpanded, setTeamsExpanded] = useState(false);
 
   const toggleTeams = () => setTeamsExpanded((prev) => !prev);
+
+  const items = [
+    {
+      title: "Home",
+      url: "/",
+      icon: Home,
+    },
+    {
+      title: "Inbox",
+      url: "/inbox",
+      icon: Inbox,
+      unreadCount: totalInboxCount,  
+    },
+    {
+      title: "Calendar",
+      url: "/calendar",
+      icon: Calendar,
+    }
+  ];
 
   return (
     <Sidebar className="w-64"> {/* Set fixed width for Sidebar */}
@@ -54,6 +56,11 @@ const AppSidebar: FC = () => {
                     <Link to={item.url} className="flex items-center space-x-2">
                       <item.icon />
                       <span>{item.title}</span>
+                      {item.unreadCount && item.unreadCount > 0 && (
+                        <span className="ml-2 text-xs bg-red-500 text-white rounded-full w-5 h-5 flex items-center justify-center">
+                          {item.unreadCount}
+                        </span>
+                      )}
                     </Link>
                   </SidebarMenuButton>
                 </SidebarMenuItem>
