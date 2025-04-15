@@ -16,6 +16,7 @@ import NotificationListener from "@/components/NotificationListerner";
 import InboxPage from "./pages/Inbox/Inbox";
 import ViewTeamAvailabilities from "./pages/availability/viewTeamAvailabilities";
 import ViewUserAvailabilities from "./pages/availability/viewUserAvailabilities";
+import ViewUsers from "./pages/teams/viewUsers";
 export default function App() {
   const { isAuthenticated } = useAuth();
 
@@ -31,6 +32,7 @@ export default function App() {
         <Route path="/calendar" element={<CalendarsPage />} />
         <Route path="/calendar" element={<CalendarsPage />} />
         <Route path="/teamAvailabilities" element={<ViewTeamAvailabilities />} />
+        <Route path="/employees" element={<ViewUsers />} />
         <Route path="/myAvailability" element={<ViewUserAvailabilities />} />
         
 

@@ -1,5 +1,5 @@
 import instance from "@/config/Api"; // Axios instance
-import { TeamCreate, TeamResponse } from "@/types/team";
+import { TeamCreate, TeamResponse, TeamUsersResponse } from "@/types/team";
 
 // Create a new team
 export const createTeam = async (teamData: TeamCreate): Promise<TeamResponse | null> => {
@@ -17,6 +17,15 @@ export const fetchTeamDetails = async (teamId: number): Promise<TeamResponse | n
     return response.data;
   } catch (error) {
     console.error("Error fetching team details:", error);
+    return null;
+  }
+};
+export const fetchTeamUsers = async (teamId: number): Promise<TeamUsersResponse | null> => {
+  try {
+    const response = await instance.get(`/teams/${teamId}/users`, { withCredentials: true });
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching team users:", error);
     return null;
   }
 };

@@ -37,4 +37,15 @@ export interface Team {
     status: "PENDING" | "ACCEPTED" | "DECLINED";
     created_at: string;
   }
+  export interface TeamUser {
+    id: number;
+    first_name: string;
+    last_name: string;
+    email: string;
+    mobile_number: string; 
+  }
   
+  export interface TeamUsersResponse {
+    team_id: number;
+    users: TeamUser[];
+  }
