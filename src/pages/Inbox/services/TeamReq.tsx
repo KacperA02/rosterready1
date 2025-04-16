@@ -41,3 +41,13 @@ export const fetchPendingInvitations = async (): Promise<TeamInvitation[]> => {
     return [];
   }
 };
+
+export const fetchTeamPendingInvitations = async (): Promise<TeamInvitation[]> => {
+  try {
+    const response = await instance.get(`/invitation/team`);
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching team pending invitations:", error);
+    return [];
+  }
+};

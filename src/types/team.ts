@@ -36,6 +36,8 @@ export interface Team {
     team_id: number;
     status: "PENDING" | "ACCEPTED" | "DECLINED";
     created_at: string;
+    team: {name:string};
+    user:{first_name: string; last_name:string; email:string};
   }
   export interface TeamUser {
     id: number;

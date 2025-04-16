@@ -1,8 +1,10 @@
 import { createContext, useContext, useState, ReactNode } from 'react';
 
+type RefreshPage = 'notifications' | 'user' | 'invitations';
+
 interface GlobalRefreshContextProps {
-  pageToRefresh: 'notifications' | 'user' | null;
-  setPageToRefresh: React.Dispatch<React.SetStateAction<'notifications' | 'user' | null>>;
+  pageToRefresh: { page: RefreshPage; key: number } | null;
+  setPageToRefresh: React.Dispatch<React.SetStateAction<{ page: RefreshPage; key: number } | null>>;
 }
 
 const GlobalRefreshContext = createContext<GlobalRefreshContextProps | undefined>(undefined);
@@ -20,7 +22,7 @@ interface GlobalRefreshProviderProps {
 }
 
 export const GlobalRefreshProvider = ({ children }: GlobalRefreshProviderProps) => {
-  const [pageToRefresh, setPageToRefresh] = useState<'notifications' | 'user' | null>(null);
+  const [pageToRefresh, setPageToRefresh] = useState<{ page: RefreshPage; key: number } | null>(null);
 
   return (
     <GlobalRefreshContext.Provider value={{ pageToRefresh, setPageToRefresh }}>

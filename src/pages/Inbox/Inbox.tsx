@@ -7,13 +7,13 @@ import { UserAvailability } from "@/types/availability";
 import TeamComp from "./components/TeamComp";
 import AvailableComp from "./components/AvailableComp";
 import { useGlobalRefresh } from "@/contexts/GlobalRefreshContext";
-import { useInboxCount } from "@/contexts/InboxCountContext";
 export default function InboxPage() {
   const [invitations, setInvitations] = useState<TeamInvitation[]>([]);
   const [availabilities, setAvailabilities] = useState<UserAvailability[]>([]);
   const { isEmployer } = useRoles();
   const { pageToRefresh, setPageToRefresh } = useGlobalRefresh();
-  const { setTotalInboxCount } = useInboxCount();
+  
+  
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -21,18 +21,17 @@ export default function InboxPage() {
 
         setInvitations(invites);
         setAvailabilities(teamAvails.filter((avail) => !avail.approved));
-        const totalCount = (invites?.length || 0) + (teamAvails?.filter((avail) => !avail.approved)?.length || 0);
-        setTotalInboxCount(totalCount); // 
+        
       } catch (err) {
         console.error("Error fetching inbox data", err);
       }
     };
-
+    
     fetchData();
-  }, [setTotalInboxCount]);
+  }, []);
   useEffect(() => {
     // If the `pageToRefresh` is notifications, re-fetch the data.
-    if (pageToRefresh === 'notifications') {
+    if (pageToRefresh?.page === 'notifications') {
       console.log('Refreshing notifications...');
       const fetchData = async () => {
         try {
@@ -40,17 +39,18 @@ export default function InboxPage() {
 
           setInvitations(invites);
           setAvailabilities(teamAvails.filter((avail) => !avail.approved));
-          const totalCount = (invites?.length || 0) + (teamAvails?.filter((avail) => !avail.approved)?.length || 0);
-          setTotalInboxCount(totalCount); 
+          
+          
         } catch (err) {
           console.error("Error fetching inbox data", err);
         }
       };
 
       fetchData();
-
+      setTimeout(() => {
+        setPageToRefresh({ page: 'invitations', key: Date.now() });
+      }, 50);
       // Reset refresh state after refreshing
-      setPageToRefresh(null);
     }
   }, [pageToRefresh, setPageToRefresh]);
   const handleAvailabilityApprovalToggle = (id: number) => {

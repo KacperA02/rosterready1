@@ -3,6 +3,7 @@ import { useAuth } from "@/contexts/AuthContext";
 import { useState, useEffect } from "react";
 import { Alert, AlertTitle, AlertDescription } from "@/components/ui/alert"; 
 import { useGlobalRefresh } from "@/contexts/GlobalRefreshContext";
+
 const NotificationListener = () => {
   const { token, loading } = useAuth();
   const [message, setMessage] = useState<string | null>(null);
@@ -11,7 +12,8 @@ const NotificationListener = () => {
   const handleMessage = (message: string) => {
     console.log("🧠 WebSocket message received:", message);
     setMessage(message); 
-    setPageToRefresh('notifications'); 
+    setPageToRefresh({ page: 'notifications', key: Date.now() });
+    
   };
 
   const { isConnected } = useWebSocket(!loading ? token : null, handleMessage);

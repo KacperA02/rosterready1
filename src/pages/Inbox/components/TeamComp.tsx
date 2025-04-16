@@ -35,12 +35,9 @@ const TeamComp: React.FC<TeamCompProps> = ({ invitation, setInvitations }) => {
     <Card className="w-full mx-auto shadow-lg">
       <CardContent className="flex items-center justify-between p-4">
         <div>
-          <p className="font-medium">Team #{invitation.team_id}</p>
+          <p className="font-medium">Invite from <b>{invitation.team.name}</b></p>
           <p className="text-sm text-muted-foreground">
-            Invited user: #{invitation.user_id} | Status: {invitation.status}
-          </p>
-          <p className="text-xs text-muted-foreground">
-            {new Date(invitation.created_at).toLocaleString()}
+            Status: {invitation.status}
           </p>
         </div>
         <div className="flex gap-2">
