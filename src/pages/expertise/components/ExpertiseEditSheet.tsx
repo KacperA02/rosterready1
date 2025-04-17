@@ -27,7 +27,7 @@ const ExpertiseEditSheet: React.FC<ExpertiseEditSheetProps> = ({ expertise, onUp
   return (
     <Sheet open={isOpen} onOpenChange={setIsOpen}>
       <SheetTrigger asChild>
-        <Button variant="outline">Edit</Button>
+        <Button className="mt-2" variant="outline">Edit</Button>
       </SheetTrigger>
       <SheetContent>
         <SheetHeader>
