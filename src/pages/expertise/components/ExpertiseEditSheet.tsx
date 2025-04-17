@@ -8,7 +8,7 @@ import { updateExpertise } from "@/pages/expertise/services/ExpertiseService";
 
 interface ExpertiseEditSheetProps {
   expertise: IExpertise;
-  onUpdate: (updatedExpertise: IExpertise) => void;
+  onUpdate: () => void;
 }
 
 const ExpertiseEditSheet: React.FC<ExpertiseEditSheetProps> = ({ expertise, onUpdate }) => {
@@ -19,7 +19,7 @@ const ExpertiseEditSheet: React.FC<ExpertiseEditSheetProps> = ({ expertise, onUp
     if (!name.trim()) return;
     const updatedExpertise = await updateExpertise(expertise.id, { name } as ExpertiseCreate);
     if (updatedExpertise) {
-      onUpdate(updatedExpertise);
+      onUpdate();
       setIsOpen(false);
     }
   };

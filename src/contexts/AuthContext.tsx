@@ -1,7 +1,7 @@
 import { createContext, useContext, useEffect, useState, ReactNode } from "react";
 import Cookies from "js-cookie";
 import { AuthContextType, User } from "@/types/user";
-import { useGlobalRefresh } from "./GlobalRefreshContext";
+
 
 // Create AuthContext
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -11,7 +11,6 @@ interface AuthProviderProps {
 }
 
 export const AuthProvider = ({ children }: AuthProviderProps) => {
-  const { pageToRefresh, setPageToRefresh } = useGlobalRefresh();
   const [user, setUser] = useState<User | null>(null);
   const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(true);
@@ -48,12 +47,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
   }, []);
 
 
-  useEffect(() => {
-    if (pageToRefresh === "user") {
-      decodeAndSetUser();
-      setPageToRefresh(null); 
-    }
-  }, [pageToRefresh, setPageToRefresh]);
+
 
   return (
     <AuthContext.Provider

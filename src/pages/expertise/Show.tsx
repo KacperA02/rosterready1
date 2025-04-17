@@ -9,6 +9,7 @@ const ShowExpertise: React.FC = () => {
   const [loading, setLoading] = useState<boolean>(true);
   const [refreshShifts, setRefreshShifts] = useState(false);
   const [refreshUsers, setRefreshUsers] = useState(false);
+  const [refreshExpertises, setRefreshExpertises] = useState(false);
 
   useEffect(() => {
     const loadExpertises = async () => {
@@ -21,14 +22,15 @@ const ShowExpertise: React.FC = () => {
         setLoading(false);
         setRefreshShifts(false);
         setRefreshUsers(false)
+        setRefreshExpertises(false);
       }
     };
 
     loadExpertises();
-  }, [refreshShifts, refreshUsers]);
+  }, [refreshShifts, refreshUsers,refreshExpertises]);
 
   const handleExpertiseCreated = (newExpertise: IExpertise) => {
-    setExpertises((prev) => [...prev, newExpertise]); // Update list dynamically
+    setExpertises((prev) => [...prev, newExpertise]); 
   };
 
   if (loading) {
@@ -38,16 +40,17 @@ const ShowExpertise: React.FC = () => {
   return (
     <div className="space-y-4">
       {/* Create New Expertise Button */}
-      <div className="flex justify-end">
+      
+      <div className="flex justify-end ">
         <ExpertiseCreateSheet onExpertiseCreated={handleExpertiseCreated} />
       </div>
-
+    
       {/* Expertise List */}
       {expertises.length === 0 ? (
-        <div className="text-gray-500">No expertises available</div>
+        <div className="text-gray-500"><h1>No expertises available</h1></div>
       ) : (
         expertises.map((expertise) => (
-          <ExpertiseCard key={expertise.id} setRefreshShifts={setRefreshShifts} setRefreshUsers={setRefreshUsers}  expertise={expertise} />
+          <ExpertiseCard key={expertise.id} setRefreshShifts={setRefreshShifts} setRefreshUsers={setRefreshUsers}  expertise={expertise}  setRefreshExpertises={setRefreshExpertises} />
         ))
       )}
     </div>

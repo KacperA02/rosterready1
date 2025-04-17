@@ -12,15 +12,15 @@ import { SidebarProvider } from "./components/ui/sidebar";
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
     <BrowserRouter>
+    <GlobalRefreshProvider>
       <InboxCountProvider> 
-        <GlobalRefreshProvider>
           <AuthProvider>
             <SidebarProvider>
               <App />
             </SidebarProvider>
           </AuthProvider>
-        </GlobalRefreshProvider>
       </InboxCountProvider>
+      </GlobalRefreshProvider>
     </BrowserRouter>
   </React.StrictMode>
 );

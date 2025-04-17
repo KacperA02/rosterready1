@@ -17,25 +17,26 @@ import InboxPage from "./pages/Inbox/Inbox";
 import ViewTeamAvailabilities from "./pages/availability/viewTeamAvailabilities";
 import ViewUserAvailabilities from "./pages/availability/viewUserAvailabilities";
 import ViewUsers from "./pages/teams/viewUsers";
+import { useRoles } from "./hooks/useRoles";
 export default function App() {
   const { isAuthenticated } = useAuth();
-
+  const { isEmployer } = useRoles(); 
   let protectedRoutes;
   if (isAuthenticated) {
     protectedRoutes = (
       <>
         <Route path="/teams" element={<TeamDetails />} />
         <Route path="/teams/create" element={<CreateTeam />} />
-        {/* <Route path='/teams/shift/create' element={<CreateShift onClose={() => console.log('Close action triggered')} />}/> */}
-        <Route path='/teams/shifts' element={<ShowShift/>}/>
-        <Route path='/teams/expertise' element={<ShowExpertise/>}/>
         <Route path="/calendar" element={<CalendarsPage />} />
-        <Route path="/calendar" element={<CalendarsPage />} />
-        <Route path="/teamAvailabilities" element={<ViewTeamAvailabilities />} />
-        <Route path="/employees" element={<ViewUsers />} />
         <Route path="/myAvailability" element={<ViewUserAvailabilities />} />
-        
-
+        {isEmployer() && (
+          <>
+          <Route path="/employees" element={<ViewUsers />} />
+          <Route path="/teamAvailabilities" element={<ViewTeamAvailabilities />} />
+          <Route path='/teams/shifts' element={<ShowShift/>}/>
+          <Route path='/teams/expertise' element={<ShowExpertise/>}/>
+          </>
+        )}
       </>
     );
   }

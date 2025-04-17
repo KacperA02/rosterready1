@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { TeamUsersResponse, TeamUser } from "@/types/team";
+import { TeamUser } from "@/types/team";
 import { fetchTeamUsers, inviteUserToTeam } from "./services/TeamService";
 import EmployeeComp from "./components/EmployeeComp";
 import { useAuth } from "@/contexts/AuthContext";

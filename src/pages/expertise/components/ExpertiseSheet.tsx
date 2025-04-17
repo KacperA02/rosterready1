@@ -22,16 +22,16 @@ const ExpertiseCreateSheet: React.FC<ExpertiseCreateSheetProps> = ({ onExpertise
     const createdExpertise = await createExpertise(expertiseData);
 
     if (createdExpertise) {
-      onExpertiseCreated(createdExpertise); // Pass data back to parent
-      setNewExpertise(""); // Reset input field
-      setIsOpen(false); // Close Sheet
+      onExpertiseCreated(createdExpertise); 
+      setNewExpertise(""); 
+      setIsOpen(false);
     }
   };
 
   return (
     <Sheet open={isOpen} onOpenChange={setIsOpen}>
       <SheetTrigger asChild>
-        <Button variant="default">Create New Expertise</Button>
+        <Button className="text-black" variant="default">Create New Expertise</Button>
       </SheetTrigger>
       <SheetContent>
         <SheetHeader>

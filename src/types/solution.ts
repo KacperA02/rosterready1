@@ -38,6 +38,7 @@ export interface Week {
     user: AssignmentUser | null;
     shift: AssignmentShift | null;
     day: AssignmentDay | null;
+    solution_id: number;
   }
   
   

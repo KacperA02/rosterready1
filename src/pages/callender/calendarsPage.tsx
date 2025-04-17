@@ -4,8 +4,10 @@ import { fetchShifts } from "./services/ShiftService";
 import { fetchAllSolutions, fetchSingleSolution } from "./services/AssignmentService";
 import { ShiftEvent } from "@/types/shift";
 import { Solution, SolutionAssignment } from "@/types/solution";
-
+import { useRoles } from "@/hooks/useRoles";
 const CalendarsPage: React.FC = () => {
+  // Check if the user is an employer
+  const { isEmployer } = useRoles();
   // State to store events to display in the calendar component
   const [viewEvents, setViewEvents] = useState<ShiftEvent[]>([]);
 
@@ -49,9 +51,13 @@ const CalendarsPage: React.FC = () => {
       for (const solution of allSolutions) {
         const startDate = new Date(solution.week.start_date);
         const startDateStr = getStartOfWeek(startDate).toISOString().split("T")[0];
+        
 
         // request to fetch assignments for the current solution
         const assignments: SolutionAssignment[] | null = await fetchSingleSolution(solution.id);
+        if (solution.status === "DRAFT" && !isEmployer()) {
+          continue;
+        }
         if (!assignments) continue;
 
         // adding the start date of the week to the filledWeeks set to avoid duplicates
@@ -104,7 +110,6 @@ const CalendarsPage: React.FC = () => {
             first_name: a.user?.first_name ?? "Not",
             last_name: a.user?.last_name ?? "Generated",
           }));
-
           // Add shift event to the list
           solutionEvents.push({
             id: shift.id,
@@ -115,7 +120,10 @@ const CalendarsPage: React.FC = () => {
             no_of_users: assignmentsForKey.length,
             users,
             locked: firstAssignment.locked,
-            isGenerated: true
+            isGenerated: true,
+            solution_id: solution.id,
+            status: solution.status,
+
           });
         });
       }
@@ -172,7 +180,9 @@ const CalendarsPage: React.FC = () => {
               title: shift.name,
               no_of_users: shift.no_of_users,
               users: undefined,
-              isGenerated:false
+              isGenerated:false,
+              solution_id: undefined,
+              status: undefined,
             });
 
             // Move to the next week

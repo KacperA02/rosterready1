@@ -10,6 +10,8 @@ import { useAuth } from "@/contexts/AuthContext";
 import {
 	createSchedule,
 	fetchWeekByStartDate,
+	acceptSolution,
+	declineSolution,
 } from "../services/AssignmentService";
 const locales = { "en-US": enUS };
 const localizer = dateFnsLocalizer({
@@ -19,7 +21,7 @@ const localizer = dateFnsLocalizer({
 	getDay,
 	locales,
 });
-
+import { useRoles } from "@/hooks/useRoles";
 interface CalendarEvent {
 	id: number;
 	title: string;
@@ -29,6 +31,8 @@ interface CalendarEvent {
 	locked?: boolean;
 	trueEnd?: Date;
 	isGenerated?: boolean;
+	solution_id?: number;
+	status?: string;
 }
 
 interface CalendarProps {
@@ -47,6 +51,10 @@ const CalendarComponent: React.FC<CalendarProps> = ({
 	const { user } = useAuth();
 	const [loading, setLoading] = useState(false);
 	const [progress, setProgress] = useState(0);
+	const [currentWeekSolutionId, setCurrentWeekSolutionId] = useState<number | null>(null);
+	const [currentWeekStatus, setCurrentWeekStatus] = useState<string | null>(null);
+	const [actionLoading, setActionLoading] = useState(false);
+	const {  isEmployer } = useRoles();
 
 	// Check if all events in the current week's range have isGenerated: false
 	const checkIfAllEventsAreGeneratedFalse = (
@@ -72,6 +80,18 @@ const CalendarComponent: React.FC<CalendarProps> = ({
 			endOfWeekDate.setDate(startOfWeekDate.getDate() + 6);
 
 			checkIfAllEventsAreGeneratedFalse(startOfWeekDate, endOfWeekDate);
+			const solutionEvent = events.find(
+				(event) =>
+					event.isGenerated &&
+					isWithinInterval(event.start, {
+						start: startOfWeekDate,
+						end: endOfWeekDate,
+					}) &&
+					event.solution_id !== undefined
+			);
+			setCurrentWeekStatus(solutionEvent?.status ?? null);
+			setCurrentWeekSolutionId(solutionEvent?.solution_id ?? null);
+			console.log("Current Week Solution ID:", currentWeekSolutionId);
 		}
 	}, [currentDate, currentView, events]);
 
@@ -125,56 +145,120 @@ const CalendarComponent: React.FC<CalendarProps> = ({
 			setProgress(0);
 		}
 	};
-
+	const handleAcceptSolution = async () => {
+		if (!currentWeekSolutionId) return;
+	
+		setActionLoading(true);
+		const success = await acceptSolution(currentWeekSolutionId);
+		setActionLoading(false);
+	
+		if (success) {
+			alert(`Solution ${currentWeekSolutionId} accepted.`);
+			setRefreshCalendar(true);
+		} else {
+			alert("Failed to accept the solution.");
+		}
+	};
+	
+	const handleDeclineSolution = async () => {
+		if (!currentWeekSolutionId) return;
+	
+		if (!confirm("Are you sure you want to decline this solution?")) return;
+	
+		setActionLoading(true);
+		const success = await declineSolution(currentWeekSolutionId);
+		setActionLoading(false);
+	
+		if (success) {
+			alert(`Solution ${currentWeekSolutionId} declined.`);
+			setRefreshCalendar(true);
+		} else {
+			alert("Failed to decline the solution.");
+		}
+	};
+	
 	return (
-		<div className="bg-gray-100 pb-20 mt-5 pt-5 rounded-lg shadow-md">
-			<div style={{ height: 600 }}>
+		<div className="pb-20 mt-4 rounded-lg shadow-md">
+		  <div style={{ height: 600 }}>
+			{/* Buttons only show if isEmployer is true */}
+			{isEmployer() && (
+			  <div className="flex justify-end items-center mb-4 space-x-4">
 				{showRandomButton && (
-					<div className="space-y-4">
-						<Button
-							variant={"secondary"}
-							onClick={handleGenerateSchedule}
-							disabled={loading}
-						>
-							{loading ? "Generating..." : "Generate Schedule"}
-						</Button>
-						{loading && <Progress value={progress} className="h-2" />}
-					</div>
+				  <div className="space-y-4">
+					<Button
+					  variant={"secondary"}
+					  onClick={handleGenerateSchedule}
+					  disabled={loading}
+					>
+					  {loading ? "Generating..." : "Generate Schedule"}
+					</Button>
+					{loading && <Progress value={progress} className="h-2" />}
+				  </div>
 				)}
-				{loading && (
-					<div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-40 z-50">
-						<div className="w-1/3 bg-white p-6 rounded-lg shadow-lg">
-							<p className="text-center mb-4 font-medium text-gray-800">
-								Generating Schedule...
-							</p>
-							<Progress value={progress} className="h-3 bg-green-200">
-								<div
-									className="bg-green-500 h-full transition-all duration-300 ease-in-out"
-									style={{ width: `${progress}%` }}
-								/>
-							</Progress>
-						</div>
+				{currentView === "week" &&
+				  currentWeekSolutionId &&
+				  currentWeekStatus === "DRAFT" && (
+					<div>
+					  <Button
+						className="text-black"
+						variant="default"
+						onClick={handleAcceptSolution}
+						disabled={actionLoading}
+					  >
+						{actionLoading ? "Accepting..." : "Accept Solution"}
+					  </Button>
+					  <Button
+						className="text-black"
+						variant="destructive"
+						onClick={handleDeclineSolution}
+						disabled={actionLoading}
+					  >
+						{actionLoading ? "Declining..." : "Decline Solution"}
+					  </Button>
 					</div>
-				)}
-
-				<Calendar
-					localizer={localizer}
-					events={events}
-					startAccessor="start"
-					endAccessor="end"
-					selectable="ignoreEvents"
-					style={{ backgroundColor: "white" }}
-					view={currentView}
-					onView={setCurrentView}
-					date={currentDate}
-					onNavigate={setCurrentDate}
-					components={{
-						event: (props) => <EventComponent {...props} view={currentView} />,
-					}}
-				/>
-			</div>
+				  )}
+			  </div>
+			)}
+	  
+			{/* Loader */}
+			{loading && (
+			  <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-40 z-50">
+				<div className="w-1/3 bg-white p-6 rounded-lg shadow-lg">
+				  <p className="text-center mb-4 font-medium text-gray-800">
+					Generating Schedule...
+				  </p>
+				  <Progress value={progress} className="h-3 bg-green-200">
+					<div
+					  className="bg-green-500 h-full transition-all duration-300 ease-in-out"
+					  style={{ width: `${progress}%` }}
+					/>
+				  </Progress>
+				</div>
+			  </div>
+			)}
+	  
+			{/* Calendar always renders */}
+			<Calendar
+			  localizer={localizer}
+			  events={events}
+			  startAccessor="start"
+			  endAccessor="end"
+			  selectable="ignoreEvents"
+			  style={{ backgroundColor: "white" }}
+			  view={currentView}
+			  onView={setCurrentView}
+			  date={currentDate}
+			  onNavigate={setCurrentDate}
+			  components={{
+				event: (props) => (
+				  <EventComponent {...props} view={currentView} />
+				),
+			  }}
+			/>
+		  </div>
 		</div>
-	);
+	  );
+	  
 };
 
 export default CalendarComponent;

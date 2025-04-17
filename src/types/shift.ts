@@ -40,4 +40,6 @@ export interface ShiftCreate {
   locked?: boolean;
   isGenerated?: boolean; 
   users?: { first_name: string; last_name: string }[];
+  solution_id?: number;
+  status?: string;
 }

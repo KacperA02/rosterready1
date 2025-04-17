@@ -5,6 +5,7 @@ import { Trash2 } from "lucide-react";
 import { UserAvailability } from "@/types/availability";
 import { deleteUserAvailability } from "@/pages/availability/services/userAvailabilities";
 
+
 interface Props {
   availability: UserAvailability;
   onDeleted?: () => void; 
@@ -17,7 +18,7 @@ const UserAvailCard: FC<Props> = ({ availability, onDeleted }) => {
     setIsDeleting(true);
     try {
       await deleteUserAvailability(availability.id);
-      onDeleted?.(); // notify parent 
+      onDeleted?.(); 
     } catch (err) {
       console.error("Failed to delete availability", err);
     } finally {

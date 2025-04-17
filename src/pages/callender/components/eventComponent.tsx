@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 
 import { View } from "react-big-calendar";
+import { useRoles } from "@/hooks/useRoles";
 
 interface EventProps {
 	event: {
@@ -13,6 +14,7 @@ interface EventProps {
 		locked?: boolean;
 		trueEnd?: Date;
 		start?: Date;
+		status?: string;
 	};
 	view?: View;
 }
@@ -24,6 +26,7 @@ const EventComponent: React.FC<EventProps> = ({ event, view = "week" }) => {
 		setIsLocked(!isLocked);
 		// need to add call to actually lock/unlock the event in the backend
 	};
+	const {  isEmployer } = useRoles();
 
 	const cardClass = isLocked
 		? "bg-red-100 border-red-500 text-red-800"
@@ -77,7 +80,7 @@ const EventComponent: React.FC<EventProps> = ({ event, view = "week" }) => {
 
 				
 
-				{event.users !== undefined && (
+				{event.users !== undefined && event.status !== "ACTIVE" && isEmployer() && (
 					<div className="pt-1">
 						<Button
 							variant="outline"

@@ -43,3 +43,23 @@ export const fetchWeekByStartDate = async (startDate: string) => {
     return null;
   }
 };
+
+export const acceptSolution = async (solutionId: number): Promise<boolean> => {
+  try {
+    const response = await instance.post(`/solutions/accept/${solutionId}`);
+    return response.status === 200;
+  } catch (error) {
+    console.error("Error accepting solution:", error);
+    return false;
+  }
+};
+
+export const declineSolution = async (solutionId: number): Promise<boolean> => {
+  try {
+    const response = await instance.delete(`/solutions/decline/${solutionId}`);
+    return response.status === 200;
+  } catch (error) {
+    console.error("Error declining solution:", error);
+    return false;
+  }
+};
