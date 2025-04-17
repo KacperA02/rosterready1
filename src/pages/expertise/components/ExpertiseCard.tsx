@@ -68,7 +68,7 @@ const ExpertiseCard: React.FC<ExpertiseCardProps> = ({
 								<div key={user.id} className="relative group">
 									<div
 										// tags
-										className="w-8 h-8 flex items-center justify-center bg-blue-500 text-white rounded-full text-sm cursor-pointer"
+										className="w-8 h-8 flex items-center justify-center bg-primary text-primary-foreground rounded-full text-sm cursor-pointer"
 										title={`${user.first_name} ${user.last_name}`}
 									>
 										{getUserInitials(user)}
@@ -91,7 +91,7 @@ const ExpertiseCard: React.FC<ExpertiseCardProps> = ({
 								<div key={shift.id} className="relative group">
 									<div
 										// tags
-										className="w-8 h-8 flex items-center justify-center bg-green-500 text-white rounded-full text-sm cursor-pointer"
+										className="w-8 h-8 flex items-center justify-center bg-primary text-primary-foreground rounded-full text-sm cursor-pointer"
 										title={shift.name}
 									>
 										{getShiftInitials(shift.name)}

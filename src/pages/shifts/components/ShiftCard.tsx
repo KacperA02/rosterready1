@@ -30,7 +30,7 @@ const ShiftCard: React.FC<ShiftCardProps> = ({ shift }) => {
 							{days.map((day) => (
 								<div key={day.id} className="relative group">
 									<div
-										className="w-8 h-8 flex items-center justify-center bg-blue-500 text-white rounded-full text-sm cursor-pointer"
+										className="w-8 h-8 flex items-center justify-center bg-primary text-primary-foreground rounded-full text-sm cursor-pointer"
 										title={day.name}
 									>
 										{day.name.slice(0, 2).toUpperCase()}

@@ -178,7 +178,7 @@ const CalendarComponent: React.FC<CalendarProps> = ({
 	};
 	
 	return (
-		<div className="pb-20 mt-4 rounded-lg shadow-md">
+		<div className="pb-20 mb-4 mt-4 rounded-lg shadow-md">
 		  <div style={{ height: 600 }}>
 			{/* Buttons only show if isEmployer is true */}
 			{isEmployer() && (
@@ -186,7 +186,7 @@ const CalendarComponent: React.FC<CalendarProps> = ({
 				{showRandomButton && (
 				  <div className="space-y-4">
 					<Button
-					  variant={"secondary"}
+					  variant={"default"}
 					  onClick={handleGenerateSchedule}
 					  disabled={loading}
 					>
