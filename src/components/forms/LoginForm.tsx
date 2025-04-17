@@ -24,20 +24,12 @@ const LoginForm = () => {
     try {
       const response = await axios.post<{ access_token: string }>("/auth/login", form);
       const { access_token } = response.data;
-
-      
       Cookies.set("access_token", access_token, { expires: 7 });
-
-      
       const decodedUser = JSON.parse(atob(access_token.split(".")[1]));
-
-     
       console.log("Decoded User:", decodedUser);
 
-     
       setUser(decodedUser);
       setIsAuthenticated(true);
-
       navigate("/");
       window.location.reload();
     } catch (err: any) {
@@ -73,7 +65,7 @@ const LoginForm = () => {
         Login
       </Button>
       <p className="mt-2">
-        or <b><Link to="/register" className="text-blue-500 hover:underline">Register</Link></b>
+        or <b><Link to="/register">Register</Link></b>
       </p>
     </div>
   );

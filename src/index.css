@@ -175,7 +175,7 @@ button.link:hover {
 .rbc-event {
   background-color: hsl(var(--primary));
   color: hsl(var(--primary-foreground));
-  border-radius: var(--radius);
+  
   padding: 0.5rem;
   font-size: 0.875rem;
   line-height: 1.25rem;
@@ -193,8 +193,17 @@ button.link:hover {
   display: flex;
   align-items: center;
   justify-content: center;
+  text-align: center;
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+  font-weight: 500;
+  color: hsl(var(--primary-foreground));
+  background-color: hsl(var(--primary));
 }
-
+.rbc-day-slot .rbc-event, .rbc-day-slot .rbc-background-event {
+  border: 1px solid hsl(var(--muted));
+ 
+}
 
 :root {
   --radius-sm: calc(var(--radius) - 4px);

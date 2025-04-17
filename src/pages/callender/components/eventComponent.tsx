@@ -49,7 +49,7 @@ const EventComponent: React.FC<EventProps> = ({ event, view = "week" }) => {
 	return (
 		<Card className={`w-full border rounded-lg shadow-sm p-2 mb-2 ${cardClass}`}>
 			<CardHeader className="p-1">
-				<CardTitle className="font-semibold text-black truncate">
+				<CardTitle className="font-semibold capitalize text-black truncate">
 					{event.title}
 					{formattedTime && (
 					<p className="text-xs text-gray-600">

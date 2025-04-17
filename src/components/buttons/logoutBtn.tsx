@@ -8,16 +8,16 @@ const LogoutButton = () => {
   const navigate = useNavigate();
 
   const handleLogout = () => {
-    Cookies.remove("access_token"); // Remove token from cookies
-    setUser(null); // Clear user state
-    setIsAuthenticated(false); // Mark as not authenticated
-    navigate("/login"); // Redirect to login page
+    Cookies.remove("access_token"); 
+    setUser(null); 
+    setIsAuthenticated(false); 
+    navigate("/login"); 
   };
 
   return (
     <Button
       onClick={handleLogout}
-      className="text-black p-2 rounded-md w-32 hover:bg-red-600"
+      variant={"secondary"}
     >
       Logout
     </Button>
