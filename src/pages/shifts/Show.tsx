@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { ShiftResponse } from "@/types/shift";
 import { fetchShifts } from "./services/ShiftService";
 import ShiftCard from "./components/ShiftCard";
