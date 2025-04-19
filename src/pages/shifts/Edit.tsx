@@ -1,5 +1,8 @@
 import { useState, useEffect } from "react";
-import { fetchShiftById, updateShift } from "@/pages/callender/services/ShiftService";
+import {
+	fetchShiftById,
+	updateShift,
+} from "@/pages/shifts/services/ShiftService";
 import { ShiftResponse } from "@/types/shift";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
@@ -11,7 +14,11 @@ interface EditShiftProps {
 	onClose: () => void;
 }
 
-const EditShift: React.FC<EditShiftProps> = ({ shiftId, onShiftUpdated, onClose }) => {
+const EditShift: React.FC<EditShiftProps> = ({
+	shiftId,
+	onShiftUpdated,
+	onClose,
+}) => {
 	const [shift, setShift] = useState<ShiftResponse | null>(null);
 	const [loading, setLoading] = useState(false);
 	const [error, setError] = useState<string | null>(null);
@@ -33,7 +40,9 @@ const EditShift: React.FC<EditShiftProps> = ({ shiftId, onShiftUpdated, onClose 
 		loadShift();
 	}, [shiftId]);
 
-	const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+	const handleChange = (
+		e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+	) => {
 		if (shift) {
 			setShift({ ...shift, [e.target.name]: e.target.value });
 		}
@@ -66,35 +75,77 @@ const EditShift: React.FC<EditShiftProps> = ({ shiftId, onShiftUpdated, onClose 
 			<h2 className="text-2xl font-semibold mb-4">Edit Shift</h2>
 			<form onSubmit={handleSubmit}>
 				<div className="mb-4">
-					<label htmlFor="name" className="block text-sm font-medium text-gray-700">
+					<label
+						htmlFor="name"
+						className="block text-sm font-medium text-gray-700"
+					>
 						Shift Name
 					</label>
-					<Input type="text" id="name" name="name" value={shift.name} onChange={handleChange} required />
+					<Input
+						type="text"
+						id="name"
+						name="name"
+						value={shift.name}
+						onChange={handleChange}
+						required
+					/>
 				</div>
 
 				<div className="mb-4">
-					<label htmlFor="time_start" className="block text-sm font-medium text-gray-700">
+					<label
+						htmlFor="time_start"
+						className="block text-sm font-medium text-gray-700"
+					>
 						Start Time
 					</label>
-					<Input type="time" id="time_start" name="time_start" value={shift.time_start} onChange={handleChange} required />
+					<Input
+						type="time"
+						id="time_start"
+						name="time_start"
+						value={shift.time_start}
+						onChange={handleChange}
+						required
+					/>
 				</div>
 
 				<div className="mb-4">
-					<label htmlFor="time_end" className="block text-sm font-medium text-gray-700">
+					<label
+						htmlFor="time_end"
+						className="block text-sm font-medium text-gray-700"
+					>
 						End Time
 					</label>
-					<Input type="time" id="time_end" name="time_end" value={shift.time_end} onChange={handleChange} required />
+					<Input
+						type="time"
+						id="time_end"
+						name="time_end"
+						value={shift.time_end}
+						onChange={handleChange}
+						required
+					/>
 				</div>
 
 				<div className="mb-4">
-					<label htmlFor="task" className="block text-sm font-medium text-gray-700">
+					<label
+						htmlFor="task"
+						className="block text-sm font-medium text-gray-700"
+					>
 						Task (optional)
 					</label>
-					<Textarea id="task" name="task" value={shift.task || ""} onChange={handleChange} placeholder="Optional task description" />
+					<Textarea
+						id="task"
+						name="task"
+						value={shift.task || ""}
+						onChange={handleChange}
+						placeholder="Optional task description"
+					/>
 				</div>
 
 				<div className="mb-4">
-					<label htmlFor="no_of_users" className="block text-sm font-medium text-gray-700">
+					<label
+						htmlFor="no_of_users"
+						className="block text-sm font-medium text-gray-700"
+					>
 						Number of Users
 					</label>
 					<Input
@@ -109,7 +160,11 @@ const EditShift: React.FC<EditShiftProps> = ({ shiftId, onShiftUpdated, onClose 
 					/>
 				</div>
 
-				<Button type="submit" disabled={loading} className="w-full bg-blue-500 text-white py-2 rounded-md hover:bg-blue-600">
+				<Button
+					type="submit"
+					disabled={loading}
+					className="w-full bg-blue-500 text-white py-2 rounded-md hover:bg-blue-600"
+				>
 					{loading ? "Updating..." : "Update Shift"}
 				</Button>
 			</form>

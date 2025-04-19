@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { ShiftResponse } from "@/types/shift";
-import { fetchShifts } from "../callender/services/ShiftService";
+import { fetchShifts } from "./services/ShiftService";
 import ShiftCard from "./components/ShiftCard";
 import { Button } from "@/components/ui/button"; // Import ShadCN Button
 
