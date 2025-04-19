@@ -45,6 +45,33 @@ export const inviteUserToTeam = async (identifier: string): Promise<boolean> => 
     throw new Error(errorMessage);
   }
 };
+
+export const updateTeamName = async (
+  teamId: number,
+  teamData: TeamCreate
+): Promise<TeamResponse | null> => {
+  try {
+    const response = await instance.put(`/teams/${teamId}/edit`, teamData, {
+      withCredentials: true,
+    });
+    return response.data;
+  } catch (error) {
+    console.error("Error updating team name:", error);
+    return null;
+  }
+};
+
+export const deleteTeam = async (teamId: number): Promise<boolean> => {
+  try {
+    await instance.delete(`/teams/${teamId}`, { withCredentials: true });
+    return true;
+  } catch (error) {
+    console.error("Error deleting team:", error);
+    return false;
+  }
+};
+
+
 // export const fetchPendingInvitationsForTeam = async (): Promise<TeamInvitationResponse[] | null> => {
 //   try {
 //     const response = await instance.get(`/invitation/team`, { withCredentials: true });

@@ -2,12 +2,15 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "@/contexts/AuthContext";
 import { useRoles } from "@/hooks/useRoles";
-import { fetchTeamDetails } from "./services/TeamService";
+import { fetchTeamDetails, updateTeamName, deleteTeam } from "./services/TeamService";
 import { TeamResponse } from "@/types/team";
 import { Card, CardContent } from "@/components/ui/card";
+import { Dialog, DialogContent, DialogFooter } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import WhatToDoSection from "./components/WhatToDoSec";
 import EmployeeWhatToDoSection from "./components/EmployeeWhatToDoSec";
+import Cookies from "js-cookie";
+
 
 const TeamDetails = () => {
 	const navigate = useNavigate();
@@ -15,6 +18,9 @@ const TeamDetails = () => {
 	const { isAdmin, isEmployer, isEmployee } = useRoles();
 	const [team, setTeam] = useState<TeamResponse | null>(null);
 	const [error, setError] = useState<string>("");
+	const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState<boolean>(false);
+	const [isUpdateDialogOpen, setIsUpdateDialogOpen] = useState<boolean>(false); 
+	const [newTeamName, setNewTeamName] = useState<string>("");
 
 	useEffect(() => {
 		const loadTeam = async () => {
@@ -32,6 +38,45 @@ const TeamDetails = () => {
 
 		loadTeam();
 	}, [user, navigate]);
+
+	// dialogs
+	const handleUpdateTeamName = async () => {
+		if (!team) return;
+		setIsUpdateDialogOpen(true);
+	};
+
+	const handleDeleteTeam = async () => {
+		if (!team) return;
+		setIsDeleteDialogOpen(true);
+	};
+
+	const confirmDelete = async () => {
+		if (!team) return;
+
+		const success = await deleteTeam(team.id);
+		if (success) {
+			Cookies.remove("access_token");
+			navigate("/login");
+			window.location.reload();
+			navigate("/");
+		} else {
+			alert("Failed to delete team.");
+		}
+
+		setIsDeleteDialogOpen(false); 
+	};
+
+	const handleUpdateTeamNameSubmit = async () => {
+		if (!team || !newTeamName.trim()) return;
+
+		const updatedTeam = await updateTeamName(team.id, { name: newTeamName });
+		if (updatedTeam) {
+			setTeam(updatedTeam);
+		} else {
+			alert("Failed to update team name.");
+		}
+		setIsUpdateDialogOpen(false); 
+	};
 
 	if (error) {
 		return <div className="text-red-500">{error}</div>;
@@ -79,12 +124,16 @@ const TeamDetails = () => {
 
 						{(isAdmin() || isEmployer()) && (
 							<div className="flex flex-col sm:flex-row gap-4 flex-wrap">
-								<Button className="w-full sm:w-auto sm:flex-1 text-black">
+								<Button
+									className="w-full sm:w-auto sm:flex-1 text-black"
+									onClick={handleUpdateTeamName}
+								>
 									Change Team Name
 								</Button>
 								<Button
 									variant="destructive"
 									className="w-full text-black sm:w-auto sm:flex-1"
+									onClick={handleDeleteTeam}
 								>
 									Delete Team
 								</Button>
@@ -95,6 +144,41 @@ const TeamDetails = () => {
 			</Card>
 			{isEmployer() && <WhatToDoSection />}
 			{isEmployee() && <EmployeeWhatToDoSection />}
+
+			{/* Update Team Name Dialog */}
+			<Dialog open={isUpdateDialogOpen} onOpenChange={setIsUpdateDialogOpen}>
+				<DialogContent className="bg-white">
+					<h3 className="text-xl font-semibold">Update Team Name</h3>
+					<input
+						type="text"
+						value={newTeamName}
+						onChange={(e) => setNewTeamName(e.target.value)}
+						placeholder="Enter new team name"
+						className="w-full p-2 mt-2 border rounded-md"
+					/>
+					<DialogFooter>
+						<Button onClick={handleUpdateTeamNameSubmit}>Update</Button>
+						<Button variant="outline" onClick={() => setIsUpdateDialogOpen(false)}>
+							Cancel
+						</Button>
+					</DialogFooter>
+				</DialogContent>
+			</Dialog>
+
+			{/* Delete Team Confirmation Dialog */}
+			<Dialog open={isDeleteDialogOpen} onOpenChange={setIsDeleteDialogOpen}>
+				<DialogContent className="bg-white">
+					<h3 className="text-xl font-semibold">Are you sure you want to delete this team?</h3>
+					<DialogFooter>
+						<Button variant="destructive" onClick={confirmDelete}>
+							Delete
+						</Button>
+						<Button variant="outline" onClick={() => setIsDeleteDialogOpen(false)}>
+							Cancel
+						</Button>
+					</DialogFooter>
+				</DialogContent>
+			</Dialog>
 		</div>
 	);
 };

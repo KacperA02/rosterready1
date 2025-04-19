@@ -3,6 +3,7 @@ import { createTeam } from "./services/TeamService";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useNavigate } from "react-router-dom";
+import Cookies from "js-cookie";
 
 const CreateTeam = () => {
   const [teamName, setTeamName] = useState("");
@@ -26,7 +27,9 @@ const CreateTeam = () => {
 
       if (response) {
         alert("Team created successfully!");
-        navigate("/teams"); 
+        Cookies.remove("access_token");
+        navigate("/login");
+        window.location.reload();
       } else {
         setError("Failed to create team. Please try again.");
       }
