@@ -63,3 +63,23 @@ export const declineSolution = async (solutionId: number): Promise<boolean> => {
     return false;
   }
 };
+
+export const regenerateSolution = async (solutionId: number) => {
+  try {
+    const response = await instance.post(`/schedule/regenerate/${solutionId}`);
+    return response.data;
+  } catch (error) {
+    console.error("Error regenerating solution:", error);
+    return null;
+  }
+};
+
+export const toggleAssignmentLock = async (assignmentId: number): Promise<boolean> => {
+  try {
+    const response = await instance.put(`/assignments/specific/${assignmentId}/lock`);
+    return response.status === 200;
+  } catch (error) {
+    console.error("Error toggling assignment lock status:", error);
+    return false;
+  }
+};

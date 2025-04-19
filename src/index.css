@@ -53,9 +53,8 @@ button {
   padding: 0.6em 1.2em;
   font-size: 1rem;
   font-weight: 500;
+  margin-left: 2px;
   font-family: inherit;
-  color: hsl(var(--primary-foreground));
-  background-color: hsl(var(--primary));
   border: 1px solid transparent;
   border-radius: var(--radius);
   cursor: pointer;
@@ -153,6 +152,22 @@ button.link {
 }
 
 button.link:hover {
+  text-decoration: underline;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  transform: scale(1.05);
+  z-index: 10;
+  border-radius: var(--radius);
+  border: 1px solid hsl(var(--primary));
+  text-decoration: none;
+  text-align: center;
+}
+
+button.accent {
+  background-color: var(--accent);
+  text-decoration: underline;
+}
+
+button.accent:hover {
   text-decoration: underline;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
   transform: scale(1.05);

@@ -121,6 +121,7 @@ const CalendarsPage: React.FC = () => {
 					// Add shift event to the list
 					solutionEvents.push({
 						id: shift.id,
+						assignment_id: firstAssignment.assignment_id,
 						start: dayStart,
 						end: visualEnd,
 						trueEnd,
@@ -188,6 +189,7 @@ const CalendarsPage: React.FC = () => {
 							id: shift.id,
 							start: dayStart,
 							end: visualEnd,
+							assignment_id:undefined,
 							trueEnd,
 							title: shift.name,
 							no_of_users: shift.no_of_users,

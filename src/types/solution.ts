@@ -33,7 +33,8 @@ export interface Week {
   }
   
   export interface SolutionAssignment {
-    assignment_id: number;
+    id:number;
+    assignment_id:number;
     locked: boolean;
     user: AssignmentUser | null;
     shift: AssignmentShift | null;
@@ -43,5 +44,5 @@ export interface Week {
   
   
   
-//   export interface SingleAssignmentResponse extends SolutionAssignment {}
+
   

@@ -36,6 +36,7 @@ export interface ShiftCreate {
   end: Date;
   title: string;
   no_of_users: number;
+  assignment_id?: number;
   trueEnd: Date;
   locked?: boolean;
   isGenerated?: boolean; 

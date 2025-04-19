@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
+import { toggleAssignmentLock } from "../services/AssignmentService";
 
 import { View } from "react-big-calendar";
 import { useRoles } from "@/hooks/useRoles";
@@ -9,6 +10,8 @@ import { useRoles } from "@/hooks/useRoles";
 interface EventProps {
 	event: {
 		title: string;
+		id: number; 
+		assignment_id?:number;
 		no_of_users?: number;
 		users?: { first_name: string; last_name: string }[];
 		locked?: boolean;
@@ -22,9 +25,20 @@ interface EventProps {
 const EventComponent: React.FC<EventProps> = ({ event, view = "week" }) => {
 	const [isLocked, setIsLocked] = useState(event?.locked || false);
 
-	const handleLockToggle = () => {
-		setIsLocked(!isLocked);
-		// need to add call to actually lock/unlock the event in the backend
+	const handleLockToggle = async () => {
+		if (!event?.assignment_id) {
+			console.warn("Cannot toggle lock: No assignment_id.");
+			return;
+		}
+	
+		const success = await toggleAssignmentLock(event.assignment_id);
+	
+		if (success) {
+			setIsLocked((prev) => !prev);
+			console.log("Toggled lock for assignment_id:", event.assignment_id);
+		} else {
+			console.error("Failed to toggle lock for assignment_id:", event.assignment_id);
+		}
 	};
 	const {  isEmployer } = useRoles();
 
@@ -83,9 +97,9 @@ const EventComponent: React.FC<EventProps> = ({ event, view = "week" }) => {
 				{event.users !== undefined && event.status !== "ACTIVE" && isEmployer() && (
 					<div className="pt-1">
 						<Button
-							variant="outline"
+							variant="secondary"
 							onClick={handleLockToggle}
-							className={`h-7 px-3 text-xs ${buttonClass}`}
+							className={`h-7 px-3 text-xs ${buttonClass} `}
 						>
 							{isLocked ? "🔒 Locked" : "🔓 Unlocked"}
 						</Button>
