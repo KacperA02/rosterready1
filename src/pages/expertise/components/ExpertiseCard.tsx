@@ -5,6 +5,12 @@ import { IExpertise } from "@/types/expertise";
 import { AttachShiftSheet } from "./AttachShiftsSheet";
 import { AttachUserSheet } from "./AttachUsersSheet";
 import ExpertiseEditSheet from "./ExpertiseEditSheet";
+import {
+	Tooltip,
+	TooltipContent,
+	TooltipProvider,
+	TooltipTrigger,
+} from "@/components/ui/tooltip";
 
 interface ExpertiseCardProps {
 	expertise: IExpertise;
@@ -56,55 +62,49 @@ const ExpertiseCard: React.FC<ExpertiseCardProps> = ({
 		<>
 			<Card className="p-4 shadow-lg rounded-lg border">
 				<CardHeader className="text-center">
-					<CardTitle className="text-xl font-bold capitalize">
-						{name}
-					</CardTitle>
+					<CardTitle className="text-xl font-bold capitalize">{name}</CardTitle>
 				</CardHeader>
 				<CardContent className="space-y-2">
 					<p className="font-semibold">Users Assigned:</p>
 					{users.length > 0 ? (
-						<div className="flex flex-wrap space-x-2">
-							{users.map((user) => (
-								<div key={user.id} className="relative group">
-									<div
-										// tags
-										className="w-8 h-8 flex items-center justify-center bg-primary text-primary-foreground rounded-full text-sm cursor-pointer"
-										title={`${user.first_name} ${user.last_name}`}
-									>
-										{getUserInitials(user)}
-									</div>
-									{/* hover css */}
-									<div className="absolute bottom-0 left-1/2 transform -translate-x-1/2 opacity-0 group-hover:opacity-100 transition-opacity">
-										<span className="bg-black text-white text-xs py-1 px-2 rounded-md">{`${user.first_name} ${user.last_name}`}</span>
-									</div>
-								</div>
-							))}
-						</div>
+						<TooltipProvider>
+							<div className="flex flex-wrap gap-2 mt-1">
+								{users.map((user) => (
+									<Tooltip key={user.id}>
+										<TooltipTrigger asChild>
+											<div className="w-8 h-8 flex items-center justify-center text-black rounded-full bg-stone-400 text-sm cursor-default">
+												{getUserInitials(user)}
+											</div>
+										</TooltipTrigger>
+										<TooltipContent side="bottom">
+											<p>{`${user.first_name} ${user.last_name}`}</p>
+										</TooltipContent>
+									</Tooltip>
+								))}
+							</div>
+						</TooltipProvider>
 					) : (
 						<p className="text-gray-500">No users assigned</p>
 					)}
 
 					<p className="font-semibold">Shifts Assigned:</p>
 					{shifts.length > 0 ? (
-						<div className="flex flex-wrap space-x-2">
-							{shifts.map((shift) => (
-								<div key={shift.id} className="relative group">
-									<div
-										// tags
-										className="w-8 h-8 flex items-center justify-center bg-primary text-primary-foreground rounded-full text-sm cursor-pointer"
-										title={shift.name}
-									>
-										{getShiftInitials(shift.name)}
-									</div>
-									{/* hover css */}
-									<div className="absolute bottom-0 left-1/2 transform -translate-x-1/2 opacity-0 group-hover:opacity-100 transition-opacity">
-										<span className="bg-black text-white text-xs py-1 px-2 rounded-md">
-											{shift.name}
-										</span>
-									</div>
-								</div>
-							))}
-						</div>
+						<TooltipProvider>
+							<div className="flex flex-wrap gap-2 mt-1">
+								{shifts.map((shift) => (
+									<Tooltip key={shift.id}>
+										<TooltipTrigger asChild>
+											<div className="w-8 h-8 flex items-center justify-center text-black rounded-full bg-stone-400 text-sm cursor-default">
+												{getShiftInitials(shift.name)}
+											</div>
+										</TooltipTrigger>
+										<TooltipContent side="bottom">
+											<p>{shift.name}</p>
+										</TooltipContent>
+									</Tooltip>
+								))}
+							</div>
+						</TooltipProvider>
 					) : (
 						<p className="text-gray-500">No shifts assigned</p>
 					)}

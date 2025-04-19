@@ -1,174 +1,115 @@
-import { useState, useEffect } from "react";
-import {
-	fetchShiftById,
-	updateShift,
-} from "@/pages/shifts/services/ShiftService";
-import { ShiftResponse } from "@/types/shift";
+import { useState } from "react";
 import { Button } from "@/components/ui/button";
-import { Textarea } from "@/components/ui/textarea";
 import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { updateShift } from "./services/ShiftService";
+import { ShiftResponse, ShiftCreate } from "@/types/shift";
 
 interface EditShiftProps {
-	shiftId: number;
-	onShiftUpdated: () => void;
+	shift: ShiftResponse;
 	onClose: () => void;
+	onUpdate: () => void;
 }
 
-const EditShift: React.FC<EditShiftProps> = ({
-	shiftId,
-	onShiftUpdated,
-	onClose,
-}) => {
-	const [shift, setShift] = useState<ShiftResponse | null>(null);
-	const [loading, setLoading] = useState(false);
-	const [error, setError] = useState<string | null>(null);
+const EditShift: React.FC<EditShiftProps> = ({ shift, onClose, onUpdate }) => {
+	const [formData, setFormData] = useState<ShiftCreate>({
+		name: shift.name,
+		time_start: shift.time_start,
+		time_end: shift.time_end,
+		task: shift.task || "",
+		no_of_users: shift.no_of_users,
+	});
 
-	useEffect(() => {
-		const loadShift = async () => {
-			try {
-				setLoading(true);
-				const fetchedShift = await fetchShiftById(shiftId);
-				setShift(fetchedShift);
-			} catch (err) {
-				setError("Failed to load shift data.");
-				console.error(err);
-			} finally {
-				setLoading(false);
-			}
-		};
-
-		loadShift();
-	}, [shiftId]);
-
-	const handleChange = (
-		e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-	) => {
-		if (shift) {
-			setShift({ ...shift, [e.target.name]: e.target.value });
-		}
+	const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+		const { name, value } = e.target;
+		setFormData((prev) => ({
+			...prev,
+			[name]: value,
+		}));
 	};
 
 	const handleSubmit = async (e: React.FormEvent) => {
 		e.preventDefault();
-		if (!shift) return;
+		const updatedShift = await updateShift(shift.id, formData);
 
-		try {
-			setLoading(true);
-			await updateShift(shiftId, shift);
-			alert("Shift updated successfully!");
-			onShiftUpdated();
+		if (updatedShift) {
+			onUpdate();
 			onClose();
-		} catch (err) {
-			setError("Error updating shift. Please try again.");
-			console.error(err);
-		} finally {
-			setLoading(false);
+		} else {
+			alert("Failed to update the shift.");
 		}
 	};
 
-	if (loading) return <p>Loading shift details...</p>;
-	if (error) return <p className="text-red-500">{error}</p>;
-	if (!shift) return <p>No shift found.</p>;
-
 	return (
-		<div className="max-w-md mx-auto mt-8 p-6 bg-white rounded-md shadow-md">
-			<h2 className="text-2xl font-semibold mb-4">Edit Shift</h2>
-			<form onSubmit={handleSubmit}>
-				<div className="mb-4">
-					<label
-						htmlFor="name"
-						className="block text-sm font-medium text-gray-700"
-					>
-						Shift Name
-					</label>
-					<Input
-						type="text"
-						id="name"
-						name="name"
-						value={shift.name}
-						onChange={handleChange}
-						required
-					/>
-				</div>
+		<form
+			onSubmit={handleSubmit}
+			className="space-y-4 bg-white p-6 rounded-lg shadow-lg"
+		>
+			<div>
+				<Label htmlFor="name">Shift Name</Label>
+				<Input
+					id="name"
+					name="name"
+					value={formData.name}
+					onChange={handleChange}
+					placeholder="Shift Name"
+				/>
+			</div>
 
-				<div className="mb-4">
-					<label
-						htmlFor="time_start"
-						className="block text-sm font-medium text-gray-700"
-					>
-						Start Time
-					</label>
-					<Input
-						type="time"
-						id="time_start"
-						name="time_start"
-						value={shift.time_start}
-						onChange={handleChange}
-						required
-					/>
-				</div>
+			<div>
+				<Label htmlFor="time_start">Start Time</Label>
+				<Input
+					id="time_start"
+					name="time_start"
+					type="time"
+					value={formData.time_start}
+					onChange={handleChange}
+				/>
+			</div>
 
-				<div className="mb-4">
-					<label
-						htmlFor="time_end"
-						className="block text-sm font-medium text-gray-700"
-					>
-						End Time
-					</label>
-					<Input
-						type="time"
-						id="time_end"
-						name="time_end"
-						value={shift.time_end}
-						onChange={handleChange}
-						required
-					/>
-				</div>
+			<div>
+				<Label htmlFor="time_end">End Time</Label>
+				<Input
+					id="time_end"
+					name="time_end"
+					type="time"
+					value={formData.time_end}
+					onChange={handleChange}
+				/>
+			</div>
 
-				<div className="mb-4">
-					<label
-						htmlFor="task"
-						className="block text-sm font-medium text-gray-700"
-					>
-						Task (optional)
-					</label>
-					<Textarea
-						id="task"
-						name="task"
-						value={shift.task || ""}
-						onChange={handleChange}
-						placeholder="Optional task description"
-					/>
-				</div>
+			<div>
+				<Label htmlFor="task">Task (Optional)</Label>
+				<Input
+					id="task"
+					name="task"
+					value={formData.task}
+					onChange={handleChange}
+					placeholder="Task description (optional)"
+				/>
+			</div>
 
-				<div className="mb-4">
-					<label
-						htmlFor="no_of_users"
-						className="block text-sm font-medium text-gray-700"
-					>
-						Number of Users
-					</label>
-					<Input
-						type="number"
-						id="no_of_users"
-						name="no_of_users"
-						value={shift.no_of_users}
-						onChange={handleChange}
-						min={1}
-						max={5}
-						required
-					/>
-				</div>
+			<div>
+				<Label htmlFor="no_of_users">Users Required</Label>
+				<Input
+					id="no_of_users"
+					name="no_of_users"
+					type="number"
+					value={formData.no_of_users}
+					onChange={handleChange}
+					placeholder="Number of users"
+				/>
+			</div>
 
-				<Button
-					type="submit"
-					disabled={loading}
-					className="w-full bg-blue-500 text-white py-2 rounded-md hover:bg-blue-600"
-				>
-					{loading ? "Updating..." : "Update Shift"}
+			<div className="mt-4 flex space-x-2 justify-end">
+				<Button variant="outline" onClick={onClose}>
+					Cancel
 				</Button>
-			</form>
-		</div>
+				<Button variant="outline" type="submit">
+					Save Changes
+				</Button>
+			</div>
+		</form>
 	);
 };
 

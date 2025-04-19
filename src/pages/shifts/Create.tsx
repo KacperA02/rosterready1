@@ -1,195 +1,117 @@
-import { useState, useEffect } from "react";
-import { useAuth } from "../../contexts/AuthContext";
-import { useRoles } from "../../hooks/useRoles";
-import { createShift } from "@/pages/shifts/services/ShiftService";
+import React, { useState } from "react";
+import { createShift } from "./services/ShiftService";
 import { ShiftCreate } from "@/types/shift";
 import { Button } from "@/components/ui/button";
-import { Textarea } from "@/components/ui/textarea";
-import { Input } from "@/components/ui/input";
+import {
+	Tooltip,
+	TooltipTrigger,
+	TooltipContent,
+} from "@/components/ui/tooltip";
+import { AiOutlineInfoCircle } from "react-icons/ai";
 
-interface CreateShiftProps {
-	selectedDate: Date | null;
-	onShiftCreated: (shiftId: number) => Promise<void>;
-	onClose: () => void;
-}
+const CreateShiftSheet: React.FC<{ onClose: () => void }> = ({ onClose }) => {
+	const [name, setName] = useState("");
+	const [timeStart, setTimeStart] = useState("");
+	const [timeEnd, setTimeEnd] = useState("");
+	const [noOfUsers, setNoOfUsers] = useState<number>(1);
+	const [task, setTask] = useState<string>("");
 
-const CreateShift: React.FC<CreateShiftProps> = ({
-	selectedDate,
-	onShiftCreated,
-	onClose,
-}) => {
-	const { isAuthenticated } = useAuth();
-	const { isEmployer, isAdmin } = useRoles();
+	const handleSubmit = async () => {
+		const shiftData: ShiftCreate = {
+			name,
+			time_start: timeStart,
+			time_end: timeEnd,
+			task,
+			no_of_users: noOfUsers,
+		};
 
-	const [shift, setShift] = useState<ShiftCreate>({
-		name: "",
-		time_start: "",
-		time_end: "",
-		task: "",
-		no_of_users: 1,
-	});
-
-	const [error, setError] = useState<string | null>(null);
-	const [loading, setLoading] = useState(false);
-
-	useEffect(() => {
-		if (!isEmployer() && !isAdmin()) {
-			alert("Unauthorized access.");
-			onClose();
-		}
-	}, [isEmployer, isAdmin, onClose]);
-
-	const handleChange = (
-		e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-	) => {
-		setShift({
-			...shift,
-			[e.target.name]: e.target.value,
-		});
-	};
-
-	const handleNoOfUsersChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-		const value = e.target.value ? parseInt(e.target.value) : 1;
-		setShift({
-			...shift,
-			no_of_users: value,
-		});
-	};
-
-	const handleSubmit = async (e: React.FormEvent) => {
-		e.preventDefault();
-
-		if (!isAuthenticated) {
-			setError("You must be logged in to create a shift.");
-			return;
-		}
-
-		try {
-			setLoading(true);
-			setError(null);
-
-			console.log("Form Data (Shift):", shift);
-
-			const response = await createShift(shift);
-
-			if (response && selectedDate) {
-				alert("Shift created successfully!");
-				await onShiftCreated(response.id);
-				onClose();
-			} else {
-				setError("Error creating shift. Please try again.");
-			}
-		} catch (err) {
-			setError("Error creating shift. Please try again.");
-			console.error(err);
-		} finally {
-			setLoading(false);
+		const result = await createShift(shiftData);
+		if (result) {
+			alert("Shift created successfully!");
+			onClose(); // Close the sheet after creation
+		} else {
+			alert("Failed to create shift.");
 		}
 	};
 
 	return (
-		<div className="max-w-md mx-auto mt-8 p-6 bg-white rounded-md shadow-md">
-			<h2 className="text-2xl font-semibold mb-4">Create New Shift</h2>
-
-			{error && <div className="text-red-500 mb-4">{error}</div>}
-
-			<form onSubmit={handleSubmit}>
-				<div className="mb-4">
-					<label
-						htmlFor="name"
-						className="block text-sm font-medium text-gray-700"
-					>
-						Shift Name
-					</label>
-					<Input
+		<div className="fixed top-0 right-0 h-full w-[400px] bg-white shadow-lg p-6 rounded-lg">
+			<h2 className="text-2xl font-bold mb-4">Create New Shift</h2>
+			<div className="space-y-6">
+				<div>
+					<label className="block text-sm font-semibold">Shift Name</label>
+					<input
 						type="text"
-						id="name"
-						name="name"
-						value={shift.name}
-						onChange={handleChange}
-						required
+						value={name}
+						onChange={(e) => setName(e.target.value)}
+						placeholder="Enter shift name"
+						className="border p-3 w-full rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
 					/>
 				</div>
 
-				<div className="mb-4">
-					<label
-						htmlFor="time_start"
-						className="block text-sm font-medium text-gray-700"
-					>
-						Start Time
-					</label>
-					<Input
-						type="time"
-						id="time_start"
-						name="time_start"
-						value={shift.time_start}
-						onChange={handleChange}
-						required
-					/>
+				<div className="flex space-x-4">
+					<div className="flex-1">
+						<label className="block text-sm font-semibold">Start Time</label>
+						<input
+							type="time"
+							value={timeStart}
+							onChange={(e) => setTimeStart(e.target.value)}
+							className="border p-3 w-full rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+						/>
+					</div>
+
+					<div className="flex-1">
+						<label className="block text-sm font-semibold">End Time</label>
+						<input
+							type="time"
+							value={timeEnd}
+							onChange={(e) => setTimeEnd(e.target.value)}
+							className="border p-3 w-full rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+						/>
+					</div>
 				</div>
 
-				<div className="mb-4">
-					<label
-						htmlFor="time_end"
-						className="block text-sm font-medium text-gray-700"
-					>
-						End Time
-					</label>
-					<Input
-						type="time"
-						id="time_end"
-						name="time_end"
-						value={shift.time_end}
-						onChange={handleChange}
-						required
-					/>
-				</div>
-
-				<div className="mb-4">
-					<label
-						htmlFor="task"
-						className="block text-sm font-medium text-gray-700"
-					>
-						Task (optional)
-					</label>
-					<Textarea
-						id="task"
-						name="task"
-						value={shift.task}
-						onChange={handleChange}
-						placeholder="Optional task description"
-					/>
-				</div>
-
-				<div className="mb-4">
-					<label
-						htmlFor="no_of_users"
-						className="block text-sm font-medium text-gray-700"
-					>
-						Number of Users
-					</label>
-					<Input
+				<div className="flex items-center space-x-2">
+					<label className="text-sm font-semibold">Number of Users</label>
+					<Tooltip>
+						<TooltipTrigger>
+							<AiOutlineInfoCircle className="text-lg text-gray-600 cursor-pointer" />
+						</TooltipTrigger>
+						<TooltipContent className="bg-gray-800 text-white text-xs rounded-lg shadow-lg p-2 max-w-xs">
+							This is the number of users you want to work this shift at the
+							same time
+						</TooltipContent>
+					</Tooltip>
+					<input
 						type="number"
-						id="no_of_users"
-						name="no_of_users"
-						value={shift.no_of_users}
-						onChange={handleNoOfUsersChange}
+						value={noOfUsers}
+						onChange={(e) => setNoOfUsers(parseInt(e.target.value))}
 						min={1}
-						max={5}
-						required
+						className="border p-3 w-full rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
 					/>
 				</div>
 
-				<Button
-					type="submit"
-					disabled={loading}
-					className="w-full bg-blue-500 text-white py-2 rounded-md hover:bg-blue-600"
-				>
-					{loading ? "Creating..." : "Create Shift"}
-				</Button>
-			</form>
+				<div>
+					<label className="block text-sm font-semibold">Task (Optional)</label>
+					<textarea
+						value={task}
+						onChange={(e) => setTask(e.target.value)}
+						placeholder="Enter task details"
+						className="border p-3 w-full rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+					/>
+				</div>
+
+				<div className="mt-6 flex justify-between">
+					<Button variant="outline" onClick={onClose}>
+						Cancel
+					</Button>
+					<Button variant="outline" onClick={handleSubmit}>
+						Create Shift
+					</Button>
+				</div>
+			</div>
 		</div>
 	);
 };
 
-export default CreateShift;
+export default CreateShiftSheet;

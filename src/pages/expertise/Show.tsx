@@ -26,7 +26,16 @@ const ShowExpertise: React.FC = () => {
 
 		loadExpertises();
 	}, [refreshShifts, refreshUsers, refreshExpertises]);
-
+	useEffect(() => {
+		if (refreshUsers) {
+			setRefreshUsers(false);
+		}
+	}, [refreshUsers]);
+	useEffect(() => {
+		if (refreshShifts) {
+			setRefreshShifts(false);
+		}
+	}, [refreshShifts]);
 	// Handling expertise creation
 	const handleExpertiseCreated = (newExpertise: IExpertise) => {
 		setExpertises((prev) => [...prev, newExpertise]);
@@ -51,8 +60,8 @@ const ShowExpertise: React.FC = () => {
 
 			{/* Expertise List Section */}
 			{expertises.length === 0 ? (
-				<div className="text-gray-500">
-					<h1>No expertises available</h1>
+				<div className="text-amber-600">
+					<h3>No Expertises. Create one!</h3>
 				</div>
 			) : (
 				expertises.map((expertise) => (
