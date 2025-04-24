@@ -7,40 +7,45 @@ import { UserAvailability } from "@/types/availability";
 import TeamComp from "./components/TeamComp";
 import AvailableComp from "./components/AvailableComp";
 import { useGlobalRefresh } from "@/contexts/GlobalRefreshContext";
+
 export default function InboxPage() {
   const [invitations, setInvitations] = useState<TeamInvitation[]>([]);
   const [availabilities, setAvailabilities] = useState<UserAvailability[]>([]);
   const { isEmployer } = useRoles();
   const { pageToRefresh, setPageToRefresh } = useGlobalRefresh();
-  
-  
+
+  // Fetch on mount
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const [invites, teamAvails] = await Promise.all([fetchPendingInvitations(), fetchTeamAvailabilities()]);
+        const [invites, teamAvails] = await Promise.all([
+          fetchPendingInvitations(),
+          fetchTeamAvailabilities(),
+        ]);
 
         setInvitations(invites);
-        setAvailabilities(teamAvails.filter((avail) => !avail.approved));
-        
+        setAvailabilities(teamAvails.filter((avail) => !avail.viewed));
       } catch (err) {
         console.error("Error fetching inbox data", err);
       }
     };
-    
+
     fetchData();
   }, []);
+
+  // Refresh logic from GlobalRefreshContext
   useEffect(() => {
-    // If the `pageToRefresh` is notifications, re-fetch the data.
-    if (pageToRefresh?.page === 'notifications') {
-      console.log('Refreshing notifications...');
+    if (pageToRefresh?.page === "notifications") {
+      console.log("Refreshing notifications...");
       const fetchData = async () => {
         try {
-          const [invites, teamAvails] = await Promise.all([fetchPendingInvitations(), fetchTeamAvailabilities()]);
+          const [invites, teamAvails] = await Promise.all([
+            fetchPendingInvitations(),
+            fetchTeamAvailabilities(),
+          ]);
 
           setInvitations(invites);
-          setAvailabilities(teamAvails.filter((avail) => !avail.approved));
-          
-          
+          setAvailabilities(teamAvails.filter((avail) => !avail.viewed));
         } catch (err) {
           console.error("Error fetching inbox data", err);
         }
@@ -48,21 +53,26 @@ export default function InboxPage() {
 
       fetchData();
       setTimeout(() => {
-        setPageToRefresh({ page: 'invitations', key: Date.now() });
+        setPageToRefresh({ page: "invitations", key: Date.now() });
       }, 50);
-      // Reset refresh state after refreshing
     }
   }, [pageToRefresh, setPageToRefresh]);
+
+  // Remove approved availability
   const handleAvailabilityApprovalToggle = (id: number) => {
-    setAvailabilities((prev) => prev.filter((avail) => avail.id !== id)); // Remove the approved availability
+    setAvailabilities((prev) => prev.filter((avail) => avail.id !== id));
   };
- 
+
+  // Remove availability when marked as viewed
+  const handleAvailabilityMarkedViewed = (id: number) => {
+    setAvailabilities((prev) => prev.filter((avail) => avail.id !== id));
+  };
+
   return (
     <div className="space-y-6 p-6">
       <h1 className="text-2xl font-bold">Inbox</h1>
 
       {/* Team Invitations Section */}
-      
       <section>
         <h2 className="text-xl font-semibold mb-2">Team Invitations</h2>
         {invitations.length === 0 ? (
@@ -89,6 +99,7 @@ export default function InboxPage() {
                   key={avail.id}
                   availability={avail}
                   onApprovalToggle={handleAvailabilityApprovalToggle}
+                  onMarkViewed={handleAvailabilityMarkedViewed} // ✅ pass it here
                 />
               ))}
             </div>

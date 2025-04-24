@@ -57,7 +57,7 @@ export default function App() {
       <div className="flex-1 p-6 overflow-auto">
       <NotificationListener />
         <Routes>
-          <Route path="/" element={<Home />} />
+          
           <Route path="/inbox" element={<InboxPage />} />
           <Route path="/login" element={<LoginPage />} />
           <Route path="/no-team" element={<NoTeam />} />

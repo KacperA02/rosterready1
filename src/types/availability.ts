@@ -2,6 +2,7 @@ export interface UserAvailability {
     id: number;
     approved: boolean;
     reason: string;
+    viewed:boolean;
     user: {
       id: number;
       first_name: string;

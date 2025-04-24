@@ -23,7 +23,7 @@ const ShiftCard: React.FC<ShiftCardProps> = ({ shift, onUpdate }) => {
 	const getDaysButtonLabel = () => {
 		const len = shift.days.length;
 		if (len === 0) return "Attach Days";
-		if (len === 7) return "Remove";
+		if (len === 7) return "Remove Days";
 		return "Edit Repeated Days";
 	};
 

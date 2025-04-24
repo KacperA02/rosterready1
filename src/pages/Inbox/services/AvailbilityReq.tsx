@@ -51,3 +51,14 @@ export const toggleAvailabilityApproval = async (availabilityId: number): Promis
     return null;
   }
 };
+
+export const markAvailabilityViewed = async (availabilityId: number): Promise<UserAvailability | null> => {
+  try {
+    const response = await instance.patch(`/available/viewed/${availabilityId}`);
+    return response.data;
+  } catch (error) {
+    console.error("Error marking availability as viewed:", error);
+    return null;
+  }
+};
+
