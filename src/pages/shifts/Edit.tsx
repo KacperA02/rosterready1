@@ -41,75 +41,76 @@ const EditShift: React.FC<EditShiftProps> = ({ shift, onClose, onUpdate }) => {
 	};
 
 	return (
-		<form
-			onSubmit={handleSubmit}
-			className="space-y-4 bg-white p-6 rounded-lg shadow-lg"
-		>
-			<div>
-				<Label htmlFor="name">Shift Name</Label>
-				<Input
-					id="name"
-					name="name"
-					value={formData.name}
-					onChange={handleChange}
-					placeholder="Shift Name"
-				/>
-			</div>
-
-			<div>
-				<Label htmlFor="time_start">Start Time</Label>
-				<Input
-					id="time_start"
-					name="time_start"
-					type="time"
-					value={formData.time_start}
-					onChange={handleChange}
-				/>
-			</div>
-
-			<div>
-				<Label htmlFor="time_end">End Time</Label>
-				<Input
-					id="time_end"
-					name="time_end"
-					type="time"
-					value={formData.time_end}
-					onChange={handleChange}
-				/>
-			</div>
-
-			<div>
-				<Label htmlFor="task">Task (Optional)</Label>
-				<Input
-					id="task"
-					name="task"
-					value={formData.task}
-					onChange={handleChange}
-					placeholder="Task description (optional)"
-				/>
-			</div>
-
-			<div>
-				<Label htmlFor="no_of_users">Users Required</Label>
-				<Input
-					id="no_of_users"
-					name="no_of_users"
-					type="number"
-					value={formData.no_of_users}
-					onChange={handleChange}
-					placeholder="Number of users"
-				/>
-			</div>
-
-			<div className="mt-4 flex space-x-2 justify-end">
-				<Button variant="outline" onClick={onClose}>
-					Cancel
-				</Button>
-				<Button variant="outline" type="submit">
-					Save Changes
-				</Button>
-			</div>
-		</form>
+		<div className="w-full">
+			<h2 className="text-2xl  font-bold mb-6 text-center text-gray-800">Edit Shift</h2>
+			<form onSubmit={handleSubmit} className="space-y-4">
+				<div>
+					<Label htmlFor="name">Shift Name</Label>
+					<Input
+						id="name"
+						name="name"
+						value={formData.name}
+						onChange={handleChange}
+						placeholder="Shift Name"
+					/>
+				</div>
+	
+				<div className="grid grid-cols-2 gap-4">
+					<div>
+						<Label htmlFor="time_start">Start Time</Label>
+						<Input
+							id="time_start"
+							name="time_start"
+							type="time"
+							value={formData.time_start}
+							onChange={handleChange}
+						/>
+					</div>
+					<div>
+						<Label htmlFor="time_end">End Time</Label>
+						<Input
+							id="time_end"
+							name="time_end"
+							type="time"
+							value={formData.time_end}
+							onChange={handleChange}
+						/>
+					</div>
+				</div>
+	
+				<div>
+					<Label htmlFor="task">Task (Optional)</Label>
+					<Input
+						id="task"
+						name="task"
+						value={formData.task}
+						onChange={handleChange}
+						placeholder="Task description (optional)"
+					/>
+				</div>
+	
+				<div>
+					<Label htmlFor="no_of_users">Users Required</Label>
+					<Input
+						id="no_of_users"
+						name="no_of_users"
+						type="number"
+						value={formData.no_of_users}
+						onChange={handleChange}
+						placeholder="Number of users"
+					/>
+				</div>
+	
+				<div className="pt-6 flex justify-end gap-3">
+					<Button variant="outline" type="button" onClick={onClose}>
+						Cancel
+					</Button>
+					<Button type="submit">
+						Save Changes
+					</Button>
+				</div>
+			</form>
+		</div>
 	);
 };
 

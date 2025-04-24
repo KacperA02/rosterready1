@@ -66,7 +66,7 @@ const EventComponent: React.FC<EventProps> = ({ event, view = "week" }) => {
 				<CardTitle className="font-semibold capitalize text-black truncate">
 					{event.title}
 					{formattedTime && (
-					<p className="text-xs text-gray-600">
+					<p className="text-xs text-gray-600 truncate">
 						🕒 {formattedTime} 
 					</p>
 				)}
@@ -76,20 +76,20 @@ const EventComponent: React.FC<EventProps> = ({ event, view = "week" }) => {
 				<div className="space-y-1">
 					{event?.users && event.users.length > 0 ? (
 						event.users.map((user, idx) => (
-							<p key={idx} className="text-black">
+							<p key={idx} className="text-black truncate">
 								👥 {user.first_name} {user.last_name}
 								<br />
 							</p>
 						))
 					) : (
-						<p className="text-black">👥 Not Generated</p>
+						<p className="text-black truncate">👥 Not Generated</p>
 					)}
 				</div>
 
-				{event.no_of_users !== undefined && (
-					<Badge variant="outline" className="text-black border-gray-400">
-						🧑‍💻 {event.no_of_users} required
-					</Badge>
+				{(!event?.users || event.users.length === 0) && event.no_of_users !== undefined && (
+				<Badge variant="outline" className="text-black border-gray-400 ">
+					🧑‍💻 {event.no_of_users} required
+				</Badge>
 				)}
 
 				

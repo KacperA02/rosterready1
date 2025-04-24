@@ -43,7 +43,7 @@ const TeamComp: React.FC<TeamCompProps> = ({ invitation, setInvitations }) => {
         <div className="flex gap-2">
           <Button
             className="text-black"
-            variant="secondary"
+            variant="default"
             onClick={async () => {
               await handleAccept(invitation.id);
               Cookies.remove("access_token");

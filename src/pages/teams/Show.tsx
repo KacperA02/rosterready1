@@ -42,6 +42,7 @@ const TeamDetails = () => {
 	// dialogs
 	const handleUpdateTeamName = async () => {
 		if (!team) return;
+		setNewTeamName(team.name);
 		setIsUpdateDialogOpen(true);
 	};
 
@@ -68,8 +69,9 @@ const TeamDetails = () => {
 
 	const handleUpdateTeamNameSubmit = async () => {
 		if (!team || !newTeamName.trim()) return;
-
+		
 		const updatedTeam = await updateTeamName(team.id, { name: newTeamName });
+		
 		if (updatedTeam) {
 			setTeam(updatedTeam);
 		} else {

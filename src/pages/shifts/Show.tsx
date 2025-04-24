@@ -1,62 +1,87 @@
-import { useEffect, useState } from "react";
+import React, { useState, useEffect } from "react";
 import { ShiftResponse } from "@/types/shift";
 import { fetchShifts } from "./services/ShiftService";
 import ShiftCard from "./components/ShiftCard";
 import { Button } from "@/components/ui/button";
 import CreateShiftSheet from "./Create";
+import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 
 const ShowShift: React.FC = () => {
-	const [shifts, setShifts] = useState<ShiftResponse[]>([]);
-	const [loading, setLoading] = useState<boolean>(true);
-	const [isSheetOpen, setIsSheetOpen] = useState<boolean>(false);
+  const [shifts, setShifts] = useState<ShiftResponse[]>([]);
+  const [loading, setLoading] = useState<boolean>(true);
+  const [isSheetOpen, setIsSheetOpen] = useState<boolean>(false);
+  const [alertMessage, setAlertMessage] = useState<string | null>(null);
+  const [alertType, setAlertType] = useState<"success" | "error" | null>(null);
 
-	const loadShifts = async () => {
-		try {
-			const data = await fetchShifts();
-			setShifts(data);
-		} catch (error) {
-			console.error("Failed to load shifts:", error);
-		} finally {
-			setLoading(false);
-		}
-	};
+  const loadShifts = async () => {
+    try {
+      const data = await fetchShifts();
+      setShifts(data);
+    } catch (error) {
+      console.error("Failed to load shifts:", error);
+    } finally {
+      setLoading(false);
+    }
+  };
 
-	useEffect(() => {
-		loadShifts();
-	}, []);
+  useEffect(() => {
+    loadShifts();
+  }, []);
 
-	if (loading) {
-		return <div>Loading shifts...</div>;
-	}
+  const handleAlert = (message: string, type: "success" | "error") => {
+    setAlertMessage(message);
+    setAlertType(type);
+    setTimeout(() => {
+      setAlertMessage(null); 
+    }, 3000);
+  };
 
-	return (
-		<div className="space-y-4">
-			<div className="flex justify-between items-center">
-				<h1 className="text-xl font-bold text-black">Shifts</h1>
-				<Button
-					variant="outline"
-					className="text-black border border-black"
-					onClick={() => setIsSheetOpen(true)}
-				>
-					Create Shift
-				</Button>
-			</div>
+  if (loading) {
+    return <div>Loading shifts...</div>;
+  }
 
-			{shifts.length === 0 ? (
-				<div className="text-amber-600">
-					<h3>No Shifts. Create one!</h3>
-				</div>
-			) : (
-				shifts.map((shift) => (
-					<ShiftCard key={shift.id} shift={shift} onUpdate={loadShifts} />
-				))
-			)}
+  return (
+    <div className="space-y-4">
+      <div className="flex justify-between items-center">
+        <h1 className="text-xl font-bold text-black">Shifts</h1>
+        <Button
+          variant="outline"
+          className="text-black border border-black"
+          onClick={() => setIsSheetOpen(true)}
+        >
+          Create Shift
+        </Button>
+      </div>
 
-			{isSheetOpen && (
-				<CreateShiftSheet onClose={() => setIsSheetOpen(false)} />
-			)}
-		</div>
-	);
+      {alertMessage && (
+        <Alert 
+          className={`mt-4 ${alertType === "success" ? "bg-green-100 text-green-800" : "bg-red-100 text-red-800"}`} 
+          variant="default" 
+        >
+          <AlertTitle>{alertType === "success" ? "Success" : "Error"}</AlertTitle>
+          <AlertDescription>{alertMessage}</AlertDescription>
+        </Alert>
+      )}
+
+      {shifts.length === 0 ? (
+        <div className="text-amber-600">
+          <h3>No Shifts. Create one!</h3>
+        </div>
+      ) : (
+        shifts.map((shift) => (
+          <ShiftCard key={shift.id} shift={shift} onUpdate={loadShifts} />
+        ))
+      )}
+
+      {isSheetOpen && (
+        <CreateShiftSheet
+          onClose={() => setIsSheetOpen(false)}
+          onUpdate={loadShifts}
+          setAlert={handleAlert} 
+        />
+      )}
+    </div>
+  );
 };
 
 export default ShowShift;

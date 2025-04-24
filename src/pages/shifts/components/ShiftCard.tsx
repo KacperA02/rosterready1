@@ -106,7 +106,7 @@ const ShiftCard: React.FC<ShiftCardProps> = ({ shift, onUpdate }) => {
 			)}
 			{openEditDialog && (
 				<Dialog open={openEditDialog} onOpenChange={setOpenEditDialog}>
-					<DialogContent>
+					<DialogContent className="bg-white">
 						<EditShift
 							shift={shift}
 							onClose={() => setOpenEditDialog(false)}
