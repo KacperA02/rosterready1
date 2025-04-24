@@ -61,4 +61,13 @@ export const markAvailabilityViewed = async (availabilityId: number): Promise<Us
     return null;
   }
 };
+export const fetchTeamNotViewed = async (): Promise<UserAvailability[]> => {
+  try {
+    const response = await instance.get(`/available/teamInbox`);
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching team pending invitations:", error);
+    return [];
+  }
+};
 

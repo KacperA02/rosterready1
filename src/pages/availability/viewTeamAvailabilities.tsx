@@ -144,7 +144,7 @@ const ViewTeamAvailabilities = () => {
 								? "true"
 								: "false"
 							: "all"
-					} // Use "all" instead of ""
+					} 
 				>
 						<SelectTrigger className="min-w-[160px] sm:min-w-[200px] w-full sm:w-auto" >
 						<SelectValue placeholder="Filter by Approval" />

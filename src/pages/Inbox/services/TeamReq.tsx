@@ -1,4 +1,3 @@
-// services/TeamReq.ts
 import instance from "@/config/Api";
 import { TeamInvitation } from "@/types/team";
 
@@ -45,6 +44,15 @@ export const fetchPendingInvitations = async (): Promise<TeamInvitation[]> => {
 export const fetchTeamPendingInvitations = async (): Promise<TeamInvitation[]> => {
   try {
     const response = await instance.get(`/invitation/team`);
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching team pending invitations:", error);
+    return [];
+  }
+};
+export const fetchTeamNotViewed = async (): Promise<TeamInvitation[]> => {
+  try {
+    const response = await instance.get(`/invitation/teamInbox`);
     return response.data;
   } catch (error) {
     console.error("Error fetching team pending invitations:", error);

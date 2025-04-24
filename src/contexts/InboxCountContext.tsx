@@ -1,6 +1,6 @@
 import { createContext, useContext, useState, ReactNode, useEffect } from 'react';
 import { fetchPendingInvitations } from '@/pages/Inbox/services/TeamReq';
-import { fetchTeamAvailabilities } from '@/pages/Inbox/services/AvailbilityReq';
+import { fetchTeamNotViewed } from '@/pages/Inbox/services/AvailbilityReq';
 import { useGlobalRefresh } from '@/contexts/GlobalRefreshContext';
 interface InboxCountContextProps {
   totalInboxCount: number;
@@ -30,7 +30,7 @@ export const InboxCountProvider = ({ children }: InboxCountProviderProps) => {
       try {
         const [invites, teamAvails] = await Promise.all([
           fetchPendingInvitations(),
-          fetchTeamAvailabilities(),
+          fetchTeamNotViewed(),
         ]);
 
         // Calculate the total inbox count
@@ -50,7 +50,7 @@ export const InboxCountProvider = ({ children }: InboxCountProviderProps) => {
       try {
         const [invites, teamAvails] = await Promise.all([
           fetchPendingInvitations(),
-          fetchTeamAvailabilities(),
+          fetchTeamNotViewed(),
         ]);
 
         // Calculate the total inbox count

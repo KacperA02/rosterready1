@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { fetchPendingInvitations } from "./services/TeamReq";
-import { fetchTeamAvailabilities } from "./services/AvailbilityReq";
+import { fetchTeamNotViewed } from "./services/AvailbilityReq";
 import { useRoles } from "@/hooks/useRoles";
 import { TeamInvitation } from "@/types/team";
 import { UserAvailability } from "@/types/availability";
@@ -20,7 +20,7 @@ export default function InboxPage() {
       try {
         const [invites, teamAvails] = await Promise.all([
           fetchPendingInvitations(),
-          fetchTeamAvailabilities(),
+          fetchTeamNotViewed(),
         ]);
 
         setInvitations(invites);
@@ -41,7 +41,7 @@ export default function InboxPage() {
         try {
           const [invites, teamAvails] = await Promise.all([
             fetchPendingInvitations(),
-            fetchTeamAvailabilities(),
+            fetchTeamNotViewed(),
           ]);
 
           setInvitations(invites);
@@ -99,7 +99,7 @@ export default function InboxPage() {
                   key={avail.id}
                   availability={avail}
                   onApprovalToggle={handleAvailabilityApprovalToggle}
-                  onMarkViewed={handleAvailabilityMarkedViewed} // ✅ pass it here
+                  onMarkViewed={handleAvailabilityMarkedViewed}
                 />
               ))}
             </div>

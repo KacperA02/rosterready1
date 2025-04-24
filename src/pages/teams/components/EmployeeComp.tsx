@@ -4,6 +4,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { TeamUser } from "@/types/team";
+import { useAuth } from "@/contexts/AuthContext";
 
 interface Props {
   users: TeamUser[];
@@ -12,15 +13,14 @@ interface Props {
 // search bar for narrowing employees by any of the following: first name, last name, email, mobile number
 const EmployeeComp = ({ users }: Props) => {
   const [search, setSearch] = useState("");
-
-  const filteredUsers = users.filter((user) =>
-    // some() checks if any of the fields match the search term
-    // toLowerCase() is used to make the search case insensitive
-    [user.first_name, user.last_name, user.email, user.mobile_number]
-      .some(field =>
-        field?.toLowerCase().includes(search.toLowerCase())
-      )
+  const {user} = useAuth()
+  const filteredUsers = users.filter(
+    (userItem) =>
+      userItem.email !== user?.sub && 
+      [userItem.first_name, userItem.last_name, userItem.email, userItem.mobile_number]
+        .some((field) => field?.toLowerCase().includes(search.toLowerCase()))
   );
+
 
   return (
     <div className="space-y-6">
