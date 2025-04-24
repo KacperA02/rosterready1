@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { IExpertise } from "@/types/expertise";
 import { fetchAllExpertise } from "@/pages/expertise/services/ExpertiseService";
 import ExpertiseCard from "./components/ExpertiseCard";

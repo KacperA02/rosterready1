@@ -11,6 +11,17 @@ import {
 	TooltipProvider,
 	TooltipTrigger,
 } from "@/components/ui/tooltip";
+import {
+	AlertDialog,
+	AlertDialogContent,
+	AlertDialogHeader,
+	AlertDialogFooter,
+	AlertDialogTitle,
+	AlertDialogDescription,
+	AlertDialogAction,
+	AlertDialogCancel,
+} from "@/components/ui/alert-dialog";
+import { deleteExpertise } from "../services/ExpertiseService";
 
 interface ExpertiseCardProps {
 	expertise: IExpertise;
@@ -29,34 +40,26 @@ const ExpertiseCard: React.FC<ExpertiseCardProps> = ({
 
 	const [isShiftsSheetOpen, setIsShiftsSheetOpen] = useState(false);
 	const [isUsersSheetOpen, setIsUsersSheetOpen] = useState(false);
+	const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
 
-	const handleAttachUsersClick = () => {
-		setIsUsersSheetOpen(true);
+	const handleAttachUsersClick = () => setIsUsersSheetOpen(true);
+	const handleCloseUsersSheet = () => setIsUsersSheetOpen(false);
+	const handleAttachShiftsClick = () => setIsShiftsSheetOpen(true);
+	const handleCloseShiftsSheet = () => setIsShiftsSheetOpen(false);
+
+	const handleDelete = async () => {
+		const result = await deleteExpertise(id);
+		if (result !== null) {
+			setRefreshExpertises(true);
+		}
+		setIsDeleteDialogOpen(false);
 	};
 
-	const handleCloseUsersSheet = () => {
-		setIsUsersSheetOpen(false);
-	};
+	const getUserInitials = (user: { first_name: string; last_name: string }) =>
+		`${user.first_name[0]}${user.last_name[0]}`.toUpperCase();
 
-	const handleAttachShiftsClick = () => {
-		setIsShiftsSheetOpen(true);
-	};
-
-	const handleCloseShiftsSheet = () => {
-		setIsShiftsSheetOpen(false);
-	};
-
-	// gets the intials of the user
-	const getUserInitials = (user: { first_name: string; last_name: string }) => {
-		// first letters of the first and last name
-		return `${user.first_name[0]}${user.last_name[0]}`.toUpperCase();
-	};
-
-	// gets the intials of the shift
-	const getShiftInitials = (shiftName: string) => {
-		// first two letters of the shift name
-		return shiftName.slice(0, 2).toUpperCase();
-	};
+	const getShiftInitials = (shiftName: string) =>
+		shiftName.slice(0, 2).toUpperCase();
 
 	return (
 		<>
@@ -113,7 +116,7 @@ const ExpertiseCard: React.FC<ExpertiseCardProps> = ({
 					<div className="mt-6 flex justify-end flex-wrap gap-2">
 						<ExpertiseEditSheet
 							expertise={expertise}
-							onUpdate={() => setRefreshExpertises(true)}
+							setRefreshExpertises={setRefreshExpertises}
 						/>
 						<Button
 							variant="outline"
@@ -129,7 +132,11 @@ const ExpertiseCard: React.FC<ExpertiseCardProps> = ({
 						>
 							Attach Users
 						</Button>
-						<Button variant="outline" className="mt-2">
+						<Button
+							variant="outline"
+							className="mt-2"
+							onClick={() => setIsDeleteDialogOpen(true)}
+						>
 							Delete
 						</Button>
 					</div>
@@ -144,6 +151,7 @@ const ExpertiseCard: React.FC<ExpertiseCardProps> = ({
 					setRefreshShifts={setRefreshShifts}
 				/>
 			)}
+
 			{isUsersSheetOpen && (
 				<AttachUserSheet
 					expertiseId={id}
@@ -153,6 +161,25 @@ const ExpertiseCard: React.FC<ExpertiseCardProps> = ({
 					teamId={team_id}
 				/>
 			)}
+
+			<AlertDialog
+				open={isDeleteDialogOpen}
+				onOpenChange={setIsDeleteDialogOpen}
+			>
+				<AlertDialogContent className="bg-white">
+					<AlertDialogHeader>
+						<AlertDialogTitle>Are you sure?</AlertDialogTitle>
+						<AlertDialogDescription>
+							This action cannot be undone. It will permanently delete this
+							expertise.
+						</AlertDialogDescription>
+					</AlertDialogHeader>
+					<AlertDialogFooter>
+						<AlertDialogCancel>Cancel</AlertDialogCancel>
+						<AlertDialogAction onClick={handleDelete}>Delete</AlertDialogAction>
+					</AlertDialogFooter>
+				</AlertDialogContent>
+			</AlertDialog>
 		</>
 	);
 };
