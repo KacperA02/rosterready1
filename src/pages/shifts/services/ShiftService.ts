@@ -70,3 +70,13 @@ export const removeDaysFromShift = async (shiftId: number, shiftDays: ShiftDaysC
     throw error;  
   }
 };
+
+export const deleteShift = async (shiftId: number): Promise<boolean> => {
+  try {
+    await instance.delete(`/shifts/specific/${shiftId}`);
+    return true;
+  } catch (error) {
+    console.error("Error deleting shift:", error);
+    return false;
+  }
+};
