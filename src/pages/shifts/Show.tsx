@@ -65,7 +65,7 @@ const ShowShift: React.FC = () => {
 
       {shifts.length === 0 ? (
         <div className="text-amber-600">
-          <h3>No Shifts. Create one!</h3>
+          <h4>No Shifts. Create one!</h4>
         </div>
       ) : (
         shifts.map((shift) => (

@@ -61,7 +61,7 @@ const ShowExpertise: React.FC = () => {
 			{/* Expertise List Section */}
 			{expertises.length === 0 ? (
 				<div className="text-amber-600">
-					<h3>No Expertises. Create one!</h3>
+					<h4>No Expertises. Create one!</h4>
 				</div>
 			) : (
 				expertises.map((expertise) => (
