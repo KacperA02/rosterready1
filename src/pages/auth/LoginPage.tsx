@@ -43,14 +43,14 @@ const LoginPage = () => {
             initial={{ x: -100, opacity: 0 }}
             animate={{ x: 0, opacity: 1 }}
             transition={{ duration: 1 }}
-            className="absolute top-10 right-0 pr-4 text-white text-6xl font-bold drop-shadow-lg"
+            className="absolute top-10 right-0 pr-4 text-6xl font-bold drop-shadow-lg"
           >
             Roster
           </motion.div>
         </div>
 
         {/* Right Section: Login Form + Ready */}
-        <div className="w-1/2 flex flex-col justify-start items-center p-8 relative bg-white">
+        <div className="w-1/2 flex flex-col justify-start items-center p-8 relative">
           <motion.div
             initial={{ x: 100, opacity: 0 }}
             animate={{ x: 0, opacity: 1 }}

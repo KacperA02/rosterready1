@@ -7,80 +7,86 @@ import CreateShiftSheet from "./Create";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 
 const ShowShift: React.FC = () => {
-  const [shifts, setShifts] = useState<ShiftResponse[]>([]);
-  const [loading, setLoading] = useState<boolean>(true);
-  const [isSheetOpen, setIsSheetOpen] = useState<boolean>(false);
-  const [alertMessage, setAlertMessage] = useState<string | null>(null);
-  const [alertType, setAlertType] = useState<"success" | "error" | null>(null);
+	const [shifts, setShifts] = useState<ShiftResponse[]>([]);
+	const [loading, setLoading] = useState<boolean>(true);
+	const [isSheetOpen, setIsSheetOpen] = useState<boolean>(false);
+	const [alertMessage, setAlertMessage] = useState<string | null>(null);
+	const [alertType, setAlertType] = useState<"success" | "error" | null>(null);
 
-  const loadShifts = async () => {
-    try {
-      const data = await fetchShifts();
-      setShifts(data);
-    } catch (error) {
-      console.error("Failed to load shifts:", error);
-    } finally {
-      setLoading(false);
-    }
-  };
+	const loadShifts = async () => {
+		try {
+			const data = await fetchShifts();
+			setShifts(data);
+		} catch (error) {
+			console.error("Failed to load shifts:", error);
+		} finally {
+			setLoading(false);
+		}
+	};
 
-  useEffect(() => {
-    loadShifts();
-  }, []);
+	useEffect(() => {
+		loadShifts();
+	}, []);
 
-  const handleAlert = (message: string, type: "success" | "error") => {
-    setAlertMessage(message);
-    setAlertType(type);
-    setTimeout(() => {
-      setAlertMessage(null); 
-    }, 3000);
-  };
+	const handleAlert = (message: string, type: "success" | "error") => {
+		setAlertMessage(message);
+		setAlertType(type);
+		setTimeout(() => {
+			setAlertMessage(null);
+		}, 3000);
+	};
 
-  if (loading) {
-    return <div>Loading shifts...</div>;
-  }
+	if (loading) {
+		return <div>Loading shifts...</div>;
+	}
 
-  return (
-    <div className="space-y-4">
-      <div className="flex justify-between items-center">
-        <h1 className="text-xl font-bold text-black">Shifts</h1>
-        <Button
-          variant="default"
-          className="text-black border border-black"
-          onClick={() => setIsSheetOpen(true)}
-        >
-          Create Shift
-        </Button>
-      </div>
+	return (
+		<div className="space-y-4">
+			<div className="flex justify-between items-center">
+				<h1 className="text-xl font-bold">Shifts</h1>
+				<Button
+					variant="default"
+					className="border border-black"
+					onClick={() => setIsSheetOpen(true)}
+				>
+					Create Shift
+				</Button>
+			</div>
 
-      {alertMessage && (
-        <Alert 
-          className={`mt-4 ${alertType === "success" ? "bg-green-100 text-green-800" : "bg-red-100 text-red-800"}`} 
-          variant="default" 
-        >
-          <AlertTitle>{alertType === "success" ? "Success" : "Error"}</AlertTitle>
-          <AlertDescription>{alertMessage}</AlertDescription>
-        </Alert>
-      )}
+			{alertMessage && (
+				<Alert
+					className={`mt-4 ${
+						alertType === "success"
+							? "bg-green-100 text-green-800"
+							: "bg-red-100 text-red-800"
+					}`}
+					variant="default"
+				>
+					<AlertTitle>
+						{alertType === "success" ? "Success" : "Error"}
+					</AlertTitle>
+					<AlertDescription>{alertMessage}</AlertDescription>
+				</Alert>
+			)}
 
-      {shifts.length === 0 ? (
-        <div className="text-amber-600">
-          <h4>No Shifts. Create one!</h4>
-        </div>
-      ) : (
-        shifts.map((shift) => (
-          <ShiftCard key={shift.id} shift={shift} onUpdate={loadShifts} />
-        ))
-      )}
+			{shifts.length === 0 ? (
+				<div className="text-amber-600">
+					<h4>No Shifts. Create one!</h4>
+				</div>
+			) : (
+				shifts.map((shift) => (
+					<ShiftCard key={shift.id} shift={shift} onUpdate={loadShifts} />
+				))
+			)}
 
-    <CreateShiftSheet
-      open={isSheetOpen}
-      onOpenChange={setIsSheetOpen}
-      onUpdate={loadShifts}
-      setAlert={handleAlert}
-    />
-    </div>
-  );
+			<CreateShiftSheet
+				open={isSheetOpen}
+				onOpenChange={setIsSheetOpen}
+				onUpdate={loadShifts}
+				setAlert={handleAlert}
+			/>
+		</div>
+	);
 };
 
 export default ShowShift;

@@ -60,7 +60,7 @@ const RegisterForm = () => {
   };
 
   return (
-    <div className="relative min-h-screen flex justify-center items-center bg-gray-100">
+    <div className="relative min-h-screen flex justify-center items-center">
       {/* Home Button */}
       <div
         onClick={() => navigate("/")}
@@ -71,7 +71,7 @@ const RegisterForm = () => {
       </div>
 
       {/* Form Container */}
-      <div className="w-full max-w-md p-6 bg-white border rounded-lg shadow-md">
+      <div className="w-full max-w-md p-6 border rounded-lg shadow-md">
         {/* Title */}
         <h1 className="text-3xl font-bold text-center text-green-600 mb-4">
           Roster<span className="text-black">Ready</span>
@@ -128,7 +128,7 @@ const RegisterForm = () => {
         {errorMessage && <p className="text-red-500 mb-4">{errorMessage}</p>}
 
         {/* Sign Up Button */}
-        <Button onClick={handleClick} className="w-full text-white bg-green-500 hover:bg-green-600 mb-4">
+        <Button onClick={handleClick} className="w-full bg-green-500 hover:bg-green-600 mb-4">
           Sign Up
         </Button>
 

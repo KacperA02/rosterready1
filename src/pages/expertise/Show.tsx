@@ -50,7 +50,7 @@ const ShowExpertise: React.FC = () => {
 		<div className="space-y-4">
 			{/* Header Section with Title and Create Expertise Button */}
 			<div className="flex justify-between items-center">
-				<h1 className="text-xl font-bold text-black">Expertises</h1>
+				<h1 className="text-xl font-bold">Expertises</h1>
 
 				{/* Create New Expertise Button */}
 				<div>

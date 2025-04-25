@@ -56,7 +56,7 @@ const LoginForm = () => {
 
   return (
     <div className="grid grid-cols-1 gap-2 justify-items-center m-3 p-4 border rounded-lg shadow-md">
-      <h2 className="text-xl font-bold mb-3">Login</h2>
+      <h2 className="text-xl font-bold mb-3 text-secondary">Login</h2>
       
       {/* Email Input */}
       <div className="relative w-64 mb-4">
@@ -107,7 +107,7 @@ const LoginForm = () => {
       {/* Login Button */}
       <Button
         onClick={handleClick}
-        className="text-white bg-red-600 w-full mb-2"
+        className=" bg-red-600 w-full mb-2"
       >
         Login
       </Button>
@@ -125,7 +125,7 @@ const LoginForm = () => {
       {/* Create Account Button */}
       <Button
         asChild
-        className="text-black bg-gray-300 w-full"
+        className="text-secondary bg-gray-300 w-full"
       >
         <Link to="/register">Create an Account</Link>
       </Button>
