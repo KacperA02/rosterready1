@@ -85,7 +85,7 @@ const Home: React.FC = () => {
         </section>
 
         <section className="space-y-6">
-          <h2 className="text-2xl font-semibold text-center">🚀 Some of its exciting features</h2>
+          <h2 className="text-2xl font-semibold text-center">Some of its exciting features</h2>
 
           <div className="grid md:grid-cols-2 gap-6">
             {features.map((feature, index) => (
@@ -112,7 +112,7 @@ const Home: React.FC = () => {
           
 
           <section className="space-y-6">
-            <h2 className="text-2xl font-semibold text-center">💡 Why Choose Us?</h2>
+            <h2 className="text-2xl font-semibold text-center">Why Choose Us?</h2>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <Card>
                 <CardContent className="p-6 text-lg">
@@ -130,13 +130,13 @@ const Home: React.FC = () => {
 
           <Card>
             <CardContent className="p-6">
-              <h3 className="text-xl font-semibold mb-4 text-center">📽️ Walkthrough Video</h3>
+              <h3 className="text-xl font-semibold mb-4 text-center"> Walkthrough Video</h3>
               <div className="aspect-video p-0 overflow-hidden rounded-xl">
                 <iframe
                   width="100%"
                   height="100%"
                   src="https://www.youtube.com/embed/"
-                  title="Product Demo"
+                  title="RosterReady Demo"
                   allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                   allowFullScreen
                   className="w-full h-full"
