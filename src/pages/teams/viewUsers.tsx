@@ -130,7 +130,7 @@ const ViewUsers = () => {
       )}
 
       {/* Display Employee Cards */}
-      <EmployeeComp users={users} />
+      <EmployeeComp users={users} onUpdate={loadUsers} />
       {pendingInvites.length > 0 && (
   <div className="mt-10 space-y-6">
     <h2 className="text-2xl font-semibold">Sent Invitations</h2>

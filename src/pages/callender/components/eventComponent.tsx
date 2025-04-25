@@ -61,7 +61,7 @@ const EventComponent: React.FC<EventProps> = ({ event, view = "week" }) => {
 
 
 	return (
-		<Card className={`w-full border rounded-lg shadow-sm p-2 mb-2 ${cardClass}`}>
+		<Card className={`w-full min-h-full border rounded-lg shadow-sm p-2 mb-2 ${cardClass}`}>
 			<CardHeader className="p-1">
 				<CardTitle className="font-semibold capitalize text-black truncate">
 					{event.title}
