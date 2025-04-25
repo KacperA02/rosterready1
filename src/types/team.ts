@@ -17,6 +17,7 @@ export interface Team {
     first_name:string;
     last_name:string;
     email:string;
+    mobile_number:string
   }
   
   export interface TeamResponse {
