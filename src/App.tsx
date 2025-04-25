@@ -7,7 +7,9 @@ import TeamDetails from "./pages/teams/Show";
 import RegisterForm from "./components/forms/RegisterForm";
 import NoTeam from "./pages/teams/NoTeam";
 import PageNotFound from "@/pages/main/PageNotFound";
+// import Footer from "./pages/main/Footer";
 // import CreateShift from "./pages/shifts/Create";
+import Account from "./pages/main/Account";
 import CalendarsPage from "./pages/callender/calendarsPage";
 import CreateTeam from "./pages/teams/Create";
 import ShowShift from "./pages/shifts/Show";
@@ -29,10 +31,12 @@ export default function App() {
         <Route path="/teams/create" element={<CreateTeam />} />
         <Route path="/calendar" element={<CalendarsPage />} />
         <Route path="/myAvailability" element={<ViewUserAvailabilities />} />
+        <Route path="/myDetails" element={<Account/>}/>
         {isEmployer() && (
           <>
           <Route path="/employees" element={<ViewUsers />} />
           <Route path="/teamAvailabilities" element={<ViewTeamAvailabilities />} />
+          
           <Route path='/teams/shifts' element={<ShowShift/>}/>
           <Route path='/teams/expertise' element={<ShowExpertise/>}/>
           </>
@@ -65,6 +69,7 @@ export default function App() {
           {protectedRoutes}
           <Route path="*" element={<PageNotFound/>}/>
         </Routes>
+        {/* <Footer/> */}
       </div>
     </div>
   );
