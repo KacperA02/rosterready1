@@ -96,15 +96,15 @@ const ShiftCard: React.FC<ShiftCardProps> = ({ shift, onUpdate }) => {
               </p>
             </div>
             <div className="mt-4 flex space-x-2 justify-end">
-              <Button variant="outline" onClick={() => setOpen(true)}>
-                {getDaysButtonLabel()}
-              </Button>
-              <Button variant="outline" onClick={() => setOpenEditDialog(true)}>
+            <Button variant="default" onClick={() => setOpenEditDialog(true)}>
                 Edit Shift Details
+              </Button>
+              <Button variant="link" onClick={() => setOpen(true)}>
+                {getDaysButtonLabel()}
               </Button>
               <AlertDialog open={openDeleteDialog} onOpenChange={setOpenDeleteDialog}>
                 <AlertDialogTrigger asChild>
-                  <Button variant="outline">Delete Shift</Button>
+                  <Button variant="destructive">Delete Shift</Button>
                 </AlertDialogTrigger>
                 <AlertDialogContent className="bg-white">
                   <AlertDialogHeader>
@@ -113,7 +113,7 @@ const ShiftCard: React.FC<ShiftCardProps> = ({ shift, onUpdate }) => {
                   <div>This shift will be permanently deleted.</div>
                   <AlertDialogFooter>
                     <AlertDialogCancel>Cancel</AlertDialogCancel>
-                    <AlertDialogAction onClick={handleDelete}>Delete</AlertDialogAction>
+                    <AlertDialogAction style={{ backgroundColor: 'red', color: 'white' }}   onClick={handleDelete}>Delete</AlertDialogAction>
                   </AlertDialogFooter>
                 </AlertDialogContent>
               </AlertDialog>

@@ -45,7 +45,7 @@ const CreateShiftSheet: React.FC<{
   return (
     <Sheet open={open} onOpenChange={onOpenChange}>
       <SheetContent side="right" className="w-full sm:max-w-md">
-        <SheetHeader>
+        <SheetHeader >
           <SheetTitle>Create New Shift</SheetTitle>
         </SheetHeader>
 

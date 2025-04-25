@@ -42,7 +42,7 @@ const ExpertiseEditSheet: React.FC<ExpertiseEditSheetProps> = ({
 	return (
 		<Sheet open={isOpen} onOpenChange={setIsOpen}>
 			<SheetTrigger asChild>
-				<Button className="mt-2" variant="outline">
+				<Button className="mt-2" variant="default">
 					Edit
 				</Button>
 			</SheetTrigger>

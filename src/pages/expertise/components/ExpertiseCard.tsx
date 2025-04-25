@@ -11,10 +11,7 @@ import {
 	TooltipProvider,
 	TooltipTrigger,
 } from "@/components/ui/tooltip";
-import {
-	Dialog,
-	DialogContent
-} from "@/components/ui/dialog";
+import { Dialog, DialogContent } from "@/components/ui/dialog";
 import {
 	AlertDialog,
 	AlertDialogContent,
@@ -24,7 +21,7 @@ import {
 	AlertDialogFooter,
 	AlertDialogAction,
 	AlertDialogCancel,
-} from "@/components/ui/alert-dialog"; 
+} from "@/components/ui/alert-dialog";
 import { deleteExpertise } from "../services/ExpertiseService";
 
 interface ExpertiseCardProps {
@@ -123,21 +120,21 @@ const ExpertiseCard: React.FC<ExpertiseCardProps> = ({
 							setRefreshExpertises={setRefreshExpertises}
 						/>
 						<Button
-							variant="outline"
+							variant="link"
 							className="mt-2"
 							onClick={handleAttachShiftsClick}
 						>
 							Attach Shifts
 						</Button>
 						<Button
-							variant="outline"
+							variant="link"
 							className="mt-2"
 							onClick={handleAttachUsersClick}
 						>
 							Attach Users
 						</Button>
 						<Button
-							variant="outline"
+							variant="destructive"
 							className="mt-2"
 							onClick={() => setIsDeleteDialogOpen(true)}
 						>
@@ -173,17 +170,26 @@ const ExpertiseCard: React.FC<ExpertiseCardProps> = ({
 			</Dialog>
 
 			{/* Delete Confirmation Dialog */}
-			<AlertDialog open={isDeleteDialogOpen} onOpenChange={setIsDeleteDialogOpen}>
+			<AlertDialog
+				open={isDeleteDialogOpen}
+				onOpenChange={setIsDeleteDialogOpen}
+			>
 				<AlertDialogContent className="bg-white">
 					<AlertDialogHeader>
 						<AlertDialogTitle>Are you sure?</AlertDialogTitle>
 						<AlertDialogDescription>
-							This action cannot be undone. It will permanently delete this expertise.
+							This action cannot be undone. It will permanently delete this
+							expertise.
 						</AlertDialogDescription>
 					</AlertDialogHeader>
 					<AlertDialogFooter>
 						<AlertDialogCancel>Cancel</AlertDialogCancel>
-						<AlertDialogAction onClick={handleDelete}>Delete</AlertDialogAction>
+						<AlertDialogAction
+							style={{ backgroundColor: "red", color: "white" }}
+							onClick={handleDelete}
+						>
+							Delete
+						</AlertDialogAction>
 					</AlertDialogFooter>
 				</AlertDialogContent>
 			</AlertDialog>

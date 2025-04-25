@@ -45,7 +45,7 @@ const ShowShift: React.FC = () => {
       <div className="flex justify-between items-center">
         <h1 className="text-xl font-bold text-black">Shifts</h1>
         <Button
-          variant="outline"
+          variant="default"
           className="text-black border border-black"
           onClick={() => setIsSheetOpen(true)}
         >
