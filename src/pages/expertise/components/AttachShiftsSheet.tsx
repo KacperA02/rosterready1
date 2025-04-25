@@ -19,7 +19,6 @@ interface ShiftsSheetProps {
 export const AttachShiftSheet: React.FC<ShiftsSheetProps> = ({
 	expertiseId,
 	assignedShifts,
-	onClose,
 	setRefreshShifts,
 }) => {
 	const [allShifts, setAllShifts] = useState<ShiftResponse[]>([]);
@@ -73,8 +72,8 @@ export const AttachShiftSheet: React.FC<ShiftsSheetProps> = ({
 	}
 
 	return (
-		<div className="fixed inset-0 bg-opacity-50 bg-gray-800 flex items-center justify-center">
-			<div className="bg-white p-6 rounded-lg shadow-lg w-96">
+		<div>
+			<div className="bg-white p-6">
 				<h2 className="text-xl font-semibold mb-4">Manage Shift Expertise</h2>
 
 				{alertMessage && (
@@ -116,11 +115,6 @@ export const AttachShiftSheet: React.FC<ShiftsSheetProps> = ({
 					<p className="text-gray-500">No shifts available</p>
 				)}
 
-				<div className="mt-4">
-					<Button variant="outline" className="ml-2" onClick={onClose}>
-						Close
-					</Button>
-				</div>
 			</div>
 		</div>
 	);

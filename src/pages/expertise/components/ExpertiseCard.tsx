@@ -12,15 +12,19 @@ import {
 	TooltipTrigger,
 } from "@/components/ui/tooltip";
 import {
+	Dialog,
+	DialogContent
+} from "@/components/ui/dialog";
+import {
 	AlertDialog,
 	AlertDialogContent,
 	AlertDialogHeader,
-	AlertDialogFooter,
 	AlertDialogTitle,
 	AlertDialogDescription,
+	AlertDialogFooter,
 	AlertDialogAction,
 	AlertDialogCancel,
-} from "@/components/ui/alert-dialog";
+} from "@/components/ui/alert-dialog"; 
 import { deleteExpertise } from "../services/ExpertiseService";
 
 interface ExpertiseCardProps {
@@ -38,14 +42,14 @@ const ExpertiseCard: React.FC<ExpertiseCardProps> = ({
 }) => {
 	const { name, users, shifts, id, team_id } = expertise;
 
-	const [isShiftsSheetOpen, setIsShiftsSheetOpen] = useState(false);
-	const [isUsersSheetOpen, setIsUsersSheetOpen] = useState(false);
+	const [isShiftsDialogOpen, setIsShiftsDialogOpen] = useState(false);
+	const [isUsersDialogOpen, setIsUsersDialogOpen] = useState(false);
 	const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
 
-	const handleAttachUsersClick = () => setIsUsersSheetOpen(true);
-	const handleCloseUsersSheet = () => setIsUsersSheetOpen(false);
-	const handleAttachShiftsClick = () => setIsShiftsSheetOpen(true);
-	const handleCloseShiftsSheet = () => setIsShiftsSheetOpen(false);
+	const handleAttachUsersClick = () => setIsUsersDialogOpen(true);
+	const handleCloseUsersDialog = () => setIsUsersDialogOpen(false);
+	const handleAttachShiftsClick = () => setIsShiftsDialogOpen(true);
+	const handleCloseShiftsDialog = () => setIsShiftsDialogOpen(false);
 
 	const handleDelete = async () => {
 		const result = await deleteExpertise(id);
@@ -143,35 +147,38 @@ const ExpertiseCard: React.FC<ExpertiseCardProps> = ({
 				</CardContent>
 			</Card>
 
-			{isShiftsSheetOpen && (
-				<AttachShiftSheet
-					expertiseId={id}
-					assignedShifts={shifts}
-					onClose={handleCloseShiftsSheet}
-					setRefreshShifts={setRefreshShifts}
-				/>
-			)}
+			{/* Shifts Sheet Dialog */}
+			<Dialog open={isShiftsDialogOpen} onOpenChange={setIsShiftsDialogOpen}>
+				<DialogContent className="bg-white">
+					<AttachShiftSheet
+						expertiseId={id}
+						assignedShifts={shifts}
+						onClose={handleCloseShiftsDialog}
+						setRefreshShifts={setRefreshShifts}
+					/>
+				</DialogContent>
+			</Dialog>
 
-			{isUsersSheetOpen && (
-				<AttachUserSheet
-					expertiseId={id}
-					assignedUsers={users}
-					onClose={handleCloseUsersSheet}
-					setRefreshUsers={setRefreshUsers}
-					teamId={team_id}
-				/>
-			)}
+			{/* Users Sheet Dialog */}
+			<Dialog open={isUsersDialogOpen} onOpenChange={setIsUsersDialogOpen}>
+				<DialogContent className="bg-white">
+					<AttachUserSheet
+						expertiseId={id}
+						assignedUsers={users}
+						onClose={handleCloseUsersDialog}
+						setRefreshUsers={setRefreshUsers}
+						teamId={team_id}
+					/>
+				</DialogContent>
+			</Dialog>
 
-			<AlertDialog
-				open={isDeleteDialogOpen}
-				onOpenChange={setIsDeleteDialogOpen}
-			>
+			{/* Delete Confirmation Dialog */}
+			<AlertDialog open={isDeleteDialogOpen} onOpenChange={setIsDeleteDialogOpen}>
 				<AlertDialogContent className="bg-white">
 					<AlertDialogHeader>
 						<AlertDialogTitle>Are you sure?</AlertDialogTitle>
 						<AlertDialogDescription>
-							This action cannot be undone. It will permanently delete this
-							expertise.
+							This action cannot be undone. It will permanently delete this expertise.
 						</AlertDialogDescription>
 					</AlertDialogHeader>
 					<AlertDialogFooter>

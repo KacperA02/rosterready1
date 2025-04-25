@@ -30,8 +30,8 @@ interface ShiftCardProps {
 
 const ShiftCard: React.FC<ShiftCardProps> = ({ shift, onUpdate }) => {
   const [open, setOpen] = useState(false);
-  const [openEditDialog, setOpenEditDialog] = useState(false);
   const [openDeleteDialog, setOpenDeleteDialog] = useState(false);
+  const [openEditDialog, setOpenEditDialog] = useState(false);
 
   const getDaysButtonLabel = () => {
     const len = shift.days.length;
@@ -125,7 +125,7 @@ const ShiftCard: React.FC<ShiftCardProps> = ({ shift, onUpdate }) => {
       {/* Modal for Days Attach */}
       {open && (
         <Dialog open={open} onOpenChange={setOpen}>
-          <DialogContent>
+          <DialogContent className="bg-white">
             <DaysAttach
               shiftId={shift.id}
               currentDays={shift.days}
@@ -137,17 +137,12 @@ const ShiftCard: React.FC<ShiftCardProps> = ({ shift, onUpdate }) => {
       )}
 
       {/* Modal for Editing Shift */}
-      {openEditDialog && (
-        <Dialog open={openEditDialog} onOpenChange={setOpenEditDialog}>
-          <DialogContent className="bg-white">
-            <EditShift
-              shift={shift}
-              onClose={() => setOpenEditDialog(false)}
-              onUpdate={onUpdate}
-            />
-          </DialogContent>
-        </Dialog>
-      )}
+      <EditShift
+        shift={shift}
+        open={openEditDialog}
+        onClose={() => setOpenEditDialog(false)}
+        onUpdate={onUpdate}
+      />
     </>
   );
 };

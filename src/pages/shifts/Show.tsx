@@ -73,13 +73,12 @@ const ShowShift: React.FC = () => {
         ))
       )}
 
-      {isSheetOpen && (
-        <CreateShiftSheet
-          onClose={() => setIsSheetOpen(false)}
-          onUpdate={loadShifts}
-          setAlert={handleAlert} 
-        />
-      )}
+    <CreateShiftSheet
+      open={isSheetOpen}
+      onOpenChange={setIsSheetOpen}
+      onUpdate={loadShifts}
+      setAlert={handleAlert}
+    />
     </div>
   );
 };

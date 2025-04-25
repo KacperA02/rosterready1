@@ -63,7 +63,7 @@ const DaysAttach: React.FC<DaysAttachProps> = ({
 	};
 
 	return (
-		<div className="p-4 space-y-4 border rounded-lg shadow-lg bg-white max-w-md">
+		<div>
 			<h2 className="text-lg font-semibold">Edit Days for Shift</h2>
 			<div className="grid grid-cols-2 gap-3">
 				{dayMapping.map((day) => (

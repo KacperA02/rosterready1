@@ -19,7 +19,6 @@ interface UsersSheetProps {
 export const AttachUserSheet: React.FC<UsersSheetProps> = ({
 	expertiseId,
 	assignedUsers,
-	onClose,
 	setRefreshUsers,
 	teamId,
 }) => {
@@ -78,8 +77,8 @@ export const AttachUserSheet: React.FC<UsersSheetProps> = ({
 	if (loading) return <div>Loading team details...</div>;
 
 	return (
-		<div className="fixed inset-0 bg-opacity-50 bg-gray-800 flex items-center justify-center">
-			<div className="bg-white p-6 rounded-lg shadow-lg w-96">
+		<div>
+			<div className="bg-white p-6 ">
 				<h2 className="text-xl font-semibold mb-4">Manage User Expertise</h2>
 
 				{alertMessage && (
@@ -123,11 +122,6 @@ export const AttachUserSheet: React.FC<UsersSheetProps> = ({
 					<p className="text-gray-500">No users available</p>
 				)}
 
-				<div className="mt-4">
-					<Button variant="outline" className="ml-2" onClick={onClose}>
-						Close
-					</Button>
-				</div>
 			</div>
 		</div>
 	);

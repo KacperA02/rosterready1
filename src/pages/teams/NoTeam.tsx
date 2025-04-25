@@ -5,7 +5,7 @@ const NoTeam: React.FC = () => {
   const navigate = useNavigate();
 
   const handleCreateTeam = () => {
-    navigate("/teams/create");  // Navigate to the create team page
+    navigate("/teams/create"); 
   };
 
   return (
