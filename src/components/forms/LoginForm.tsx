@@ -1,4 +1,4 @@
-import axios from "../../config/Api";
+import instance from "../../config/Api";
 import { useState, ChangeEvent } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../../contexts/AuthContext";
@@ -38,7 +38,7 @@ const LoginForm = () => {
 
   const handleClick = async () => {
     try {
-      const response = await axios.post<{ access_token: string }>("/auth/login", form);
+      const response = await instance.post<{ access_token: string }>("/auth/login", form);
       const { access_token } = response.data;
       Cookies.set("access_token", access_token, { expires: 7 });
       const decodedUser = JSON.parse(atob(access_token.split(".")[1]));

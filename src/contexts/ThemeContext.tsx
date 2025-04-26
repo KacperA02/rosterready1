@@ -1,15 +1,12 @@
 import { createContext, useContext, useState, useEffect, ReactNode } from "react";
 
-// Type for the theme
 type Theme = "light" | "dark";
 
-// Interface for the context value
 interface ThemeContextType {
   theme: Theme;
   toggleTheme: () => void;
 }
 
-// Interface for the ThemeProvider props
 interface ThemeProviderProps {
   children: ReactNode;
 }

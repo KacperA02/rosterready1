@@ -16,7 +16,6 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
   const [loading, setLoading] = useState<boolean>(true);
   const [token, setToken] = useState<string | null>(null);
 
-
   const decodeAndSetUser = () => {
     const tokenFromCookie = Cookies.get("access_token");
 
@@ -40,14 +39,10 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
     }
   };
 
-
   useEffect(() => {
     decodeAndSetUser();
     setLoading(false);
   }, []);
-
-
-
 
   return (
     <AuthContext.Provider

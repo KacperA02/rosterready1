@@ -10,7 +10,7 @@ const NotificationListener = () => {
   const { setPageToRefresh } = useGlobalRefresh();
 
   const handleMessage = (message: string) => {
-    console.log("🧠 WebSocket message received:", message);
+    console.log("WebSocket message received:", message);
     setMessage(message); 
     setPageToRefresh({ page: 'notifications', key: Date.now() });
     
@@ -32,7 +32,7 @@ const NotificationListener = () => {
     if (message) {
       const timer = setTimeout(() => {
         setMessage(null); 
-      }, 10000); // 10 seconds
+      }, 10000); 
 
       return () => clearTimeout(timer); 
     }

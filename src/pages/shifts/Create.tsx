@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { createShift } from "./services/ShiftService";
 import { ShiftCreate } from "@/types/shift";
 import { Button } from "@/components/ui/button";
