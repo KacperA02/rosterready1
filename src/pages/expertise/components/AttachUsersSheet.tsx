@@ -79,7 +79,7 @@ export const AttachUserSheet: React.FC<UsersSheetProps> = ({
 	return (
 		<div>
 			<div className="bg-white p-6 ">
-				<h2 className="text-xl font-semibold mb-4">Manage User Expertise</h2>
+				<h2 className="text-xl font-semibold mb-4">Manage User Skill</h2>
 
 				{alertMessage && (
 					<Alert

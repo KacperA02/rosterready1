@@ -20,19 +20,6 @@ body {
   min-height: 100vh;
 }
 
-/* Headings */
-h1, h2, h3, h4, h5 {
-  font-family: 'Inter', system-ui, sans-serif;
-  font-weight: 700;
-}
-
-h1 { font-size: 3.053rem; }
-h2 { font-size: 2.442rem; }
-h3 { font-size: 1.954rem; }
-h4 { font-size: 1.563rem; }
-h5 { font-size: 1.25rem; }
-small { font-size: 0.8rem; }
-
 /* Links */
 a {
   font-weight: 500;
@@ -47,14 +34,9 @@ a:hover {
 
 /* Primary Button */
 button {
-  display: inline-flex;
   align-items: center;
   justify-content: center;
   padding: 0.6em 1.2em;
-  font-size: 1rem;
-  font-weight: 500;
-  margin-left: 2px;
-  font-family: inherit;
   border: 1px solid transparent;
   border-radius: var(--radius);
   cursor: pointer;
@@ -105,7 +87,7 @@ button.bg-destructive:hover {
   transform: scale(1.05);
   z-index: 10;
   border-radius: var(--radius);
-  border: 1px solid hsl(var(--primary));
+  border: 1px solid hsl(var(--destructive));
   text-decoration: none;
   text-align: center;
 }
@@ -284,7 +266,6 @@ button.accent:hover {
     --ring: 36 87% 60%;
   }
 }
-
 /* Light mode overrides (fallbacks) */
 @media (prefers-color-scheme: light) {
   :root {

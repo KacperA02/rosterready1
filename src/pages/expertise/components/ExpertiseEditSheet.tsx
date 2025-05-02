@@ -48,10 +48,10 @@ const ExpertiseEditSheet: React.FC<ExpertiseEditSheetProps> = ({
 			</SheetTrigger>
 			<SheetContent>
 				<SheetHeader>
-					<SheetTitle>Edit Expertise</SheetTitle>
+					<SheetTitle>Edit Skill</SheetTitle>
 				</SheetHeader>
 				<div className="space-y-4 mt-4">
-					<Label htmlFor="name">Expertise Name</Label>
+					<Label htmlFor="name">Skill Name</Label>
 					<Input
 						id="name"
 						value={name}

@@ -50,7 +50,8 @@ const ShowExpertise: React.FC = () => {
 		<div className="space-y-4">
 			{/* Header Section with Title and Create Expertise Button */}
 			<div className="flex justify-between items-center">
-				<h1 className="text-xl font-bold">Expertises</h1>
+				{/* changed the name to skills for more understanding */}
+				<h1 className="text-xl font-bold">Skills</h1>
 
 				{/* Create New Expertise Button */}
 				<div>
@@ -61,7 +62,7 @@ const ShowExpertise: React.FC = () => {
 			{/* Expertise List Section */}
 			{expertises.length === 0 ? (
 				<div className="text-amber-600">
-					<h4>No Expertises. Create one!</h4>
+					<h4>No Skills. Create one!</h4>
 				</div>
 			) : (
 				expertises.map((expertise) => (

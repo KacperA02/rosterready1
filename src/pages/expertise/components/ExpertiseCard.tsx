@@ -179,7 +179,7 @@ const ExpertiseCard: React.FC<ExpertiseCardProps> = ({
 						<AlertDialogTitle>Are you sure?</AlertDialogTitle>
 						<AlertDialogDescription>
 							This action cannot be undone. It will permanently delete this
-							expertise.
+							skill.
 						</AlertDialogDescription>
 					</AlertDialogHeader>
 					<AlertDialogFooter>

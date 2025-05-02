@@ -1,4 +1,4 @@
-import { FC, useState } from "react";
+import { FC } from "react";
 import { Link } from "react-router-dom";
 import { useAuth } from "../../contexts/AuthContext";
 import { useRoles } from "@/hooks/useRoles";
@@ -22,17 +22,19 @@ import {
 	SidebarMenu,
 	SidebarMenuButton,
 	SidebarMenuItem,
+	SidebarMenuSub,
+	SidebarMenuSubItem,
 } from "@/components/ui/sidebar";
+import {
+	Collapsible,
+	CollapsibleTrigger,
+	CollapsibleContent,
+} from "@/components/ui/collapsible"; 
 
 const AppSidebar: FC = () => {
 	const { user } = useAuth();
 	const { totalInboxCount } = useInboxCount();
 	const { isAdmin, isEmployer } = useRoles();
-	const [teamsExpanded, setTeamsExpanded] = useState(false);
-	const [accountExpaned, setAccountExpaned] = useState(false);
-
-	const toggleTeams = () => setTeamsExpanded((prev) => !prev);
-	const toggleAccount = () => setAccountExpaned((prev) => !prev);
 
 	const items = [
 		{
@@ -60,6 +62,7 @@ const AppSidebar: FC = () => {
 					<SidebarGroupLabel>RosterReady</SidebarGroupLabel>
 					<SidebarGroupContent>
 						<SidebarMenu>
+							{/* Top-level links */}
 							{items.map((item) => (
 								<SidebarMenuItem key={item.title}>
 									<SidebarMenuButton asChild>
@@ -76,132 +79,82 @@ const AppSidebar: FC = () => {
 								</SidebarMenuItem>
 							))}
 
-							{/* Teams Section - Show "Teams" and "Overview" for Everyone */}
-							<SidebarMenuItem>
-								<SidebarMenuButton asChild onClick={toggleTeams}>
-									<div className="flex items-center space-x-2 cursor-pointer">
-										<Users />
-										<span>Teams</span>
-										{teamsExpanded ? (
-											<ChevronUp className="ml-auto" />
-										) : (
-											<ChevronDown className="ml-auto" />
-										)}
-									</div>
-								</SidebarMenuButton>
+							{/* Teams Section */}
+							<Collapsible defaultOpen className="group/collapsible">
+								<SidebarMenuItem>
+									<CollapsibleTrigger asChild>
+										<SidebarMenuButton>
+											<div className="flex items-center space-x-2">
+												<Users />
+												<span>My Team</span>
+												<ChevronDown className="ml-auto group-data-[state=open]/collapsible:hidden" />
+												<ChevronUp className="ml-auto hidden group-data-[state=open]/collapsible:block" />
+											</div>
+										</SidebarMenuButton>
+									</CollapsibleTrigger>
 
-								{teamsExpanded && (
-									<SidebarGroupContent>
-										<SidebarMenu>
-											{/* Overview is visible to everyone */}
-											<SidebarMenuItem>
-												<SidebarMenuButton asChild>
-													<Link
-														to="/teams"
-														className="flex items-center space-x-2"
-													>
-														<span>Overview</span>
-													</Link>
-												</SidebarMenuButton>
-											</SidebarMenuItem>
+									<CollapsibleContent className="py-2">
+										<SidebarMenuSub>
+											<SidebarMenuSubItem>
+												<Link className="text-xs"  to="/teams">Overview</Link>
+											</SidebarMenuSubItem>
 
-											{/* Show these sub-menu items only for Employers */}
-											{isEmployer() || isAdmin() ? (
+											{(isEmployer() || isAdmin()) && (
 												<>
-													<SidebarMenuItem>
-														<SidebarMenuButton asChild>
-															<Link
-																to="/employees"
-																className="flex items-center space-x-2"
-															>
-																<span>Employees</span>
-															</Link>
-														</SidebarMenuButton>
-													</SidebarMenuItem>
-													<SidebarMenuItem>
-														<SidebarMenuButton asChild>
-															<Link
-																to="/teams/expertise"
-																className="flex items-center space-x-2"
-															>
-																<span>Expertise</span>
-															</Link>
-														</SidebarMenuButton>
-													</SidebarMenuItem>
-													<SidebarMenuItem>
-														<SidebarMenuButton asChild>
-															<Link
-																to="/teams/shifts"
-																className="flex items-center space-x-2"
-															>
-																<span>Shifts</span>
-															</Link>
-														</SidebarMenuButton>
-													</SidebarMenuItem>
-													<SidebarMenuItem>
-														<SidebarMenuButton asChild>
-															<Link
-																to="/teamAvailabilities"
-																className="flex items-center space-x-2"
-															>
-																<span>Team Availabilities</span>
-															</Link>
-														</SidebarMenuButton>
-													</SidebarMenuItem>
+													<SidebarMenuSubItem>
+														<Link className="text-xs"  to="/teams/shifts">Shifts</Link>
+													</SidebarMenuSubItem>
+													<SidebarMenuSubItem >
+														<Link className="text-xs" to="/employees">Employees</Link>
+													</SidebarMenuSubItem>
+													<SidebarMenuSubItem>
+														<Link className="text-xs"  to="/teams/skills">Skills</Link>
+													</SidebarMenuSubItem>
+												
+													<SidebarMenuSubItem>
+														<Link className="text-xs"  to="/teamAvailabilities">
+															Team Availabilities
+														</Link>
+													</SidebarMenuSubItem>
 												</>
-											) : null}
-										</SidebarMenu>
-									</SidebarGroupContent>
-								)}
-							</SidebarMenuItem>
+											)}
+										</SidebarMenuSub>
+									</CollapsibleContent>
+								</SidebarMenuItem>
+							</Collapsible>
 
 							{/* Account Section */}
-							<SidebarMenuItem>
-								<SidebarMenuButton asChild onClick={toggleAccount}>
-									<div className="flex items-center space-x-2 cursor-pointer">
-										<UserCircle />
-										<span>Account</span>
-										{accountExpaned ? (
-											<ChevronUp className="ml-auto" />
-										) : (
-											<ChevronDown className="ml-auto" />
-										)}
-									</div>
-								</SidebarMenuButton>
+							<Collapsible className="group/collapsible">
+								<SidebarMenuItem>
+									<CollapsibleTrigger asChild>
+										<SidebarMenuButton>
+											<div className="flex items-center space-x-2">
+												<UserCircle />
+												<span>Account</span>
+												<ChevronDown className="ml-auto group-data-[state=open]/collapsible:hidden" />
+												<ChevronUp className="ml-auto hidden group-data-[state=open]/collapsible:block" />
+											</div>
+										</SidebarMenuButton>
+									</CollapsibleTrigger>
 
-								{accountExpaned && (
-									<SidebarGroupContent>
-										<div className="px-4 py-2 text-xs text-muted-foreground">
+									<CollapsibleContent>
+										<div className="px-4 py-2 text-xs text-muted-foreground font-semibold">
 											{user?.sub || "email@example.com"}
 										</div>
-										<SidebarMenu>
-											<SidebarMenuItem>
-												<SidebarMenuButton asChild>
-													<Link
-														to="/myDetails"
-														className="flex items-center space-x-2"
-													>
-														<span>Details</span>
-													</Link>
-												</SidebarMenuButton>
-											</SidebarMenuItem>
-											<SidebarMenuItem>
-												<SidebarMenuButton asChild>
-													<Link
-														to="/myAvailability"
-														className="flex items-center space-x-2"
-													>
-														<span>My Availability</span>
-													</Link>
-												</SidebarMenuButton>
-											</SidebarMenuItem>
-										</SidebarMenu>
+										<SidebarMenuSub>
+											<SidebarMenuSubItem>
+												<Link className="text-xs"  to="/myDetails">Details</Link>
+											</SidebarMenuSubItem>
+											<SidebarMenuSubItem>
+												<Link className="text-xs"  to="/myAvailability">My Availability</Link>
+											</SidebarMenuSubItem>
+										</SidebarMenuSub>
 										<div className="px-4 py-2">
 											<LogoutButton />
 										</div>
-									</SidebarGroupContent>
-								)}
-							</SidebarMenuItem>
+									</CollapsibleContent>
+								</SidebarMenuItem>
+							</Collapsible>
 						</SidebarMenu>
 					</SidebarGroupContent>
 				</SidebarGroup>

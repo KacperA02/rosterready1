@@ -8,7 +8,7 @@ import {
 import { ShiftEvent } from "@/types/shift";
 import { Solution, SolutionAssignment } from "@/types/solution";
 import { useRoles } from "@/hooks/useRoles";
-const CalendarsPage: React.FC = () => {
+const CalendarPage: React.FC = () => {
 	// Check if the user is an employer
 	const { isEmployer } = useRoles();
 	// State to store events to display in the calendar component
@@ -227,4 +227,4 @@ const CalendarsPage: React.FC = () => {
 	);
 };
 
-export default CalendarsPage;
+export default CalendarPage;

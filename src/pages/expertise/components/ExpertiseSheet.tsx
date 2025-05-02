@@ -31,14 +31,14 @@ const ExpertiseCreateSheet: React.FC<ExpertiseCreateSheetProps> = ({ onExpertise
   return (
     <Sheet open={isOpen} onOpenChange={setIsOpen}>
       <SheetTrigger asChild>
-        <Button className="text-black" variant="default">Create New Expertise</Button>
+        <Button className="text-black" variant="default">Create New Skill</Button>
       </SheetTrigger>
       <SheetContent>
         <SheetHeader>
-          <SheetTitle>Create New Expertise</SheetTitle>
+          <SheetTitle>Create New Skill</SheetTitle>
         </SheetHeader>
         <div className="space-y-4 mt-4">
-          <Label htmlFor="expertise">Expertise Name</Label>
+          <Label htmlFor="expertise">Skill Name</Label>
           <Input
             id="expertise"
             value={newExpertise}

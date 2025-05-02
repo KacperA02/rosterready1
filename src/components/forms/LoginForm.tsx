@@ -107,7 +107,7 @@ const LoginForm = () => {
       {/* Login Button */}
       <Button
         onClick={handleClick}
-        className=" bg-red-600 w-full mb-2"
+        variant={"default"}
       >
         Login
       </Button>

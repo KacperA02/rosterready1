@@ -71,9 +71,9 @@ const EmployeeComp = ({ users, onUpdate }: Props) => {
 									Contact
 								</h4>
 								<Separator className="mb-2" />
-								<p className="text-sm text-muted-foreground">📧 {user.email}</p>
+								<p className="text-sm text-muted-foreground">Email Address:  {user.email}</p>
 								<p className="text-sm text-muted-foreground">
-									📱 {user.mobile_number}
+									Phone Number: {user.mobile_number}
 								</p>
 							</div>
 							<AlertDialog
@@ -83,7 +83,6 @@ const EmployeeComp = ({ users, onUpdate }: Props) => {
 								<AlertDialogTrigger asChild>
 									<Button
 										variant="destructive"
-										className="w-full"
 										onClick={() => {
 											setSelectedUser(user);
 											setIsDialogOpen(true);

@@ -202,13 +202,13 @@ const CalendarComponent: React.FC<CalendarProps> = ({
 	};
 
 	return (
-		<div className="pb-20 mb-4 mt-4 rounded-lg shadow-md">
-			<div style={{ height: 600 }}>
-				{/* Buttons only show if isEmployer is true */}
-				{isEmployer() && (
-					<div className="flex justify-end items-center mb-4 space-x-4">
+		<div>
+		<div className="mt-2">
+			{/* Buttons only show if isEmployer is true */}
+			{isEmployer() && currentView === "week" && (
+					<div className="flex justify-end items-center">
 						{showRandomButton && (
-							<div className="flex gap-x-4">
+							<div className="flex">
 								<Button
 									variant={"default"}
 									onClick={handleGenerateSchedule}
@@ -256,7 +256,9 @@ const CalendarComponent: React.FC<CalendarProps> = ({
 							)}
 					</div>
 				)}
-
+		</div>
+		<div className="pb-20 mb-4 rounded-lg shadow-md pt-4">
+			<div style={{ height: 600 }}>
 				{/* Loader */}
 				{loading && (
 					<div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-40 z-50">
@@ -291,6 +293,7 @@ const CalendarComponent: React.FC<CalendarProps> = ({
 					}}
 				/>
 			</div>
+		</div>
 		</div>
 	);
 };
