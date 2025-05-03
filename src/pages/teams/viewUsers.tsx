@@ -71,11 +71,12 @@ const ViewUsers = () => {
 
 	// Filter the users based on search value
 	const filteredUsers = users.filter(
-		(userItem) =>
-			[userItem.first_name, userItem.last_name, userItem.email, userItem.mobile_number].some((field) =>
-				field?.toLowerCase().includes(search.toLowerCase())
-			)
-	);
+    (userItem) =>
+      userItem.email !== user?.sub && 
+      [userItem.first_name, userItem.last_name, userItem.email, userItem.mobile_number].some((field) =>
+        field?.toLowerCase().includes(search.toLowerCase())
+      )
+  );
 
 	const handleInvite = async () => {
 		if (!inviteValue) return;
