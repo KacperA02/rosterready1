@@ -25,7 +25,7 @@ const TeamAvailCard: FC<Props> = ({ availability, onToggled }) => {
   };
 
   return (
-    <Card className="shadow-lg rounded-xl p-6 bg-white ">
+    <Card className="shadow-lg rounded-xl p-6 ">
       <CardHeader>
         <CardTitle className="text-2xl font-semibold text-gray-800 text-capitalize text-center">
           {availability.user?.first_name} {availability.user?.last_name}
