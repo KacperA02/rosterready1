@@ -125,3 +125,29 @@ export const cancelTeamInvitation = async (invitationId: number): Promise<boolea
 		return false;
 	}
 };
+
+export const editCurrentUser = async (
+	updatedUser: Partial<IUsers>
+): Promise<IUsers | null> => {
+	try {
+		const response = await instance.put("/users/me", updatedUser, {
+			withCredentials: true,
+		});
+		return response.data;
+	} catch (error) {
+		console.error("Error updating user:", error);
+		return null;
+	}
+};
+
+export const deleteCurrentUser = async (): Promise<boolean> => {
+	try {
+		await instance.delete("/users/me", {
+			withCredentials: true,
+		});
+		return true;
+	} catch (error) {
+		console.error("Error deleting user:", error);
+		return false;
+	}
+};

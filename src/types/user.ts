@@ -10,6 +10,18 @@ export interface User {
   team_id: number;
   roles: RoleName[]; 
 }
+export interface UserCreate {
+  first_name: string;
+  last_name: string;
+  email: string;
+  mobile_number: string;
+}
+export interface meUser {
+  first_name: string;
+  last_name: string;
+  email: string;
+  mobile_number: string;
+}
 export interface AuthContextType {
     user: User | null;
     isAuthenticated: boolean;
