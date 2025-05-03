@@ -50,14 +50,14 @@ const Account = () => {
 
 	return (
 		<div className="max-w-4xl mx-auto p-6">
-			<h2 className="text-3xl font-bold text-center text-gray-800 mb-8">
+			<h2 className="text-3xl font-bold text-center mb-8">
 				Account Details
 			</h2>
 
 			<div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
 				<Card>
 					<CardHeader>
-						<CardTitle className="text-xl font-semibold text-gray-700">
+						<CardTitle className="text-xl font-semibold ">
 							Your Information
 						</CardTitle>
 					</CardHeader>

@@ -73,7 +73,7 @@ export const AttachShiftSheet: React.FC<ShiftsSheetProps> = ({
 
 	return (
 		<div>
-			<div className="bg-white p-6">
+			<div className="p-6">
 				<h2 className="text-xl font-semibold mb-4">Manage Shift Skill</h2>
 
 				{alertMessage && (

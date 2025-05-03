@@ -33,18 +33,18 @@ const TeamAvailCard: FC<Props> = ({ availability, onToggled }) => {
       </CardHeader>
       <CardContent className="space-y-3">
         <div className="flex justify-between items-center">
-          <div className="text-gray-700">
+          <div className="">
             <span className="font-medium">Day:</span> {availability.day.name}
           </div>
-          <div className="text-gray-700">
+          <div className="">
             <span className="font-medium">Recurring:</span> Yes
           </div>
         </div>
         <div className="flex justify-between items-center">
-          <div className="text-gray-700">
+          <div className="">
             <span className="font-medium">Reason:</span> {availability.reason}
           </div>
-          <div className="text-gray-700">
+          <div className="">
             <span className="font-medium">Approved:</span>{" "}
             {availability.approved ? (
               <span className="text-green-600">Yes</span>

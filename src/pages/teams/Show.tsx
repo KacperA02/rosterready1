@@ -145,7 +145,7 @@ const TeamDetails = () => {
 
 			{/* Update Team Name Dialog */}
 			<Dialog open={isUpdateDialogOpen} onOpenChange={setIsUpdateDialogOpen}>
-				<DialogContent className="bg-white">
+				<DialogContent >
 					<h3 className="text-xl font-semibold">Update Team Name</h3>
 					<Input
 						type="text"

@@ -220,10 +220,10 @@ button.accent:hover {
 }
 
 /* Color Tokens */
-@layer base {
+
   :root {
     --background: 33 52% 96%;
-    --foreground: 223 25% 11%;
+    --foreground: 0, 0%, 10%;
     --card: 33 52% 96%;
     --card-foreground: 223 25% 11%;
     --popover: 33 52% 96%;
@@ -241,12 +241,14 @@ button.accent:hover {
     --border: 33 53% 20%;
     --input: 33 53% 20%;
     --ring: 40 100% 40%;
+    --sheet: 33 52% 96%; 
+    --sheet-foreground: 223 25% 11%; 
     --radius: 0.5rem;
   }
 
   .dark {
     --background: 20 30% 4%;
-    --foreground: 120 27% 98%;
+    --foreground:0, 0%, 90%;
     --card: 20 30% 4%;
     --card-foreground: 120 27% 98%;
     --popover: 20 30% 4%;
@@ -264,8 +266,10 @@ button.accent:hover {
     --border: 20 30% 60%;
     --input: 20 29% 80%;
     --ring: 36 87% 60%;
+    --sheet: 20 30% 4%; 
+    --sheet-foreground: 120 27% 98%; 
   }
-}
+
 /* Light mode overrides (fallbacks) */
 @media (prefers-color-scheme: light) {
   :root {

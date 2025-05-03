@@ -67,7 +67,7 @@ const ShiftCard: React.FC<ShiftCardProps> = ({ shift, onUpdate }) => {
 										shift.days.map((day) => (
 											<Tooltip key={day.id}>
 												<TooltipTrigger asChild>
-													<div className="w-8 h-8 flex items-center justify-center text-black rounded-full bg-stone-400 text-sm cursor-default">
+													<div className="w-8 h-8 flex items-center justify-center rounded-full text-sm cursor-default">
 														{day.name.slice(0, 2).toUpperCase()}
 													</div>
 												</TooltipTrigger>
@@ -134,7 +134,7 @@ const ShiftCard: React.FC<ShiftCardProps> = ({ shift, onUpdate }) => {
 			{/* Modal for Days Attach */}
 			{open && (
 				<Dialog open={open} onOpenChange={setOpen}>
-					<DialogContent className="bg-white">
+					<DialogContent >
 						<DaysAttach
 							shiftId={shift.id}
 							currentDays={shift.days}

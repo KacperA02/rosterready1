@@ -161,7 +161,7 @@ const ExpertiseCard: React.FC<ExpertiseCardProps> = ({
 
       {/* Shifts Sheet Dialog */}
       <Dialog open={isShiftsDialogOpen} onOpenChange={setIsShiftsDialogOpen}>
-        <DialogContent className="bg-white">
+        <DialogContent className="">
           <AttachShiftSheet
             expertiseId={id}
             assignedShifts={shifts}
@@ -173,7 +173,7 @@ const ExpertiseCard: React.FC<ExpertiseCardProps> = ({
 
       {/* Users Sheet Dialog */}
       <Dialog open={isUsersDialogOpen} onOpenChange={setIsUsersDialogOpen}>
-        <DialogContent className="bg-white">
+        <DialogContent className="">
           <AttachUserSheet
             expertiseId={id}
             assignedUsers={users}

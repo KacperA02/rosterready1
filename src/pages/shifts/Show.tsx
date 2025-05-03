@@ -43,7 +43,7 @@ const ShowShift: React.FC = () => {
 	return (
 		<div className="space-y-4">
 			<div className="flex justify-between items-center">
-				<h1 className="text-xl font-bold">Shifts</h1>
+				<h1 className="text-4xl font-bold text-left mb-6">Shifts</h1>
 				<Button
 					variant="default"
 					className="border border-black"
