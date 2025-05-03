@@ -14,7 +14,6 @@ const ExpertiseCreateSheet: React.FC<ExpertiseCreateSheetProps> = ({ onExpertise
   const [isOpen, setIsOpen] = useState(false);
   const [newExpertise, setNewExpertise] = useState("");
 
-
   const handleCreateExpertise = async () => {
     if (!newExpertise.trim()) return;
 
@@ -33,22 +32,31 @@ const ExpertiseCreateSheet: React.FC<ExpertiseCreateSheetProps> = ({ onExpertise
       <SheetTrigger asChild>
         <Button className="text-black" variant="default">Create New Skill</Button>
       </SheetTrigger>
-      <SheetContent>
+      <SheetContent side="right" className="w-full sm:max-w-md px-4">
         <SheetHeader>
-          <SheetTitle>Create New Skill</SheetTitle>
+          <SheetTitle className="text-xl mt-2">Create New Skill</SheetTitle>
         </SheetHeader>
-        <div className="space-y-4 mt-4">
-          <Label htmlFor="expertise">Skill Name</Label>
-          <Input
-            id="expertise"
-            value={newExpertise}
-            onChange={(e) => setNewExpertise(e.target.value)}
-            placeholder="Enter expertise name"
-          />
-          <Button onClick={handleCreateExpertise} className="w-full mt-2">
-            Submit
+        <form
+          onSubmit={(e) => {
+            e.preventDefault();
+            handleCreateExpertise();
+          }}
+          className="mt-6 space-y-4"
+        >
+          <div className="space-y-2">
+            <Label htmlFor="expertise">Skill Name</Label>
+            <Input
+              id="expertise"
+              value={newExpertise}
+              onChange={(e) => setNewExpertise(e.target.value)}
+              placeholder="Enter skill name"
+            />
+          </div>
+
+          <Button type="submit" className="w-full mt-2">
+            Create
           </Button>
-        </div>
+        </form>
       </SheetContent>
     </Sheet>
   );

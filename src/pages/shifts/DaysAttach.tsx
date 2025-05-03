@@ -63,9 +63,10 @@ const DaysAttach: React.FC<DaysAttachProps> = ({
 	};
 
 	return (
-		<div>
-			<h2 className="text-lg font-semibold">Edit Days for Shift</h2>
-			<div className="grid grid-cols-2 gap-3">
+		<div className="space-y-6">
+			<h2 className="text-lg font-semibold mb-4">Edit Days for Shift</h2>
+
+			<div className="grid grid-cols-2 gap-3 p-4 border rounded-md bg-gray-50">
 				{dayMapping.map((day) => (
 					<label key={day.id} className="flex items-center space-x-2">
 						<input
@@ -77,6 +78,7 @@ const DaysAttach: React.FC<DaysAttachProps> = ({
 					</label>
 				))}
 			</div>
+
 			<div className="flex justify-end space-x-2">
 				<Button variant="outline" onClick={onClose}>
 					Cancel

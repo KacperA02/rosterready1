@@ -61,10 +61,10 @@ const ShiftCard: React.FC<ShiftCardProps> = ({ shift, onUpdate }) => {
 						</p>
 						<p className="flex items-center">
 							<strong>Days Assigned:</strong>
-							<div className="flex gap-2 ml-2">
-								{shift.days.length > 0 ? (
-									<TooltipProvider>
-										{shift.days.map((day) => (
+							<TooltipProvider>
+								<div className="flex gap-2 ml-2 items-center">
+									{shift.days.length > 0 ? (
+										shift.days.map((day) => (
 											<Tooltip key={day.id}>
 												<TooltipTrigger asChild>
 													<div className="w-8 h-8 flex items-center justify-center text-black rounded-full bg-stone-400 text-sm cursor-default">
@@ -75,33 +75,27 @@ const ShiftCard: React.FC<ShiftCardProps> = ({ shift, onUpdate }) => {
 													<p>{day.name}</p>
 												</TooltipContent>
 											</Tooltip>
-										))}
-										{/* Plus Icon to Edit Repeated Days */}
-										<div
-											className="w-8 h-8 flex items-center justify-center text-black rounded-full bg-stone-500 text-sm cursor-pointer"
-											onClick={() => setOpen(true)}
-										>
-											<Tooltip>
-												<TooltipTrigger asChild>
-													<div
-														className="w-8 h-8 flex items-center justify-center text-black rounded-full bg-stone-400 text-sm cursor-pointer"
-														onClick={() => setOpen(true)}
-													>
-														<PlusIcon className="w-4 h-4 text-white" />
-													</div>
-												</TooltipTrigger>
-												<TooltipContent side="bottom">
-													Add or remove a day
-												</TooltipContent>
-											</Tooltip>
-										</div>
-									</TooltipProvider>
-								) : (
-									<span className="text-muted-foreground">
-										No days attached
-									</span>
-								)}
-							</div>
+										))
+									) : (
+										<span className="text-muted-foreground">No days attached</span>
+									)}
+
+									{/* Always show the Plus Icon */}
+									<Tooltip>
+										<TooltipTrigger asChild>
+											<div
+												className="w-8 h-8 flex items-center justify-center text-white rounded-full bg-stone-500 text-sm cursor-pointer"
+												onClick={() => setOpen(true)}
+											>
+												<PlusIcon className="w-4 h-4" />
+											</div>
+										</TooltipTrigger>
+										<TooltipContent side="bottom">
+											Add or remove a day
+										</TooltipContent>
+									</Tooltip>
+								</div>
+							</TooltipProvider>
 						</p>
 					</div>
 				</CardContent>

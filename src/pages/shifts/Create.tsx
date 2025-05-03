@@ -46,7 +46,7 @@ const CreateShiftSheet: React.FC<{
     <Sheet open={open} onOpenChange={onOpenChange}>
       <SheetContent side="right" className="w-full sm:max-w-md">
         <SheetHeader>
-          <SheetTitle>Create New Shift</SheetTitle>
+          <SheetTitle className="text-xl mt-2">Create New Shift</SheetTitle>
         </SheetHeader>
 
         <form
@@ -54,7 +54,7 @@ const CreateShiftSheet: React.FC<{
             e.preventDefault();
             handleSubmit();
           }}
-          className="mt-6 space-y-4 px-4"
+          className=" space-y-4 px-4"
         >
           <div className="space-y-2">
             <Label htmlFor="name">Shift Name</Label>

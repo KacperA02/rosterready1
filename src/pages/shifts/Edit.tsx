@@ -50,10 +50,10 @@ const EditShift: React.FC<EditShiftProps> = ({ shift, open, onClose, onUpdate })
     <Sheet open={open} onOpenChange={onClose}>
       <SheetContent side="right" className="w-full sm:max-w-md">
         <SheetHeader>
-          <SheetTitle>Edit Shift</SheetTitle>
+          <SheetTitle className="text-xl mt-2">Edit Shift</SheetTitle>
         </SheetHeader>
 
-        <form onSubmit={handleSubmit} className="mt-6 space-y-4 px-4">
+        <form onSubmit={handleSubmit} className="space-y-4 px-4">
           <div className="space-y-2">
             <Label htmlFor="name">Shift Name</Label>
             <Input
