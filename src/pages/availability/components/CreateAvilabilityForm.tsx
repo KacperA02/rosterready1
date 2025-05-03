@@ -3,8 +3,8 @@ import { createUserAvailability } from "../services/userAvailabilities";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
-import { toast } from "sonner"; 
-
+import { toast } from "sonner";
+import { Input } from "@/components/ui/input";
 type Props = {
   onCreated: () => void;
 };
@@ -60,40 +60,42 @@ const CreateAvailabilityForm = ({ onCreated }: Props) => {
   };
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-4">
-      <div>
-        <Label>Select Days</Label>
-        <div className="grid grid-cols-2 gap-4">
-          {dayOptions.map((day) => (
-            <div key={day.value} className="flex items-center space-x-2">
-              <input
-                type="checkbox"
-                id={`day-${day.value}`}
-                checked={dayIds.includes(day.value)}
-                onChange={() => handleCheckboxChange(day.value)}
-                className="h-4 w-4"
-              />
-              <Label htmlFor={`day-${day.value}`} className="text-sm">
-                {day.label}
-              </Label>
-            </div>
-          ))}
+    <div className="p-2 bg-white rounded-lg shadow-md max-w-lg ">
+      <form onSubmit={handleSubmit} className="space-y-4">
+        <div>
+          <Label className="pb-4 capitalize"><b>Select Days</b></Label>
+          <div className="grid grid-cols-2 gap-4">
+            {dayOptions.map((day) => (
+              <div key={day.value} className="flex items-center space-x-2">
+                <Input
+                  type="checkbox"
+                  id={`day-${day.value}`}
+                  checked={dayIds.includes(day.value)}
+                  onChange={() => handleCheckboxChange(day.value)}
+                  className="h-4 w-4"
+                />
+                <Label htmlFor={`day-${day.value}`} className="text-sm">
+                  {day.label}
+                </Label>
+              </div>
+            ))}
+          </div>
         </div>
-      </div>
 
-      <div>
-        <Label>Reason</Label>
-        <Textarea
-          value={reason}
-          onChange={(e) => setReason(e.target.value)}
-          placeholder="Enter your reason"
-        />
-      </div>
+        <div>
+          <Label className="mb-2">Reason</Label>
+          <Textarea
+            value={reason}
+            onChange={(e) => setReason(e.target.value)}
+            placeholder="Enter your reason"
+          />
+        </div>
 
-      <Button type="submit" className="w-full" disabled={loading}>
-        {loading ? "Creating..." : "Create Availability"}
-      </Button>
-    </form>
+        <Button type="submit" className="w-full" disabled={loading}>
+          {loading ? "Creating..." : "Create Availability"}
+        </Button>
+      </form>
+    </div>
   );
 };
 

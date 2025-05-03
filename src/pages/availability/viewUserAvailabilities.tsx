@@ -50,15 +50,15 @@ const ViewUserAvailabilities = () => {
   });
 
   return (
-    <div className="p-4">
+    <div className="pb-6">
       <div className="flex items-center justify-between mb-6">
-        <h1 className="text-2xl font-semibold">My Availabilities</h1>
+        <h1 className="text-4xl font-bold text-left mb-6">My Availabilities</h1>
         <Sheet open={sheetOpen} onOpenChange={setSheetOpen}>
           <SheetTrigger asChild>
             <Button className="text-black">Create New Availability</Button>
           </SheetTrigger>
           <SheetContent side="right" className="w-[400px] sm:w-[500px]">
-            <h2 className="text-lg font-medium mb-4">New Availability</h2>
+            <h2 className="text-xl font-medium pt-5 ml-2">New Availability</h2>
             <CreateAvailabilityForm onCreated={handleCreated} />
           </SheetContent>
         </Sheet>

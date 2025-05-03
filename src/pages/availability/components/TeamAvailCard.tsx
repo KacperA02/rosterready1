@@ -25,9 +25,9 @@ const TeamAvailCard: FC<Props> = ({ availability, onToggled }) => {
   };
 
   return (
-    <Card className="shadow-lg rounded-xl p-6 bg-white space-y-4">
+    <Card className="shadow-lg rounded-xl p-6 bg-white ">
       <CardHeader>
-        <CardTitle className="text-2xl font-semibold text-gray-800">
+        <CardTitle className="text-2xl font-semibold text-gray-800 text-capitalize text-center">
           {availability.user?.first_name} {availability.user?.last_name}
         </CardTitle>
       </CardHeader>
@@ -53,14 +53,15 @@ const TeamAvailCard: FC<Props> = ({ availability, onToggled }) => {
             )}
           </div>
         </div>
+        <div className="flex justify-end">
         <Button
-          className="w-full mt-4 text-black"
           variant={availability.approved ? "destructive" : "default"}
           disabled={isToggling}
           onClick={handleToggle}
         >
           {availability.approved ? "Reject" : "Approve"}
         </Button>
+        </div>
       </CardContent>
     </Card>
   );

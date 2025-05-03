@@ -114,3 +114,14 @@ export const fetchCurrentUser = async (): Promise<IUsers | null> => {
 		return null;
 	}
 };
+export const cancelTeamInvitation = async (invitationId: number): Promise<boolean> => {
+	try {
+		await instance.delete(`/invitation/cancel/${invitationId}`, {
+			withCredentials: true,
+		});
+		return true;
+	} catch (error) {
+		console.error("Error cancelling invitation:", error);
+		return false;
+	}
+};

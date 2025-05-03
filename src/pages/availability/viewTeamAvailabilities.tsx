@@ -78,7 +78,7 @@ const ViewTeamAvailabilities = () => {
 		);
 
 	return (
-		<div className="container mx-auto px-4 py-6">
+		<div className="container mx-auto ">
 			<h1 className="text-4xl font-bold text-left mb-6">Team Availabilities</h1>
 
 			{/* Filters */}

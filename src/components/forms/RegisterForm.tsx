@@ -148,7 +148,7 @@ const RegisterForm = () => {
 
         {/* Dialog */}
         <AlertDialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
-          <AlertDialogContent>
+          <AlertDialogContent className="bg-white">
             <AlertDialogHeader>
               <AlertDialogTitle>Registration Successful</AlertDialogTitle>
               <AlertDialogDescription>
