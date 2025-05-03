@@ -2,6 +2,8 @@ import { useState } from "react";
 import { createShift } from "./services/ShiftService";
 import { ShiftCreate } from "@/types/shift";
 import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 import { Tooltip, TooltipTrigger, TooltipContent } from "@/components/ui/tooltip";
 import { AiOutlineInfoCircle } from "react-icons/ai";
 import {
@@ -21,14 +23,12 @@ const CreateShiftSheet: React.FC<{
   const [timeStart, setTimeStart] = useState("");
   const [timeEnd, setTimeEnd] = useState("");
   const [noOfUsers, setNoOfUsers] = useState<number>(1);
-  const [task, setTask] = useState<string>("");
 
   const handleSubmit = async () => {
     const shiftData: ShiftCreate = {
       name,
       time_start: timeStart,
       time_end: timeEnd,
-      task,
       no_of_users: noOfUsers,
     };
 
@@ -36,7 +36,7 @@ const CreateShiftSheet: React.FC<{
     if (result) {
       setAlert("Shift created successfully!", "success");
       onUpdate();
-      onOpenChange(false) 
+      onOpenChange(false);
     } else {
       setAlert("Failed to create shift.", "error");
     }
@@ -45,82 +45,79 @@ const CreateShiftSheet: React.FC<{
   return (
     <Sheet open={open} onOpenChange={onOpenChange}>
       <SheetContent side="right" className="w-full sm:max-w-md">
-        <SheetHeader >
+        <SheetHeader>
           <SheetTitle>Create New Shift</SheetTitle>
         </SheetHeader>
 
-        <div className="space-y-6 mt-6">
-          <div>
-            <label className="block text-sm font-semibold">Shift Name</label>
-            <input
-              type="text"
+        <form
+          onSubmit={(e) => {
+            e.preventDefault();
+            handleSubmit();
+          }}
+          className="mt-6 space-y-4 px-4"
+        >
+          <div className="space-y-2">
+            <Label htmlFor="name">Shift Name</Label>
+            <Input
+              id="name"
+              name="name"
               value={name}
               onChange={(e) => setName(e.target.value)}
               placeholder="Enter shift name"
-              className="border p-3 w-full rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
             />
           </div>
 
-          <div className="flex space-x-4">
-            <div className="flex-1">
-              <label className="block text-sm font-semibold">Start Time</label>
-              <input
+          <div className="grid grid-cols-2 gap-4">
+            <div className="space-y-2">
+              <Label htmlFor="time_start">Start Time</Label>
+              <Input
+                id="time_start"
+                name="time_start"
                 type="time"
                 value={timeStart}
                 onChange={(e) => setTimeStart(e.target.value)}
-                className="border p-3 w-full rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
               />
             </div>
-
-            <div className="flex-1">
-              <label className="block text-sm font-semibold">End Time</label>
-              <input
+            <div className="space-y-2">
+              <Label htmlFor="time_end">End Time</Label>
+              <Input
+                id="time_end"
+                name="time_end"
                 type="time"
                 value={timeEnd}
                 onChange={(e) => setTimeEnd(e.target.value)}
-                className="border p-3 w-full rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
               />
             </div>
           </div>
 
-          <div className="flex items-center space-x-2">
-            <label className="text-sm font-semibold">Number of Users</label>
-            <Tooltip>
-              <TooltipTrigger>
-                <AiOutlineInfoCircle className="text-lg text-gray-600 cursor-pointer" />
-              </TooltipTrigger>
-              <TooltipContent className="bg-gray-800 text-white text-xs rounded-lg shadow-lg p-2 max-w-xs">
-                This is the number of users you want to work this shift at the same time.
-              </TooltipContent>
-            </Tooltip>
-            <input
+          <div className="space-y-2">
+            <div className="flex items-center space-x-2">
+              <Label htmlFor="no_of_users">Users Required</Label>
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <AiOutlineInfoCircle className="text-lg text-gray-600 cursor-pointer" />
+                </TooltipTrigger>
+                <TooltipContent className="bg-gray-800 text-white text-xs rounded-lg shadow-lg p-2 max-w-xs">
+                  This is the number of users you want to work this shift at the same time.
+                </TooltipContent>
+              </Tooltip>
+            </div>
+            <Input
+              id="no_of_users"
+              name="no_of_users"
               type="number"
               value={noOfUsers}
-              onChange={(e) => setNoOfUsers(parseInt(e.target.value))}
               min={1}
-              className="border p-3 w-full rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+              onChange={(e) => setNoOfUsers(parseInt(e.target.value))}
+              placeholder="Number of users"
             />
           </div>
 
-          <div>
-            <label className="block text-sm font-semibold">Task (Optional)</label>
-            <textarea
-              value={task}
-              onChange={(e) => setTask(e.target.value)}
-              placeholder="Enter task details"
-              className="border p-3 w-full rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
-            />
-          </div>
 
-          <div className="mt-6 flex justify-end space-x-2">
-            <Button variant="outline" onClick={() => onOpenChange(false)}>
-              Cancel
-            </Button>
-            <Button variant="default" onClick={handleSubmit}>
-              Create Shift
-            </Button>
-          </div>
-        </div>
+          <Button type="submit" className="w-full mt-2">
+            Create Shift
+          </Button>
+        </form>
       </SheetContent>
     </Sheet>
   );

@@ -23,8 +23,7 @@ const EditShift: React.FC<EditShiftProps> = ({ shift, open, onClose, onUpdate })
     name: shift.name,
     time_start: shift.time_start,
     time_end: shift.time_end,
-    task: shift.task || "",
-    no_of_users: shift.no_of_users,
+    no_of_users: shift.no_of_users
   });
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -54,8 +53,8 @@ const EditShift: React.FC<EditShiftProps> = ({ shift, open, onClose, onUpdate })
           <SheetTitle>Edit Shift</SheetTitle>
         </SheetHeader>
 
-        <form onSubmit={handleSubmit} className="mt-6 space-y-4">
-          <div>
+        <form onSubmit={handleSubmit} className="mt-6 space-y-4 px-4">
+          <div className="space-y-2">
             <Label htmlFor="name">Shift Name</Label>
             <Input
               id="name"
@@ -67,7 +66,7 @@ const EditShift: React.FC<EditShiftProps> = ({ shift, open, onClose, onUpdate })
           </div>
 
           <div className="grid grid-cols-2 gap-4">
-            <div>
+            <div className="space-y-2">
               <Label htmlFor="time_start">Start Time</Label>
               <Input
                 id="time_start"
@@ -77,7 +76,7 @@ const EditShift: React.FC<EditShiftProps> = ({ shift, open, onClose, onUpdate })
                 onChange={handleChange}
               />
             </div>
-            <div>
+            <div className="space-y-2">
               <Label htmlFor="time_end">End Time</Label>
               <Input
                 id="time_end"
@@ -89,18 +88,8 @@ const EditShift: React.FC<EditShiftProps> = ({ shift, open, onClose, onUpdate })
             </div>
           </div>
 
-          <div>
-            <Label htmlFor="task">Task (Optional)</Label>
-            <Input
-              id="task"
-              name="task"
-              value={formData.task}
-              onChange={handleChange}
-              placeholder="Task description (optional)"
-            />
-          </div>
 
-          <div>
+          <div className="space-y-2">
             <Label htmlFor="no_of_users">Users Required</Label>
             <Input
               id="no_of_users"
@@ -112,9 +101,9 @@ const EditShift: React.FC<EditShiftProps> = ({ shift, open, onClose, onUpdate })
             />
           </div>
 
-         
-            <Button type="submit" className="w-full mt-2">Save Changes</Button>
-          
+          <Button type="submit" className="w-full mt-2">
+            Save Changes
+          </Button>
         </form>
       </SheetContent>
     </Sheet>
