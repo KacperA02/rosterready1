@@ -1,8 +1,8 @@
 {
   "rewrites": [
     {
-      "source": "/api/(.*)",       
-      "destination": "https://rosterreadyback.fly.dev/api/$1"   
+      "source": "/(.*)",
+      "destination": "https://rosterreadyback.fly.dev/$1"
     }
   ]
 }
