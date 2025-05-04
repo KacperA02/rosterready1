@@ -33,7 +33,7 @@ export const rejectInvitation = async (invitationId: number): Promise<TeamInvita
 
 export const fetchPendingInvitations = async (): Promise<TeamInvitation[]> => {
   try {
-    const response = await instance.get(`/invitation`);
+    const response = await instance.get(`/invitation/`);
     return response.data;
   } catch (error) {
     console.error("Error fetching pending invitations:", error);

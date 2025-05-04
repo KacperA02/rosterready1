@@ -4,7 +4,7 @@ import { UserAvailability } from "@/types/availability";
 
 export const createAvailability = async (data: any): Promise<UserAvailability | null> => {
   try {
-    const response = await instance.post("/available", data);
+    const response = await instance.post("/available/", data);
     return response.data;
   } catch (error) {
     console.error("Error creating availability:", error);

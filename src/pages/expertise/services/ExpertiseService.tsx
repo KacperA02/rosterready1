@@ -4,7 +4,7 @@ import { ExpertiseCreate, IExpertise, UserAttached, ShiftAttached } from "@/type
 // Fetch all expertise for the team
 export const fetchAllExpertise = async (): Promise<IExpertise[]> => {
   try {
-    const response = await instance.get("/expertise");
+    const response = await instance.get("/expertise/");
     return response.data;
   } catch (error) {
     console.error("Error fetching expertise:", error);
@@ -26,7 +26,7 @@ export const fetchExpertiseById = async (expertiseId: number): Promise<IExpertis
 // Create a new expertise
 export const createExpertise = async (expertiseData: ExpertiseCreate): Promise<IExpertise | null> => {
   try {
-    const response = await instance.post("/expertise", expertiseData);
+    const response = await instance.post("/expertise/", expertiseData);
     return response.data;
   } catch (error) {
     console.error("Error creating expertise:", error);

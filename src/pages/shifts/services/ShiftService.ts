@@ -4,7 +4,7 @@ import { ShiftCreate, ShiftResponse, ShiftDaysCreate } from "@/types/shift";
 // Fetched all shifts for the team
 export const fetchShifts = async (): Promise<ShiftResponse[]> => {
   try {
-    const response = await instance.get("/shifts");
+    const response = await instance.get("/shifts/");
     return response.data;  
   } catch (error) {
     console.error("Error fetching shifts:", error);
@@ -27,7 +27,7 @@ export const fetchShiftById = async (shiftId: number): Promise<ShiftResponse | n
 // Created a new shift
 export const createShift = async (shiftData: ShiftCreate): Promise<ShiftResponse | null> => {
   try {
-    const response = await instance.post("/shifts", shiftData);
+    const response = await instance.post("/shifts/", shiftData);
       // Ensured this matched the expected response after creating a shift
     return response.data;
   } catch (error) {

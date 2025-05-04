@@ -3,7 +3,7 @@ import { Solution, SolutionAssignment } from "@/types/solution";
 
 export const fetchAllSolutions = async (): Promise<Solution[]> => {
   try {
-    const response = await instance.get("/solutions");
+    const response = await instance.get("/solutions/");
     return response.data;
   } catch (error) {
     console.error("Error fetching all solutions:", error);

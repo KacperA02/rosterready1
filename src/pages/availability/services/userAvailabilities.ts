@@ -30,7 +30,7 @@ export const createUserAvailability = async (
     try {
       console.log("Sending availability data:", availabilityData); 
   
-      const response = await instance.post("/available", availabilityData);
+      const response = await instance.post("/available/", availabilityData);
       return response.data;
     } catch (error) {
       console.error("Error creating availability:", error);
