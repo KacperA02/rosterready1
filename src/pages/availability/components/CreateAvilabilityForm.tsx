@@ -60,7 +60,7 @@ const CreateAvailabilityForm = ({ onCreated }: Props) => {
   };
 
   return (
-    <div className="p-2 bg-white rounded-lg shadow-md max-w-lg ">
+    <div className="p-2 rounded-lg shadow-md max-w-lg ">
       <form onSubmit={handleSubmit} className="space-y-4">
         <div>
           <Label className="pb-4 capitalize"><b>Select Days</b></Label>
