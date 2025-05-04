@@ -38,7 +38,7 @@ const LoginForm = () => {
 
   const handleClick = async () => {
     try {
-      const response = await instance.post<{ access_token: string }>("/auth/login", form);
+      const response = await instance.post<{ access_token: string }>("/auth/login/", form);
       const { access_token } = response.data;
       Cookies.set("access_token", access_token, { expires: 7 });
       const decodedUser = JSON.parse(atob(access_token.split(".")[1]));
