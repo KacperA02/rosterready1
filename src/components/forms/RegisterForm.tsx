@@ -50,7 +50,7 @@ const RegisterForm = () => {
       return;
     }
     try {
-      await axios.post("/users", form);
+      await axios.post("/users/", form);
       setErrorMessage("");
       setIsDialogOpen(true);
     } catch (err: any) {
