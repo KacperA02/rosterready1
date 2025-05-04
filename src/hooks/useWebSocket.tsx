@@ -1,19 +1,19 @@
 import { useEffect, useRef, useState } from "react";
-
+const wsBaseUrl = import.meta.env.VITE_WS_URL;
 export const useWebSocket = (
   token: string | null,
   handleMessage: (message: string) => void
 ) => {
   const [isConnected, setIsConnected] = useState(false);
   const wsRef = useRef<WebSocket | null>(null);
-
+  
   useEffect(() => {
     if (!token) {
       console.warn("No token, skipping WebSocket connection.");
       return;
     }
 
-    const url = `ws://localhost:8000/ws?access_token=${token}`;
+    const url = `${wsBaseUrl}?access_token=${token}`;
     const ws = new WebSocket(url);
     wsRef.current = ws;
 
