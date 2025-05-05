@@ -115,7 +115,9 @@ const CalendarComponent: React.FC<CalendarProps> = ({
 		}, 500);
 
 		const startOfWeekDate = startOfWeek(currentDate, { weekStartsOn: 1 });
-		const formattedDate = startOfWeekDate.toISOString().split("T")[0];
+		const startReal = new Date(startOfWeekDate);
+		startReal.setDate(startReal.getDate() + 1);
+		const formattedDate = startReal.toISOString().split("T")[0];
 
 		try {
 			const weekData = await fetchWeekByStartDate(formattedDate);
