@@ -20,23 +20,20 @@ const CalendarPage: React.FC = () => {
 	// function to get the start of the week based on a given date
 	const getStartOfWeek = (date: Date): Date => {
 		const startOfWeek = new Date(date);
-		let day = startOfWeek.getDay();
-		if (day === 0) {
-			day = 7; 
-		}
-		const diff = day - 1; 
+		const day = startOfWeek.getDay();
+		const diff = day === 0 ? 6 : day - 1;
 		startOfWeek.setDate(startOfWeek.getDate() - diff);
 		startOfWeek.setHours(0, 0, 0, 0);
 		return startOfWeek;
 	};
 
 	// function to get the specific day of the week based on a given date and day ID, needed to be implemented as day_ids were different in db compared to react-big-calendar
-	const getDayOfWeek = (date: Date, dayId: number): Date | null => {
-		const targetDayIndex = dayId % 7;
-		const diff = targetDayIndex - date.getDay();
-		const result = new Date(date);
-		result.setDate(result.getDate() + (diff >= 0 ? diff : diff + 7));
-		return result;
+	const getDayOfWeek = (weekStartDate: Date, dayId: number): Date | null => {
+		if (dayId < 1 || dayId > 7) return null; 
+		const date = new Date(weekStartDate);
+		const dayOffset = dayId - 1;
+		date.setDate(weekStartDate.getDate() + dayOffset);
+		return date;
 	};
 
 	// useEffect to load events when the component mounts or refreshCalendar changes
