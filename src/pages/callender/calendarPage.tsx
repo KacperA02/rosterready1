@@ -20,8 +20,11 @@ const CalendarPage: React.FC = () => {
 	// function to get the start of the week based on a given date
 	const getStartOfWeek = (date: Date): Date => {
 		const startOfWeek = new Date(date);
-		const day = startOfWeek.getDay();
-		const diff = day === 0 ? 6 : day - 1;
+		let day = startOfWeek.getDay();
+		if (day === 0) {
+			day = 7; 
+		}
+		const diff = day - 1; 
 		startOfWeek.setDate(startOfWeek.getDate() - diff);
 		startOfWeek.setHours(0, 0, 0, 0);
 		return startOfWeek;
